@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Scan Devices Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ScanDevicesController" customModule="cir_wireless" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T5U-4T-nOv">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_gradient_blue" translatesAutoresizingMaskIntoConstraints="NO" id="DYx-Z9-dIF">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="DYx-Z9-dIF" firstAttribute="top" secondItem="T5U-4T-nOv" secondAttribute="top" id="2LG-Kf-dMQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="DYx-Z9-dIF" secondAttribute="trailing" id="SNI-qO-X8v"/>
+                                    <constraint firstAttribute="bottom" secondItem="DYx-Z9-dIF" secondAttribute="bottom" id="in0-T1-4E6"/>
+                                    <constraint firstItem="DYx-Z9-dIF" firstAttribute="leading" secondItem="T5U-4T-nOv" secondAttribute="leading" id="l0n-ks-MVs"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cVI-3S-rAi">
+                                <rect key="frame" x="0.0" y="344" width="375" height="468"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="T5U-4T-nOv" secondAttribute="bottom" id="2vZ-rm-Bhh"/>
+                            <constraint firstItem="cVI-3S-rAi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="7fb-1r-l3l"/>
+                            <constraint firstItem="T5U-4T-nOv" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="BAe-Kf-G5Q"/>
+                            <constraint firstItem="cVI-3S-rAi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="300" id="MwX-Zm-L08"/>
+                            <constraint firstItem="T5U-4T-nOv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NBi-R9-KPa"/>
+                            <constraint firstAttribute="bottom" secondItem="cVI-3S-rAi" secondAttribute="bottom" id="lgT-ky-UUL"/>
+                            <constraint firstItem="cVI-3S-rAi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mnZ-0G-e6Z"/>
+                            <constraint firstItem="T5U-4T-nOv" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="pgZ-33-L51"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-66.666666666666671" y="137.94642857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="background_gradient_blue" width="512.66668701171875" height="910.66668701171875"/>
+    </resources>
+</document>
