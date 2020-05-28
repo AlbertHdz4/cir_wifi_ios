@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,40 +12,48 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ScanDevicesController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T5U-4T-nOv">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T5U-4T-nOv">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_grad_blue" translatesAutoresizingMaskIntoConstraints="NO" id="DYx-Z9-dIF">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background_grad_blue" translatesAutoresizingMaskIntoConstraints="NO" id="DYx-Z9-dIF">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Scanning ..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCF-fF-utl">
+                                        <rect key="frame" x="249" y="166" width="132" height="29"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="img_scanning" translatesAutoresizingMaskIntoConstraints="NO" id="xIw-jr-Y93">
+                                        <rect key="frame" x="40" y="76" width="178" height="209"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="DYx-Z9-dIF" firstAttribute="top" secondItem="T5U-4T-nOv" secondAttribute="top" id="2LG-Kf-dMQ"/>
-                                    <constraint firstAttribute="trailing" secondItem="DYx-Z9-dIF" secondAttribute="trailing" id="SNI-qO-X8v"/>
-                                    <constraint firstAttribute="bottom" secondItem="DYx-Z9-dIF" secondAttribute="bottom" id="in0-T1-4E6"/>
-                                    <constraint firstItem="DYx-Z9-dIF" firstAttribute="leading" secondItem="T5U-4T-nOv" secondAttribute="leading" id="l0n-ks-MVs"/>
+                                    <constraint firstItem="aCF-fF-utl" firstAttribute="top" secondItem="T5U-4T-nOv" secondAttribute="top" constant="166" id="41r-gc-Ogu"/>
+                                    <constraint firstItem="xIw-jr-Y93" firstAttribute="leading" secondItem="T5U-4T-nOv" secondAttribute="leading" constant="40" id="jO6-9I-YNe"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cVI-3S-rAi">
-                                <rect key="frame" x="0.0" y="344" width="375" height="468"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cVI-3S-rAi">
+                                <rect key="frame" x="0.0" y="344" width="414" height="552"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="riW-OB-b1j">
+                                <rect key="frame" x="35" y="384" width="344" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_branding" translatesAutoresizingMaskIntoConstraints="NO" id="dCR-qy-w3Y">
+                                <rect key="frame" x="0.0" y="778" width="414" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="T5U-4T-nOv" secondAttribute="bottom" id="2vZ-rm-Bhh"/>
-                            <constraint firstItem="cVI-3S-rAi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="7fb-1r-l3l"/>
-                            <constraint firstItem="T5U-4T-nOv" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="BAe-Kf-G5Q"/>
-                            <constraint firstItem="cVI-3S-rAi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="300" id="MwX-Zm-L08"/>
-                            <constraint firstItem="T5U-4T-nOv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NBi-R9-KPa"/>
-                            <constraint firstAttribute="bottom" secondItem="cVI-3S-rAi" secondAttribute="bottom" id="lgT-ky-UUL"/>
-                            <constraint firstItem="cVI-3S-rAi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mnZ-0G-e6Z"/>
-                            <constraint firstItem="T5U-4T-nOv" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="pgZ-33-L51"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <toolbarItems/>
@@ -57,6 +65,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background_grad_blue" width="512.66668701171875" height="910.66668701171875"/>
+        <image name="background_grad_blue" width="628.5" height="1116"/>
+        <image name="img_branding" width="600" height="151"/>
+        <image name="img_scanning" width="600" height="600"/>
     </resources>
 </document>
