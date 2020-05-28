@@ -10,7 +10,7 @@
         <!--Scan Devices Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ScanDevicesController" customModule="cir_wireless" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ScanDevicesController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -18,7 +18,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T5U-4T-nOv">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_gradient_blue" translatesAutoresizingMaskIntoConstraints="NO" id="DYx-Z9-dIF">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_grad_blue" translatesAutoresizingMaskIntoConstraints="NO" id="DYx-Z9-dIF">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                                     </imageView>
                                 </subviews>
@@ -57,6 +57,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background_gradient_blue" width="512.66668701171875" height="910.66668701171875"/>
+        <image name="background_grad_blue" width="512.66668701171875" height="910.66668701171875"/>
     </resources>
 </document>
