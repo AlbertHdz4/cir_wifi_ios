@@ -9,10 +9,9 @@
 import UIKit
 
 class ScanDeviceController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Scan Devices"
         // Do any additional setup after loading the view.
     }
     
