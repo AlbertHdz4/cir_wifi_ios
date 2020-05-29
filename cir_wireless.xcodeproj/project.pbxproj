@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		182797C424819BA0001DB18D /* CourtainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182797C324819BA0001DB18D /* CourtainViewController.swift */; };
 		182797C824819BE1001DB18D /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 182797C724819BE1001DB18D /* View.xib */; };
+		182797CA24819DEC001DB18D /* CourtainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182797C924819DEC001DB18D /* CourtainView.swift */; };
 		1871967624802831002EB4F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967524802831002EB4F2 /* AppDelegate.swift */; };
 		1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967724802831002EB4F2 /* SceneDelegate.swift */; };
 		1871967D24802831002EB4F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871967B24802831002EB4F2 /* Main.storyboard */; };
@@ -18,8 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		182797C324819BA0001DB18D /* CourtainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtainViewController.swift; sourceTree = "<group>"; };
 		182797C724819BE1001DB18D /* View.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
+		182797C924819DEC001DB18D /* CourtainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtainView.swift; sourceTree = "<group>"; };
 		1871967224802831002EB4F2 /* Cir Wireless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cir Wireless.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1871967524802831002EB4F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1871967724802831002EB4F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		182797C624819BC8001DB18D /* view_controllers */ = {
 			isa = PBXGroup;
 			children = (
-				182797C324819BA0001DB18D /* CourtainViewController.swift */,
+				182797C924819DEC001DB18D /* CourtainView.swift */,
 			);
 			path = view_controllers;
 			sourceTree = "<group>";
@@ -226,9 +226,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1871969324806B25002EB4F2 /* ScanDeviceController.swift in Sources */,
+				182797CA24819DEC001DB18D /* CourtainView.swift in Sources */,
 				1871967624802831002EB4F2 /* AppDelegate.swift in Sources */,
 				1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */,
-				182797C424819BA0001DB18D /* CourtainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
