@@ -15,45 +15,69 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T5U-4T-nOv">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T5U-4T-nOv">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background_grad_blue" translatesAutoresizingMaskIntoConstraints="NO" id="DYx-Z9-dIF">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_grad_blue" translatesAutoresizingMaskIntoConstraints="NO" id="DYx-Z9-dIF">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Scanning ..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCF-fF-utl">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Scanning ..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCF-fF-utl">
                                         <rect key="frame" x="249" y="166" width="132" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="img_scanning" translatesAutoresizingMaskIntoConstraints="NO" id="xIw-jr-Y93">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_scanning" translatesAutoresizingMaskIntoConstraints="NO" id="xIw-jr-Y93">
                                         <rect key="frame" x="40" y="76" width="178" height="209"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstItem="aCF-fF-utl" firstAttribute="top" secondItem="T5U-4T-nOv" secondAttribute="top" constant="166" id="41r-gc-Ogu"/>
-                                    <constraint firstItem="xIw-jr-Y93" firstAttribute="leading" secondItem="T5U-4T-nOv" secondAttribute="leading" constant="40" id="jO6-9I-YNe"/>
+                                    <constraint firstAttribute="trailing" secondItem="DYx-Z9-dIF" secondAttribute="trailing" id="DEr-9q-9Ox"/>
+                                    <constraint firstItem="DYx-Z9-dIF" firstAttribute="leading" secondItem="T5U-4T-nOv" secondAttribute="leading" id="S5C-iR-YEv"/>
+                                    <constraint firstAttribute="bottom" secondItem="DYx-Z9-dIF" secondAttribute="bottom" id="Sdz-9G-gFn"/>
+                                    <constraint firstItem="DYx-Z9-dIF" firstAttribute="top" secondItem="T5U-4T-nOv" secondAttribute="top" id="gx6-62-ogm"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cVI-3S-rAi">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cVI-3S-rAi">
                                 <rect key="frame" x="0.0" y="344" width="414" height="552"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="riW-OB-b1j">
+                                        <rect key="frame" x="35" y="10" width="344" height="394"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </tableView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_branding" translatesAutoresizingMaskIntoConstraints="NO" id="dCR-qy-w3Y">
+                                        <rect key="frame" x="0.0" y="424" width="414" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="VlR-ch-fxA"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="dCR-qy-w3Y" firstAttribute="top" secondItem="riW-OB-b1j" secondAttribute="bottom" constant="20" id="BkQ-PF-lvR"/>
+                                    <constraint firstAttribute="trailing" secondItem="dCR-qy-w3Y" secondAttribute="trailing" id="MMM-7O-COB"/>
+                                    <constraint firstItem="dCR-qy-w3Y" firstAttribute="leading" secondItem="cVI-3S-rAi" secondAttribute="leading" id="cDV-Jy-L5E"/>
+                                    <constraint firstItem="riW-OB-b1j" firstAttribute="leading" secondItem="cVI-3S-rAi" secondAttribute="leading" constant="35" id="fsT-HC-rTc"/>
+                                    <constraint firstAttribute="trailing" secondItem="riW-OB-b1j" secondAttribute="trailing" constant="35" id="gph-Se-K8U"/>
+                                    <constraint firstItem="riW-OB-b1j" firstAttribute="top" secondItem="cVI-3S-rAi" secondAttribute="top" constant="10" id="trV-xt-ei4"/>
+                                </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="riW-OB-b1j">
-                                <rect key="frame" x="35" y="384" width="344" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </tableView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_branding" translatesAutoresizingMaskIntoConstraints="NO" id="dCR-qy-w3Y">
-                                <rect key="frame" x="0.0" y="778" width="414" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="cVI-3S-rAi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="2s3-1R-MmU"/>
+                            <constraint firstItem="T5U-4T-nOv" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4d3-uq-0Wn"/>
+                            <constraint firstItem="cVI-3S-rAi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="300" id="OWE-RT-ESP"/>
+                            <constraint firstItem="T5U-4T-nOv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Tnt-qo-185"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dCR-qy-w3Y" secondAttribute="bottom" constant="10" id="UZr-qS-auW"/>
+                            <constraint firstItem="cVI-3S-rAi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="V2g-d1-9bt"/>
+                            <constraint firstItem="T5U-4T-nOv" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ZqA-sj-SAP"/>
+                            <constraint firstItem="T5U-4T-nOv" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="iZM-JK-mdy"/>
+                            <constraint firstAttribute="bottom" secondItem="cVI-3S-rAi" secondAttribute="bottom" id="vbE-de-GgV"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <toolbarItems/>
