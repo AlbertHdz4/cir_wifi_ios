@@ -1,18 +1,18 @@
 //
-//  ScanDeviceController.swift
+//  CourtainViewController.swift
 //  cir_wireless
 //
-//  Created by softel on 28/05/20.
+//  Created by softel on 29/05/20.
 //  Copyright © 2020 SOFTEL. All rights reserved.
 //
 
 import UIKit
 
-class ScanDeviceController: UIViewController {
+class CourtainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Scan Devices"
+
         // Do any additional setup after loading the view.
     }
     
