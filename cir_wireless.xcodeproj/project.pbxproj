@@ -11,13 +11,16 @@
 		182797D62481AB2C001DB18D /* CourtainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182797D52481AB2C001DB18D /* CourtainView.swift */; };
 		184E476624859C8D003BEEEA /* ContentDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184E476524859C8D003BEEEA /* ContentDescription.swift */; };
 		1864427024881A6000145AA7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864426F24881A6000145AA7 /* RoundButton.swift */; };
-		1869BCBE2486E415007095B4 /* BleCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869BCBD2486E415007095B4 /* BleCommands.swift */; };
+		1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */; };
 		1871967624802831002EB4F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967524802831002EB4F2 /* AppDelegate.swift */; };
 		1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967724802831002EB4F2 /* SceneDelegate.swift */; };
 		1871967D24802831002EB4F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871967B24802831002EB4F2 /* Main.storyboard */; };
 		1871967F24802842002EB4F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1871967E24802842002EB4F2 /* Assets.xcassets */; };
 		1871968224802842002EB4F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871968024802842002EB4F2 /* LaunchScreen.storyboard */; };
 		1871969324806B25002EB4F2 /* ScanDeviceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871969224806B25002EB4F2 /* ScanDeviceController.swift */; };
+		18E299D624896D6800DAA22C /* BluetoothScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D524896D6800DAA22C /* BluetoothScan.swift */; };
+		18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D72489719E00DAA22C /* CirWirelessModel.swift */; };
+		18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D92489901300DAA22C /* BeaconModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +28,7 @@
 		182797D52481AB2C001DB18D /* CourtainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtainView.swift; sourceTree = "<group>"; };
 		184E476524859C8D003BEEEA /* ContentDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDescription.swift; sourceTree = "<group>"; };
 		1864426F24881A6000145AA7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
-		1869BCBD2486E415007095B4 /* BleCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleCommands.swift; sourceTree = "<group>"; };
+		1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCommands.swift; sourceTree = "<group>"; };
 		1871967224802831002EB4F2 /* Cir Wireless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cir Wireless.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1871967524802831002EB4F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1871967724802831002EB4F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +37,9 @@
 		1871968124802842002EB4F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1871968324802842002EB4F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1871969224806B25002EB4F2 /* ScanDeviceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDeviceController.swift; sourceTree = "<group>"; };
+		18E299D524896D6800DAA22C /* BluetoothScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothScan.swift; sourceTree = "<group>"; };
+		18E299D72489719E00DAA22C /* CirWirelessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessModel.swift; sourceTree = "<group>"; };
+		18E299D92489901300DAA22C /* BeaconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,7 +156,10 @@
 		1871968F24806048002EB4F2 /* bluetooth_low_energy */ = {
 			isa = PBXGroup;
 			children = (
-				1869BCBD2486E415007095B4 /* BleCommands.swift */,
+				18E299D92489901300DAA22C /* BeaconModel.swift */,
+				18E299D72489719E00DAA22C /* CirWirelessModel.swift */,
+				1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */,
+				18E299D524896D6800DAA22C /* BluetoothScan.swift */,
 			);
 			path = bluetooth_low_energy;
 			sourceTree = "<group>";
@@ -235,11 +244,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				1871969324806B25002EB4F2 /* ScanDeviceController.swift in Sources */,
+				18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */,
+				18E299D624896D6800DAA22C /* BluetoothScan.swift in Sources */,
 				182797D62481AB2C001DB18D /* CourtainView.swift in Sources */,
 				1864427024881A6000145AA7 /* RoundButton.swift in Sources */,
 				1871967624802831002EB4F2 /* AppDelegate.swift in Sources */,
-				1869BCBE2486E415007095B4 /* BleCommands.swift in Sources */,
+				1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */,
 				1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */,
+				18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */,
 				184E476624859C8D003BEEEA /* ContentDescription.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,5 @@
 
 import Foundation
 
-// This class contains all ble commands used for programming CIR 2017 and Wireless
-class BleCommands {
-    
-}
+// Clase que contiene los comandos usados para la Cir Wireless
+class CirWirelessCommands { }
