@@ -12,8 +12,7 @@ import CoreBluetooth
 
 
 class BluetoothScan: NSObject {
-    private let CBUUID_SERVICE_CIR_WIRELESS : CBUUID = CBUUID(string: "00050000-0000-1000-8000-00805f9baaaa")
-
+    
     
     // Tunning variables
     var bleScanningTime = 5 // default 5 segundos
@@ -24,35 +23,34 @@ class BluetoothScan: NSObject {
     
     
     // Bluetooth objects
-    var beacons = [Data] ()
-    var scanFilters: [CBUUID]?
+    var cirWirelessFound = [CirWirelessModel] ()
+    var filterBy: [CBUUID]?
     var bleCentralState: CBManagerState?
     var bleCentralManager: CBCentralManager?
     
     
-    init (scanFilter: Array<CBUUID>, bleCentralManager: CBCentralManager) {
-        self.scanFilters = scanFilter
-        self.bleCentralManager = bleCentralManager
+    init (filterBy: Array<CBUUID>) {
+        self.filterBy = filterBy
     }
     
     
     func initScan () {
-        bleScanDelegate?.updateScanProcess(currentStatus: .initializing)
-        
+        bleScanDelegate?.updateScanProcessState(currentStatus: .initializing)
         bleCentralManager = CBCentralManager(delegate: self, queue: nil)
         
-        if bleCentralManager == nil {
+        if bleCentralManager != nil {
+            bleScanDelegate?.updateScanProcessState(currentStatus: .succesfullyInitiated)
+        } else {
             bleScanDelegate?.errorOcurred(error: .bleManagerNil)
-            return
         }
     }
     
     
     func scanDevices () {
         if bleCentralState == CBManagerState.poweredOn {
-            bleScanDelegate?.updateScanProcess(currentStatus: .scanning)
+            bleScanDelegate?.updateScanProcessState(currentStatus: .scanning)
             
-            bleCentralManager!.scanForPeripherals(withServices: [CBUUID_SERVICE_CIR_WIRELESS],
+            bleCentralManager!.scanForPeripherals(withServices: filterBy,
                                                    options:[CBCentralManagerScanOptionAllowDuplicatesKey: true])
             
             Timer.scheduledTimer(timeInterval: 8, target: self, selector: #selector(self.stopScan), userInfo: nil, repeats: false)
@@ -61,19 +59,19 @@ class BluetoothScan: NSObject {
     
     
     @objc func stopScan () {
-        bleScanDelegate?.updateScanProcess(currentStatus: .finished)
+        bleScanDelegate?.updateScanProcessState(currentStatus: .finished)
         bleCentralManager?.stopScan()
-        
+        /*
         var beaconStr = [String] ()
         
-        for beacon in beacons {
+        for beacon in cirWirelessFound {
             let beaconData = beacon
             for beaconData in beaconData {
                 beaconStr.append(String(format: "%2x", beaconData))
             }
-        }
+        }*/
         
-        print("BEACON STR SAVED: ", beaconStr)
+        print("SCAN FINISHED")
     }
 }
 
@@ -92,6 +90,8 @@ extension BluetoothScan: CBCentralManagerDelegate {
     
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        print("beacon: \(advertisementData)")
+        
         if let beacon = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
             let beaconStr : String = advertisementData[CBAdvertisementDataManufacturerDataKey] as? String ?? "NO DATA"
             let rssiInteger = integer_t (RSSI)
@@ -102,12 +102,6 @@ extension BluetoothScan: CBCentralManagerDelegate {
             print("peripheral: ", peripheral)
             print("RSSI: ", RSSI)
             print("dataServices: \(advertisementData["kCBAdvDataServiceUUIDs"])")
-            
-            if dataServices != nil   {
-
-                beacons.append(beacon)
-                
-            }
         }
     }
     
@@ -120,7 +114,7 @@ protocol ScanProtocol {
     func updateCentralState (newState: CBManagerState)
     
     
-    func updateScanProcess (currentStatus: ScanProcess)
+    func updateScanProcessState (currentStatus: ScanProcess)
     
     
     func scanFinished (scannedDevices: [CirWirelessModel])
@@ -139,6 +133,8 @@ enum ErrorBluetoothScan {
 // Estados del proceso de escaneo
 enum ScanProcess {
     case initializing
+    
+    case succesfullyInitiated
     
     case scanning
     

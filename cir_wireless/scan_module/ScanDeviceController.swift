@@ -7,23 +7,65 @@
 //
 
 import UIKit
+import CoreBluetooth
 
-class ScanDeviceController: UIViewController {
-    
+class ScanDeviceController: UIViewController, ScanProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        // Para empezar a escanear
+        let bleScan = BluetoothScan(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS])
+        bleScan.bleScanDelegate = self
+        bleScan.initScan()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    // Scan Protocol
+    func updateCentralState(newState: CBManagerState) {
+        switch newState {
+            
+        case .poweredOn:
+            print("poweredOn")
+        
+            
+        case .poweredOff :
+            print("poweredOff")
+            
+            
+        case .resetting :
+            print("resetting")
+            
+            
+        case .unauthorized :
+            print("unauthorized")
+            
+            
+        case .unknown :
+            print("unknown")
+            
+            
+        case .unsupported :
+            print("unsupported")
+            
+            
+        default:
+            print("\(newState)")
+        }
     }
-    */
-
+    
+    
+    func updateScanProcessState(currentStatus: ScanProcess) {
+        print("updateScanProcessState:")
+    }
+    
+    
+    func scanFinished(scannedDevices: [CirWirelessModel]) {
+        print("updateScanProcessState")
+    }
+    
+    
+    func errorOcurred(error: ErrorBluetoothScan) {
+        print("errorOcurred")
+    }
+    
 }

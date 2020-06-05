@@ -9,4 +9,7 @@
 import Foundation
 
 // Clase que contiene los comandos usados para la Cir Wireless
-class CirWirelessCommands { }
+class CirWirelessCommands {
+    
+    
+}

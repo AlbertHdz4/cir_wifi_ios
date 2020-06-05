@@ -10,6 +10,7 @@
 		182797D42481AAC5001DB18D /* Courtain.xib in Resources */ = {isa = PBXBuildFile; fileRef = 182797D32481AAC5001DB18D /* Courtain.xib */; };
 		182797D62481AB2C001DB18D /* CourtainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182797D52481AB2C001DB18D /* CourtainView.swift */; };
 		184E476624859C8D003BEEEA /* ContentDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184E476524859C8D003BEEEA /* ContentDescription.swift */; };
+		185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */; };
 		1864427024881A6000145AA7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864426F24881A6000145AA7 /* RoundButton.swift */; };
 		1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */; };
 		1871967624802831002EB4F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967524802831002EB4F2 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 		182797D32481AAC5001DB18D /* Courtain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Courtain.xib; sourceTree = "<group>"; };
 		182797D52481AB2C001DB18D /* CourtainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtainView.swift; sourceTree = "<group>"; };
 		184E476524859C8D003BEEEA /* ContentDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDescription.swift; sourceTree = "<group>"; };
+		185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothGattConstants.swift; sourceTree = "<group>"; };
 		1864426F24881A6000145AA7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCommands.swift; sourceTree = "<group>"; };
 		1871967224802831002EB4F2 /* Cir Wireless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cir Wireless.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +162,7 @@
 				18E299D72489719E00DAA22C /* CirWirelessModel.swift */,
 				1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */,
 				18E299D524896D6800DAA22C /* BluetoothScan.swift */,
+				185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */,
 			);
 			path = bluetooth_low_energy;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 			files = (
 				1871969324806B25002EB4F2 /* ScanDeviceController.swift in Sources */,
 				18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */,
+				185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */,
 				18E299D624896D6800DAA22C /* BluetoothScan.swift in Sources */,
 				182797D62481AB2C001DB18D /* CourtainView.swift in Sources */,
 				1864427024881A6000145AA7 /* RoundButton.swift in Sources */,
