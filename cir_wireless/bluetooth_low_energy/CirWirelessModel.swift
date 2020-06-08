@@ -13,11 +13,11 @@ import CoreBluetooth
 
 class CirWirelessModel {
     var peripheral : CBPeripheral?
-    var peripheralId : String?
+    var peripheralId : UUID?
     var beacon: BeaconModel?
     var cirWirelessState: CirWirelessState?
 
-    init (peripheral: CBPeripheral, peripheralId: String, beacon: BeaconModel) {
+    init (peripheral: CBPeripheral, peripheralId: UUID, beacon: BeaconModel) {
         self.peripheral = peripheral
         self.beacon = beacon
         self.peripheralId = peripheralId

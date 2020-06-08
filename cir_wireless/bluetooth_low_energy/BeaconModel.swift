@@ -10,13 +10,25 @@ import Foundation
 import CoreBluetooth
 
 public class BeaconModel {
-    var beaconString : String?
-    var beaconDescription : String?
-    var advertisementServices : Array <UUID>
+    
+    // Beacon's variables
+    var rssi: integer_t?
+    var beacon: Data?
+    var beaconString: String?
+    var listOfUuidServices: Array <UUID>?
+    var advertisementData: [String : Any]
 
-    init (beaconString: String, advertisementServices: Array <UUID>, beaconDescription: String) {
-        self.beaconString = beaconString
-        self.advertisementServices = advertisementServices
-        self.beaconDescription = beaconDescription
+
+    init (rssi: integer_t, beacon: Data, advertisementData: [String : Any]) {
+        self.rssi = rssi
+        self.beacon = beacon
+        self.advertisementData = advertisementData
+        self.beaconString = advertisementData[CBAdvertisementDataManufacturerDataKey] as? String ?? BeaconError.beaconErrorCast.rawValue
+        self.listOfUuidServices = advertisementData[CBAdvertisementDataServiceUUIDsKey] as? Array<UUID> ?? []
     }
+}
+
+
+enum BeaconError: String {
+    case beaconErrorCast = "Error beacon cast, see beacon value"
 }

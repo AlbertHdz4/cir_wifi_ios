@@ -10,13 +10,18 @@ import UIKit
 import CoreBluetooth
 
 class ScanDeviceController: UIViewController, ScanProtocol {
+    
+    // Variables
+    var bleScan: BluetoothScan?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Para empezar a escanear
-        let bleScan = BluetoothScan(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS])
-        bleScan.bleScanDelegate = self
-        bleScan.initScan()
+        bleScan = BluetoothScan(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS])
+        bleScan?.bleScanDelegate = self
+        bleScan?.initScan()
     }
     
     
@@ -26,6 +31,7 @@ class ScanDeviceController: UIViewController, ScanProtocol {
             
         case .poweredOn:
             print("poweredOn")
+            bleScan?.scanDevices()
         
             
         case .poweredOff :

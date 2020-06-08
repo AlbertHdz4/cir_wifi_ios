@@ -13,7 +13,6 @@ import CoreBluetooth
 
 class BluetoothScan: NSObject {
     
-    
     // Tunning variables
     var bleScanningTime = 5 // default 5 segundos
     
@@ -23,10 +22,12 @@ class BluetoothScan: NSObject {
     
     
     // Bluetooth objects
-    var cirWirelessFound = [CirWirelessModel] ()
     var filterBy: [CBUUID]?
     var bleCentralState: CBManagerState?
     var bleCentralManager: CBCentralManager?
+
+    
+    var cirWirelessFound = [UUID : CirWirelessModel] ()
     
     
     init (filterBy: Array<CBUUID>) {
@@ -39,8 +40,12 @@ class BluetoothScan: NSObject {
         bleCentralManager = CBCentralManager(delegate: self, queue: nil)
         
         if bleCentralManager != nil {
-            bleScanDelegate?.updateScanProcessState(currentStatus: .succesfullyInitiated)
+            
+            bleScanDelegate?.updateScanProcessState(currentStatus: .successfullyInitiated)
+            
         } else {
+            
+            bleScanDelegate?.updateScanProcessState(currentStatus: .unsuccessfullyInitiated)
             bleScanDelegate?.errorOcurred(error: .bleManagerNil)
         }
     }
@@ -93,9 +98,11 @@ extension BluetoothScan: CBCentralManagerDelegate {
         print("beacon: \(advertisementData)")
         
         if let beacon = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
-            let beaconStr : String = advertisementData[CBAdvertisementDataManufacturerDataKey] as? String ?? "NO DATA"
-            let rssiInteger = integer_t (RSSI)
-            let dataServices = advertisementData[CBAdvertisementDataServiceUUIDsKey]
+            
+            let rssiInt = integer_t (truncating: RSSI)
+            let beaconModel = BeaconModel(rssi: rssiInt, beacon: beacon, advertisementData: advertisementData)
+            let cirWireless = CirWirelessModel(peripheral: peripheral, peripheralId: peripheral.identifier, beacon: beaconModel)
+            cirWirelessFound[]
             print("\n\n************************************")
             print("advertisementData: \(advertisementData)")
             print("beacon:size: ", beacon)
@@ -134,7 +141,9 @@ enum ErrorBluetoothScan {
 enum ScanProcess {
     case initializing
     
-    case succesfullyInitiated
+    case unsuccessfullyInitiated
+    
+    case successfullyInitiated
     
     case scanning
     
