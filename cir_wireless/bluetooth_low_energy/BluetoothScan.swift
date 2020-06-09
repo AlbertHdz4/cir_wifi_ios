@@ -24,8 +24,7 @@ class BluetoothScan: NSObject {
     // Bluetooth objects
     var filterBy: [CBUUID]?
     var bleCentralState: CBManagerState?
-    var bleCentralManager: CBCentralManager?
-
+    var bleCentralManager: CBCentralManager?    
     
     var cirWirelessFound = [UUID : CirWirelessModel] ()
     
@@ -102,7 +101,7 @@ extension BluetoothScan: CBCentralManagerDelegate {
             let rssiInt = integer_t (truncating: RSSI)
             let beaconModel = BeaconModel(rssi: rssiInt, beacon: beacon, advertisementData: advertisementData)
             let cirWireless = CirWirelessModel(peripheral: peripheral, peripheralId: peripheral.identifier, beacon: beaconModel)
-            cirWirelessFound[]
+            // cirWirelessFound[]
             print("\n\n************************************")
             print("advertisementData: \(advertisementData)")
             print("beacon:size: ", beacon)
