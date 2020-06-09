@@ -19,7 +19,7 @@
 		1871967F24802842002EB4F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1871967E24802842002EB4F2 /* Assets.xcassets */; };
 		1871968224802842002EB4F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871968024802842002EB4F2 /* LaunchScreen.storyboard */; };
 		18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A001248FF03900DB520E /* ScanBleController.swift */; };
-		18B7A004248FF5B100DB520E /* PopUpAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A003248FF5B100DB520E /* PopUpAlert.swift */; };
+		18B7A0072490155A00DB520E /* PopUpAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A003248FF5B100DB520E /* PopUpAlert.swift */; };
 		18E299D624896D6800DAA22C /* BluetoothScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D524896D6800DAA22C /* BluetoothScan.swift */; };
 		18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D72489719E00DAA22C /* CirWirelessModel.swift */; };
 		18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D92489901300DAA22C /* BeaconModel.swift */; };
@@ -41,6 +41,8 @@
 		1871968324802842002EB4F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18B7A001248FF03900DB520E /* ScanBleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanBleController.swift; sourceTree = "<group>"; };
 		18B7A003248FF5B100DB520E /* PopUpAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpAlert.swift; sourceTree = "<group>"; };
+		18B7A008249018B800DB520E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		18B7A009249018B800DB520E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		18E299D524896D6800DAA22C /* BluetoothScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothScan.swift; sourceTree = "<group>"; };
 		18E299D72489719E00DAA22C /* CirWirelessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessModel.swift; sourceTree = "<group>"; };
 		18E299D92489901300DAA22C /* BeaconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconModel.swift; sourceTree = "<group>"; };
@@ -103,7 +105,7 @@
 		1871967424802831002EB4F2 /* cir_wireless */ = {
 			isa = PBXGroup;
 			children = (
-				18B7A00524900F9C00DB520E /* utils */,
+				18B7A0062490151A00DB520E /* utils */,
 				182797C224819B60001DB18D /* reusable_views */,
 				18719691248060C2002EB4F2 /* web_services */,
 				1871968F24806048002EB4F2 /* bluetooth_low_energy */,
@@ -169,13 +171,12 @@
 			path = web_services;
 			sourceTree = "<group>";
 		};
-		18B7A00524900F9C00DB520E /* utils */ = {
+		18B7A0062490151A00DB520E /* utils */ = {
 			isa = PBXGroup;
 			children = (
 				18B7A003248FF5B100DB520E /* PopUpAlert.swift */,
 			);
-			name = utils;
-			path = ..;
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,6 +221,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 1871966924802831002EB4F2;
 			productRefGroup = 1871967324802831002EB4F2 /* Products */;
@@ -260,8 +262,8 @@
 				1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */,
 				1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */,
 				18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */,
-				18B7A004248FF5B100DB520E /* PopUpAlert.swift in Sources */,
 				184E476624859C8D003BEEEA /* ContentDescription.swift in Sources */,
+				18B7A0072490155A00DB520E /* PopUpAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +274,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1871967C24802831002EB4F2 /* Base */,
+				18B7A008249018B800DB520E /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1871968124802842002EB4F2 /* Base */,
+				18B7A009249018B800DB520E /* es */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -291,6 +295,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -351,6 +356,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

@@ -40,8 +40,17 @@ class ScanBleController: UIViewController, ScanProtocol {
           
           
         case .unauthorized :
-            print("unauthorized")
-        
+            print("unauthor0ized")
+            var popUp: UIAlertController?
+            let components = AlertComponents(alertTitle: "A Title", alertMessage: "A Message")
+            let popUpAlert = PopUpAlert(dialogCharacteristics: components)
+            let actionComponents = AlertActionComponents(buttonTitle: "Ok", buttonHandler: {action in
+                print("Ok pressed")
+                popUp?.dismiss(animated: true, completion: nil)
+            })
+            
+            popUp = popUpAlert.popUpOneButton(buttonCharacteristic: actionComponents)
+            self.present(popUp!, animated: true, completion: nil)
           
         case .unknown :
             print("unknown")
