@@ -116,6 +116,7 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="courtain" destination="iO3-gz-pAF" id="TjL-fv-p9i"/>
                         <segue destination="gKf-FD-E31" kind="show" id="JwB-LG-LUo"/>
                     </connections>
                 </viewController>

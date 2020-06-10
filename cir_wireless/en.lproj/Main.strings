@@ -1,0 +1,93 @@
+
+/* Class = "UILabel"; text = "INTERNET"; ObjectID = "4n8-yP-7ko"; */
+"4n8-yP-7ko.text" = "INTERNET";
+
+/* Class = "UIViewController"; title = "Access Points"; ObjectID = "6HE-TS-Thg"; */
+"6HE-TS-Thg.title" = "Access Points";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "7eH-5O-sfY"; */
+"7eH-5O-sfY.normalTitle" = "Cancel";
+
+/* Class = "UINavigationItem"; title = "Access Points"; ObjectID = "B2H-R0-1J6"; */
+"B2H-R0-1J6.title" = "Access Points";
+
+/* Class = "UILabel"; text = "Password"; ObjectID = "Dxc-Tz-uYx"; */
+"Dxc-Tz-uYx.text" = "Password";
+
+/* Class = "UIViewController"; title = "Device"; ObjectID = "HKQ-F9-awK"; */
+"HKQ-F9-awK.title" = "Device";
+
+/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "JKE-mf-hO4"; */
+"JKE-mf-hO4.title" = "Item";
+
+/* Class = "UILabel"; text = "IP"; ObjectID = "Jxm-aZ-3fw"; */
+"Jxm-aZ-3fw.text" = "IP";
+
+/* Class = "UILabel"; text = "DATA"; ObjectID = "KC5-OB-QKv"; */
+"KC5-OB-QKv.text" = "DATA";
+
+/* Class = "UILabel"; text = "00:C5:1B:XX:XX:XX"; ObjectID = "KE5-hV-mA0"; */
+"KE5-hV-mA0.text" = "00:C5:1B:XX:XX:XX";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "L7k-5k-D9J"; */
+"L7k-5k-D9J.text" = "-";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "QSc-IN-9yE"; */
+"QSc-IN-9yE.text" = "-";
+
+/* Class = "UINavigationItem"; title = "Test Device"; ObjectID = "Rkd-62-cFd"; */
+"Rkd-62-cFd.title" = "Test Device";
+
+/* Class = "UILabel"; text = "BLE Devices"; ObjectID = "Uer-8S-cB5"; */
+"Uer-8S-cB5.text" = "BLE Devices";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "bIc-wr-scd"; */
+"bIc-wr-scd.text" = "-";
+
+/* Class = "UILabel"; text = "Connecting BLE DEvice"; ObjectID = "dPg-TU-Etu"; */
+"dPg-TU-Etu.text" = "Connecting BLE DEvice";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "g17-PN-Lpj"; */
+"g17-PN-Lpj.text" = "-";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "gv7-0U-rWO"; */
+"gv7-0U-rWO.text" = "-";
+
+/* Class = "UILabel"; text = "AP"; ObjectID = "jm9-RO-Xca"; */
+"jm9-RO-Xca.text" = "AP";
+
+/* Class = "UIButton"; normalTitle = "Accept"; ObjectID = "p8P-ah-jXN"; */
+"p8P-ah-jXN.normalTitle" = "Accept";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "psE-K1-TLa"; */
+"psE-K1-TLa.text" = "-";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "q32-eo-Gqz"; */
+"q32-eo-Gqz.text" = "-";
+
+/* Class = "UILabel"; text = "RSSI"; ObjectID = "uMO-Gt-Xuy"; */
+"uMO-Gt-Xuy.text" = "RSSI";
+
+/* Class = "UILabel"; text = "SSID"; ObjectID = "uMT-DA-i7J"; */
+"uMT-DA-i7J.text" = "SSID";
+
+/* Class = "UILabel"; text = "00:C5:1B:XX:XX:XX"; ObjectID = "uwY-OA-pQH"; */
+"uwY-OA-pQH.text" = "00:C5:1B:XX:XX:XX";
+
+/* Class = "UINavigationItem"; title = "Configuration"; ObjectID = "vem-rx-g1t"; */
+"vem-rx-g1t.title" = "Configuration";
+
+/* Class = "UILabel"; text = "Access Points"; ObjectID = "w3U-Gx-BJz"; */
+"w3U-Gx-BJz.text" = "Access Points";
+
+/* Class = "UILabel"; text = "STATUS"; ObjectID = "wbT-hp-4sa"; */
+"wbT-hp-4sa.text" = "STATUS";
+
+/* Class = "UILabel"; text = "Dispositivo"; ObjectID = "xC7-rd-SOy"; */
+"xC7-rd-SOy.text" = "Dispositivo";
+
+/* Class = "UILabel"; text = "00:1B:C5:XX:XX:XX"; ObjectID = "xm4-v1-oZB"; */
+"xm4-v1-oZB.text" = "00:1B:C5:XX:XX:XX";
+
+/* Class = "UINavigationItem"; title = "Scanning"; ObjectID = "y6z-lQ-XVt"; */
+"y6z-lQ-XVt.title" = "Scanning";

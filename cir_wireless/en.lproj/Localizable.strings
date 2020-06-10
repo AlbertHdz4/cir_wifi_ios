@@ -1,0 +1,22 @@
+/*
+  Localizable.strings
+  cir_wireless
+
+  Created by softel on 10/06/20.
+  Copyright © 2020 SOFTEL. All rights reserved.
+*/
+	
+
+// Textos de Alerts
+"BLE Persmission Title Denied" = "Bluetooth Permission Denied";
+"BLE Persmission Message Denied" = "This permission is mandatory to continue, please update it";
+
+
+// Textos de Botones de Alerts
+"Ok" = "Ok";
+"Cancel" = "Cancel";
+"System Settings" = "Settings";
+
+
+// Courtain Texts
+"Scanning Devices" = "Scanning Devices";

@@ -11,15 +11,28 @@ import CoreBluetooth
 
 
 class ScanBleController: UIViewController, ScanProtocol {
+    
+    // Outlets
+    @IBOutlet weak var courtain: CourtainView!
+    
+    
     var bleScan: BluetoothScan?
     var centralManager: CBCentralManager!
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadViews()
+        
         bleScan = BluetoothScan(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS])
         bleScan?.bleScanDelegate = self
         bleScan?.initScan()
+    }
+    
+    
+    private func loadViews () {
+        courtain.courtainMessage.text = NSLocalizedString("Scanning Devices", comment: "Scanning BLE Devices")
     }
     
     
@@ -40,16 +53,33 @@ class ScanBleController: UIViewController, ScanProtocol {
           
           
         case .unauthorized :
-            print("unauthor0ized")
+            print("unauthorized")
+            
+            let titleAlert = NSLocalizedString("BLE Persmission Title Denied", comment: "Permission needs to be updated")
+            
+            let messageAlert = NSLocalizedString("BLE Persmission Message Denied", comment: "Permission needs to be updated")
+            
             var popUp: UIAlertController?
-            let components = AlertComponents(alertTitle: "A Title", alertMessage: "A Message")
-            let popUpAlert = PopUpAlert(dialogCharacteristics: components)
-            let actionComponents = AlertActionComponents(buttonTitle: "Ok", buttonHandler: {action in
-                print("Ok pressed")
-                popUp?.dismiss(animated: true, completion: nil)
+            
+            let alertComponents = AlertComponents(alertTitle: titleAlert, alertMessage: messageAlert)
+                        
+            let actionComponents = AlertActionComponents(
+                buttonTitle: NSLocalizedString("Settings", comment: "Leads user to setting values"),
+                buttonHandler: {(_) -> Void in
+                    let settingsUrl = URL(string: UIApplication.openSettingsURLString)
+                    
+                    if UIApplication.shared.canOpenURL(settingsUrl!) {
+                        UIApplication.shared.open(
+                            settingsUrl!,
+                            completionHandler: { (success) in
+                                popUp?.dismiss(animated: true, completion: nil)
+                          })
+                    }
             })
             
-            popUp = popUpAlert.popUpOneButton(buttonCharacteristic: actionComponents)
+            popUp = PopUpAlert.popUpOneButton(alertCharacteristic: alertComponents,
+                                              buttonCharacteristic: actionComponents)
+            
             self.present(popUp!, animated: true, completion: nil)
           
         case .unknown :

@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  cir_wireless
+
+  Created by softel on 10/06/20.
+  Copyright © 2020 SOFTEL. All rights reserved.
+*/
+
+NSBluetoothAlwaysUsageDescription = "Bluetooth is needed for scanning and connecting CIL devices";
+NSBluetoothPeripheralUsageDescription = "Bluetooth is needed for scanning and connecting CIL devices";
