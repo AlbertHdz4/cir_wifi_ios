@@ -10,23 +10,18 @@ import Foundation
 import UIKit
 
 class PopUpAlert {
-    var title: String?
-    var message: String?
-    var alertStyle: UIAlertController.Style?
+
     
-    
-    init (dialogCharacteristics alertCharacteristics: AlertComponents) {
-        self.title = alertCharacteristics.alertTitle
-        self.message = alertCharacteristics.alertMessage
-        self.alertStyle = alertCharacteristics.alertStyle
+    private static func popUp (alertCharacteristic alertComponents: AlertComponents) -> UIAlertController {
+        return UIAlertController(title: alertComponents.alertTitle,
+                                      message: alertComponents.alertMessage,
+                                      preferredStyle: alertComponents.alertStyle!)
     }
     
     
-    func popUpOneButton (buttonCharacteristic alertActionComponents: AlertActionComponents) ->  UIAlertController {
+    static func popUpOneButton (alertCharacteristic alertComponents: AlertComponents, buttonCharacteristic alertActionComponents: AlertActionComponents) ->  UIAlertController {
         
-        let alert = UIAlertController(title: self.title,
-                                      message: self.message,
-                                      preferredStyle: self.alertStyle!)
+        let alert = popUp(alertCharacteristic: alertComponents)
         
         alert.addAction(UIAlertAction(title: alertActionComponents.buttonTitle!,
                                       style: alertActionComponents.buttonStyle!,
@@ -36,14 +31,13 @@ class PopUpAlert {
     }
     
     
-    func popUpTwoButtons (buttonCharacteristic alertActionComponents: [AlertActionComponents]) throws ->  UIAlertController {
+    static func popUpTwoButtons (alertCharacteristic alertComponents: AlertComponents,
+                          buttonCharacteristic alertActionComponents: [AlertActionComponents]) throws ->  UIAlertController {
         if alertActionComponents.count != 2 {
             throw AlertError.twoButtonLessParameters
         }
         
-        let alert = UIAlertController(title: self.title,
-                                      message: self.message,
-                                      preferredStyle: self.alertStyle!)
+        let alert = popUp(alertCharacteristic: alertComponents)
 
         for component in alertActionComponents {
             alert.addAction(UIAlertAction(title: component.buttonTitle!,
@@ -55,14 +49,13 @@ class PopUpAlert {
     }
     
     
-    func popUpThreeButtons (buttonCharacteristic alertActionComponents: [AlertActionComponents]) throws ->  UIAlertController {
+    static func popUpThreeButtons (alertCharacteristic alertComponents: AlertComponents,
+                            buttonCharacteristic alertActionComponents: [AlertActionComponents]) throws ->  UIAlertController {
         if alertActionComponents.count != 3 {
             throw AlertError.threeButtonsLessParameters
         }
         
-        let alert = UIAlertController(title: self.title,
-                                      message: self.message,
-                                      preferredStyle: self.alertStyle!)
+        let alert = popUp(alertCharacteristic: alertComponents)
 
         for component in alertActionComponents {
             alert.addAction(UIAlertAction(title: component.buttonTitle!,
