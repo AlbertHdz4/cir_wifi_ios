@@ -10,33 +10,82 @@ import UIKit
 import CoreBluetooth
 
 
-class ScanBleController: UIViewController, ScanProtocol {
+class ScanBleController: UIViewController {
     
-    // Outlets
+    // MARK: Constants
+    let REUSABLE_CELL_ID = "cir_wireless"
+    let REUSABLE_CELL_NAME = "CirWirelessCell"
+    
+    
+    // MARK: Outlets
     @IBOutlet weak var courtain: CourtainView!
+    @IBOutlet weak var cirWirelessTable: UITableView!
     
     
+    // MARK: Variables para el escaneo de dispositivos
     var bleScan: BluetoothScan?
-    var centralManager: CBCentralManager!
-
+    var cirsFound: [CirWirelessModel]?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Algunos cambios en las vistas al iniciar
         loadViews()
+        
+        self.cirWirelessTable.dataSource = self
+        self.cirWirelessTable.tableFooterView = UIView()
         
         bleScan = BluetoothScan(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS])
         bleScan?.bleScanDelegate = self
         bleScan?.initScan()
+        
     }
     
     
+    // MARK: Funciones utiles del propio controler
     private func loadViews () {
         courtain.courtainMessage.text = NSLocalizedString("Scanning Devices", comment: "Scanning BLE Devices")
     }
     
     
-    // Scan Protocol
+    private func registerTableViewCells() {
+        
+        let cirWirelessCell = UINib(nibName: REUSABLE_CELL_NAME, bundle: nil)
+        self.cirWirelessTable.register(cirWirelessCell, forCellReuseIdentifier: REUSABLE_CELL_ID)
+        
+    }
+    // Funciones utiles del propio controler (End)
+}
+
+
+// MARK: Delegados para la tabla de CIRs encontradas
+extension ScanBleController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return cirsFound?.count ?? 0
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cirWirelessCell = cirWirelessTable.dequeueReusableCell(withIdentifier: REUSABLE_CELL_ID)
+        
+        if cirWirelessCell == nil {
+            cirWirelessCell = UITableViewCell()
+        }
+        
+        
+        return cirWirelessCell!
+    }
+
+}
+// Delegados para la tabla de CIRs encontradas (End)
+
+
+// MARK: Scan Devices Protocol
+extension ScanBleController: ScanProtocol {
+    
     func updateCentralState(newState: CBManagerState) {
         switch newState {
         case .poweredOn:
@@ -94,19 +143,25 @@ class ScanBleController: UIViewController, ScanProtocol {
             print("\(newState)")
         }
       }
-      
     
-      func updateScanProcessState(currentStatus: ScanProcess) {
-          print("updateScanProcessState:")
-      }
+    
+    func updateScanProcessState(currentStatus: ScanProcess) {
+        print("updateScanProcessState: \(currentStatus)")
+    }
       
       
-      func scanFinished(scannedDevices: [CirWirelessModel]) {
-          print("updateScanProcessState")
-      }
+    func scanFinished(scannedDevices: [CirWirelessModel]) {
+        
+        self.cirsFound = scannedDevices
+        self.courtain.hideCourtain()
+        
+        print("updateScanProcessState: \(self.cirsFound!.count)")
+    }
       
       
-      func errorOcurred(error: ErrorBluetoothScan) {
-          print("errorOcurred")
-      }
+    func errorOcurred(error: ErrorBluetoothScan) {
+        print("errorOcurred: \(error)")
+    }
+
 }
+// Scan Devices Protocol (End)

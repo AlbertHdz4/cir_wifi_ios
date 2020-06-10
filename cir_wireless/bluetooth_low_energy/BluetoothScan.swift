@@ -22,15 +22,17 @@ class BluetoothScan: NSObject {
     
     
     // Bluetooth objects
-    var filterBy: [CBUUID]?
+    var uuidSerices: [CBUUID]?
     var bleCentralState: CBManagerState?
     var bleCentralManager: CBCentralManager?    
     
-    var cirWirelessFound = [UUID : CirWirelessModel] ()
+    
+    var cirsFoundWithIBeacon = [UUID : CirWirelessModel] ()
+    var cirsFoundWithPayloadBeacon = [UUID : CirWirelessModel] ()
     
     
-    init (filterBy: Array<CBUUID>) {
-        self.filterBy = filterBy
+    init (filterBy uuidServices: Array<CBUUID>) {
+        self.uuidSerices = uuidServices
     }
     
     
@@ -54,8 +56,8 @@ class BluetoothScan: NSObject {
         if bleCentralState == CBManagerState.poweredOn {
             bleScanDelegate?.updateScanProcessState(currentStatus: .scanning)
             
-            bleCentralManager!.scanForPeripherals(withServices: filterBy,
-                                                   options:[CBCentralManagerScanOptionAllowDuplicatesKey: true])
+            bleCentralManager!.scanForPeripherals(withServices: uuidSerices,
+                                                   options:[CBCentralManagerScanOptionAllowDuplicatesKey: false])
             
             Timer.scheduledTimer(timeInterval: 8, target: self, selector: #selector(self.stopScan), userInfo: nil, repeats: false)
         }
@@ -63,19 +65,27 @@ class BluetoothScan: NSObject {
     
     
     @objc func stopScan () {
+        print("SCAN FINISHED")
         bleScanDelegate?.updateScanProcessState(currentStatus: .finished)
         bleCentralManager?.stopScan()
-        /*
-        var beaconStr = [String] ()
         
-        for beacon in cirWirelessFound {
-            let beaconData = beacon
-            for beaconData in beaconData {
-                beaconStr.append(String(format: "%2x", beaconData))
+        let listOfCirWirelessFound = mergeCirsWirelessFound()
+        bleScanDelegate?.scanFinished(scannedDevices: listOfCirWirelessFound)
+    }
+    
+    
+    // Mezcla ambos beacons (beaconPayload y iBeacon mandados por la CIR)
+    private func mergeCirsWirelessFound () -> [CirWirelessModel] {
+        var cirWirelessFound = [CirWirelessModel] ()
+        
+        for (peripheralUuid, cirWirelessWithIBeacon) in cirsFoundWithIBeacon {
+            if let cir = cirsFoundWithPayloadBeacon[peripheralUuid] {
+                cir.iBeacon = cirWirelessWithIBeacon.beacon
+                cirWirelessFound.append(cir)
             }
-        }*/
+        }
         
-        print("SCAN FINISHED")
+        return cirWirelessFound
     }
 }
 
@@ -94,20 +104,36 @@ extension BluetoothScan: CBCentralManagerDelegate {
     
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        print("beacon: \(advertisementData)")
         
         if let beacon = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
             
-            let rssiInt = integer_t (truncating: RSSI)
-            let beaconModel = BeaconModel(rssi: rssiInt, beacon: beacon, advertisementData: advertisementData)
-            let cirWireless = CirWirelessModel(peripheral: peripheral, peripheralId: peripheral.identifier, beacon: beaconModel)
-            // cirWirelessFound[]
             print("\n\n************************************")
-            print("advertisementData: \(advertisementData)")
-            print("beacon:size: ", beacon)
-            print("peripheral: ", peripheral)
             print("RSSI: ", RSSI)
-            print("dataServices: \(advertisementData["kCBAdvDataServiceUUIDs"])")
+            print("beacon:size: ", beacon.count)
+            print("peripheral: ", peripheral.identifier)
+
+            
+            let rssiInt = integer_t (truncating: RSSI)
+            let beaconModel = BeaconModel(rssi: rssiInt, beaconPayload: beacon, advertisementData: advertisementData)
+            let cirWireless = CirWirelessModel(peripheral: peripheral, peripheralId: peripheral.identifier, beacon: beaconModel)
+            
+            if beacon.count == BeaconSizes.iBeaconSize.rawValue {
+                
+                if cirsFoundWithIBeacon[peripheral.identifier] == nil {
+                    cirsFoundWithIBeacon[peripheral.identifier] = cirWireless
+                    print("SAVED IN IBEACON")
+                    print("************************************\n\n")
+                }
+                
+            } else {
+                
+                if cirsFoundWithPayloadBeacon[peripheral.identifier] == nil {
+                    cirsFoundWithPayloadBeacon[peripheral.identifier] = cirWireless
+                    print("SAVED IN PAYLOAD")
+                    print("************************************\n\n")
+                }
+                
+            }
         }
     }
     
@@ -127,6 +153,14 @@ protocol ScanProtocol {
     
     
     func errorOcurred (error: ErrorBluetoothScan)
+}
+
+
+// Tamanios en bytes de los beacons mandados por la CIR Wireless
+enum BeaconSizes: Int {
+    case iBeaconSize = 2
+    
+    case beaconPayloadSize = 26
 }
 
 

@@ -14,7 +14,8 @@ import CoreBluetooth
 class CirWirelessModel {
     var peripheral : CBPeripheral?
     var peripheralId : UUID?
-    var beacon: BeaconModel?
+    var beacon: BeaconModel? // Primer beacon, almacena todo el payload del dispositivo
+    var iBeacon: BeaconModel? // Segundo beacon estructurado como iBeacon
     var cirWirelessState: CirWirelessState?
 
     init (peripheral: CBPeripheral, peripheralId: UUID, beacon: BeaconModel) {

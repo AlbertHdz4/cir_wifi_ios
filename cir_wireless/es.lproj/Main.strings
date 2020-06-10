@@ -6,16 +6,16 @@
 "6HE-TS-Thg.title" = "Access Points";
 
 /* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "7eH-5O-sfY"; */
-"7eH-5O-sfY.normalTitle" = "Cancel";
+"7eH-5O-sfY.normalTitle" = "Cancelar";
 
 /* Class = "UINavigationItem"; title = "Access Points"; ObjectID = "B2H-R0-1J6"; */
 "B2H-R0-1J6.title" = "Access Points";
 
 /* Class = "UILabel"; text = "Password"; ObjectID = "Dxc-Tz-uYx"; */
-"Dxc-Tz-uYx.text" = "Password";
+"Dxc-Tz-uYx.text" = "Contraseña";
 
 /* Class = "UIViewController"; title = "Device"; ObjectID = "HKQ-F9-awK"; */
-"HKQ-F9-awK.title" = "Device";
+"HKQ-F9-awK.title" = "Dispositivo";
 
 /* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "JKE-mf-hO4"; */
 "JKE-mf-hO4.title" = "Item";
@@ -24,7 +24,7 @@
 "Jxm-aZ-3fw.text" = "IP";
 
 /* Class = "UILabel"; text = "DATA"; ObjectID = "KC5-OB-QKv"; */
-"KC5-OB-QKv.text" = "DATA";
+"KC5-OB-QKv.text" = "DATOS";
 
 /* Class = "UILabel"; text = "00:C5:1B:XX:XX:XX"; ObjectID = "KE5-hV-mA0"; */
 "KE5-hV-mA0.text" = "00:C5:1B:XX:XX:XX";
@@ -39,13 +39,13 @@
 "Rkd-62-cFd.title" = "Test Device";
 
 /* Class = "UILabel"; text = "BLE Devices"; ObjectID = "Uer-8S-cB5"; */
-"Uer-8S-cB5.text" = "BLE Devices";
+"Uer-8S-cB5.text" = "Dispositivos BLE";
 
 /* Class = "UILabel"; text = "-"; ObjectID = "bIc-wr-scd"; */
 "bIc-wr-scd.text" = "-";
 
 /* Class = "UILabel"; text = "Connecting BLE DEvice"; ObjectID = "dPg-TU-Etu"; */
-"dPg-TU-Etu.text" = "Connecting BLE DEvice";
+"dPg-TU-Etu.text" = "Conectando dispositivo";
 
 /* Class = "UILabel"; text = "-"; ObjectID = "g17-PN-Lpj"; */
 "g17-PN-Lpj.text" = "-";
@@ -57,7 +57,7 @@
 "jm9-RO-Xca.text" = "AP";
 
 /* Class = "UIButton"; normalTitle = "Accept"; ObjectID = "p8P-ah-jXN"; */
-"p8P-ah-jXN.normalTitle" = "Accept";
+"p8P-ah-jXN.normalTitle" = "Aceptar";
 
 /* Class = "UILabel"; text = "-"; ObjectID = "psE-K1-TLa"; */
 "psE-K1-TLa.text" = "-";
@@ -75,7 +75,7 @@
 "uwY-OA-pQH.text" = "00:C5:1B:XX:XX:XX";
 
 /* Class = "UINavigationItem"; title = "Configuration"; ObjectID = "vem-rx-g1t"; */
-"vem-rx-g1t.title" = "Configuration";
+"vem-rx-g1t.title" = "Configuración";
 
 /* Class = "UILabel"; text = "Access Points"; ObjectID = "w3U-Gx-BJz"; */
 "w3U-Gx-BJz.text" = "Access Points";
@@ -90,4 +90,4 @@
 "xm4-v1-oZB.text" = "00:1B:C5:XX:XX:XX";
 
 /* Class = "UINavigationItem"; title = "Scanning"; ObjectID = "y6z-lQ-XVt"; */
-"y6z-lQ-XVt.title" = "Scanning";
+"y6z-lQ-XVt.title" = "Escaneando";

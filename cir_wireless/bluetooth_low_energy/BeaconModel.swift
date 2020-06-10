@@ -13,17 +13,17 @@ public class BeaconModel {
     
     // Beacon's variables
     var rssi: integer_t?
-    var beacon: Data?
+    var beaconPayload: Data?
     var beaconString: String?
     var listOfUuidServices: Array <UUID>?
     var advertisementData: [String : Any]
 
 
-    init (rssi: integer_t, beacon: Data, advertisementData: [String : Any]) {
+    init (rssi: integer_t, beaconPayload: Data, advertisementData: [String : Any]) {
         self.rssi = rssi
-        self.beacon = beacon
+        self.beaconPayload = beaconPayload
         self.advertisementData = advertisementData
-        self.beaconString = advertisementData[CBAdvertisementDataManufacturerDataKey] as? String ?? BeaconError.beaconErrorCast.rawValue
+        self.beaconString = (advertisementData[CBAdvertisementDataManufacturerDataKey] as! Data).hexDescription
         self.listOfUuidServices = advertisementData[CBAdvertisementDataServiceUUIDsKey] as? Array<UUID> ?? []
     }
 }
@@ -31,4 +31,12 @@ public class BeaconModel {
 
 enum BeaconError: String {
     case beaconErrorCast = "Error beacon cast, see beacon value"
+}
+
+
+// Extensiones
+extension Data {
+    var hexDescription: String {
+        return reduce("") {$0 + String(format: "%02x", $1)}
+    }
 }
