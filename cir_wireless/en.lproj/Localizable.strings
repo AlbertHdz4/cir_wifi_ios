@@ -10,13 +10,16 @@
 // Textos de Alerts
 "BLE Persmission Title Denied" = "Bluetooth Permission Denied";
 "BLE Persmission Message Denied" = "This permission is mandatory to continue, please update it";
+"Bluetooth Scanning" = "Bluetooth Scanning";
+"Cir's Not Found" = "Cir Wireless not found";
 
 
 // Textos de Botones de Alerts
 "Ok" = "Ok";
 "Cancel" = "Cancel";
 "System Settings" = "Settings";
-
+"Retry" = "Retry";
+"Accept" = "Accept";
 
 // Courtain Texts
 "Scanning Devices" = "Scanning Devices";

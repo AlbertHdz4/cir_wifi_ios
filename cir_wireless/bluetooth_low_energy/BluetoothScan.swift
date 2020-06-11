@@ -14,8 +14,7 @@ import CoreBluetooth
 class BluetoothScan: NSObject {
     
     // Tunning variables
-    var bleScanningTime = 5 // default 5 segundos
-    
+    var scanningTime: Double?
     
     // Delegates
     var bleScanDelegate: ScanProtocol?
@@ -31,8 +30,9 @@ class BluetoothScan: NSObject {
     var cirsFoundWithPayloadBeacon = [UUID : CirWirelessModel] ()
     
     
-    init (filterBy uuidServices: Array<CBUUID>) {
+    init (filterBy uuidServices: Array<CBUUID>, scanningTime: Double = 5) {
         self.uuidSerices = uuidServices
+        self.scanningTime = scanningTime
     }
     
     
@@ -59,7 +59,7 @@ class BluetoothScan: NSObject {
             bleCentralManager!.scanForPeripherals(withServices: uuidSerices,
                                                    options:[CBCentralManagerScanOptionAllowDuplicatesKey: false])
             
-            Timer.scheduledTimer(timeInterval: 8, target: self, selector: #selector(self.stopScan), userInfo: nil, repeats: false)
+            Timer.scheduledTimer(timeInterval: self.scanningTime!, target: self, selector: #selector(self.stopScan), userInfo: nil, repeats: false)
         }
     }
     
@@ -107,30 +107,27 @@ extension BluetoothScan: CBCentralManagerDelegate {
         
         if let beacon = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
             
-            print("\n\n************************************")
-            print("RSSI: ", RSSI)
-            print("beacon:size: ", beacon.count)
-            print("peripheral: ", peripheral.identifier)
+            // print("\n\n************************************")
+            // print("RSSI: ", RSSI)
+            // print("beacon:size: ", beacon.count)
+            // print("peripheral: ", peripheral.identifier)
 
             
             let rssiInt = integer_t (truncating: RSSI)
             let beaconModel = BeaconModel(rssi: rssiInt, beaconPayload: beacon, advertisementData: advertisementData)
             let cirWireless = CirWirelessModel(peripheral: peripheral, peripheralId: peripheral.identifier, beacon: beaconModel)
+            let cirWirelessMac = (advertisementData[BeaconFields.cirWirelessMac.rawValue] as? Data)?.hexDescription
             
             if beacon.count == BeaconSizes.iBeaconSize.rawValue {
                 
-                if cirsFoundWithIBeacon[peripheral.identifier] == nil {
+                if cirsFoundWithIBeacon[peripheral.identifier] == nil && cirWirelessMac != nil {
                     cirsFoundWithIBeacon[peripheral.identifier] = cirWireless
-                    print("SAVED IN IBEACON")
-                    print("************************************\n\n")
                 }
                 
             } else {
                 
                 if cirsFoundWithPayloadBeacon[peripheral.identifier] == nil {
                     cirsFoundWithPayloadBeacon[peripheral.identifier] = cirWireless
-                    print("SAVED IN PAYLOAD")
-                    print("************************************\n\n")
                 }
                 
             }

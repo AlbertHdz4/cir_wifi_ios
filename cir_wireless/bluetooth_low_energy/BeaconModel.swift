@@ -9,7 +9,7 @@
 import Foundation
 import CoreBluetooth
 
-public class BeaconModel {
+class BeaconModel {
     
     // Beacon's variables
     var rssi: integer_t?
@@ -33,10 +33,3 @@ enum BeaconError: String {
     case beaconErrorCast = "Error beacon cast, see beacon value"
 }
 
-
-// Extensiones
-extension Data {
-    var hexDescription: String {
-        return reduce("") {$0 + String(format: "%02x", $1)}
-    }
-}

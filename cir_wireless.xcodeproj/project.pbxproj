@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1824E33624912C7B00F51B90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1824E33824912C7B00F51B90 /* Localizable.strings */; };
+		1824E35424913C0500F51B90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1824E35624913C0500F51B90 /* InfoPlist.strings */; };
 		182797D42481AAC5001DB18D /* Courtain.xib in Resources */ = {isa = PBXBuildFile; fileRef = 182797D32481AAC5001DB18D /* Courtain.xib */; };
 		182797D62481AB2C001DB18D /* CourtainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182797D52481AB2C001DB18D /* CourtainView.swift */; };
+		184B879F2492466500FF9C84 /* CirWirelessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184B879D2492466500FF9C84 /* CirWirelessCell.swift */; };
+		184B87A02492466500FF9C84 /* CirWirelessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 184B879E2492466500FF9C84 /* CirWirelessCell.xib */; };
 		184E476624859C8D003BEEEA /* ContentDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184E476524859C8D003BEEEA /* ContentDescription.swift */; };
 		185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */; };
 		1864427024881A6000145AA7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864426F24881A6000145AA7 /* RoundButton.swift */; };
@@ -23,11 +27,19 @@
 		18E299D624896D6800DAA22C /* BluetoothScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D524896D6800DAA22C /* BluetoothScan.swift */; };
 		18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D72489719E00DAA22C /* CirWirelessModel.swift */; };
 		18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D92489901300DAA22C /* BeaconModel.swift */; };
+		18FB92F62492A7E500758541 /* ProgramExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FB92F52492A7E500758541 /* ProgramExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1824E33724912C7B00F51B90 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1824E33924912C8000F51B90 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1824E35524913C0500F51B90 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1824E35724913C0700F51B90 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1824E3592491481700F51B90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		182797D32481AAC5001DB18D /* Courtain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Courtain.xib; sourceTree = "<group>"; };
 		182797D52481AB2C001DB18D /* CourtainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtainView.swift; sourceTree = "<group>"; };
+		184B879D2492466500FF9C84 /* CirWirelessCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCell.swift; sourceTree = "<group>"; };
+		184B879E2492466500FF9C84 /* CirWirelessCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CirWirelessCell.xib; sourceTree = "<group>"; };
 		184E476524859C8D003BEEEA /* ContentDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDescription.swift; sourceTree = "<group>"; };
 		185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothGattConstants.swift; sourceTree = "<group>"; };
 		1864426F24881A6000145AA7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -46,6 +58,7 @@
 		18E299D524896D6800DAA22C /* BluetoothScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothScan.swift; sourceTree = "<group>"; };
 		18E299D72489719E00DAA22C /* CirWirelessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessModel.swift; sourceTree = "<group>"; };
 		18E299D92489901300DAA22C /* BeaconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconModel.swift; sourceTree = "<group>"; };
+		18FB92F52492A7E500758541 /* ProgramExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +84,7 @@
 		182797C524819BBF001DB18D /* views */ = {
 			isa = PBXGroup;
 			children = (
+				184B879E2492466500FF9C84 /* CirWirelessCell.xib */,
 				182797D32481AAC5001DB18D /* Courtain.xib */,
 			);
 			path = views;
@@ -82,6 +96,7 @@
 				184E476524859C8D003BEEEA /* ContentDescription.swift */,
 				182797D52481AB2C001DB18D /* CourtainView.swift */,
 				1864426F24881A6000145AA7 /* RoundButton.swift */,
+				184B879D2492466500FF9C84 /* CirWirelessCell.swift */,
 			);
 			path = view_classes;
 			sourceTree = "<group>";
@@ -119,6 +134,8 @@
 				1871967E24802842002EB4F2 /* Assets.xcassets */,
 				1871968024802842002EB4F2 /* LaunchScreen.storyboard */,
 				1871968324802842002EB4F2 /* Info.plist */,
+				1824E33824912C7B00F51B90 /* Localizable.strings */,
+				1824E35624913C0500F51B90 /* InfoPlist.strings */,
 			);
 			path = cir_wireless;
 			sourceTree = "<group>";
@@ -175,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				18B7A003248FF5B100DB520E /* PopUpAlert.swift */,
+				18FB92F52492A7E500758541 /* ProgramExtensions.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -238,9 +256,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1824E33624912C7B00F51B90 /* Localizable.strings in Resources */,
+				1824E35424913C0500F51B90 /* InfoPlist.strings in Resources */,
 				1871968224802842002EB4F2 /* LaunchScreen.storyboard in Resources */,
 				1871967F24802842002EB4F2 /* Assets.xcassets in Resources */,
 				1871967D24802831002EB4F2 /* Main.storyboard in Resources */,
+				184B87A02492466500FF9C84 /* CirWirelessCell.xib in Resources */,
 				182797D42481AAC5001DB18D /* Courtain.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,12 +273,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18FB92F62492A7E500758541 /* ProgramExtensions.swift in Sources */,
 				18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */,
 				185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */,
 				18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */,
 				18E299D624896D6800DAA22C /* BluetoothScan.swift in Sources */,
 				182797D62481AB2C001DB18D /* CourtainView.swift in Sources */,
 				1864427024881A6000145AA7 /* RoundButton.swift in Sources */,
+				184B879F2492466500FF9C84 /* CirWirelessCell.swift in Sources */,
 				1871967624802831002EB4F2 /* AppDelegate.swift in Sources */,
 				1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */,
 				1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */,
@@ -270,11 +293,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1824E33824912C7B00F51B90 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1824E33724912C7B00F51B90 /* en */,
+				1824E33924912C8000F51B90 /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		1824E35624913C0500F51B90 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1824E35524913C0500F51B90 /* en */,
+				1824E35724913C0700F51B90 /* es */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		1871967B24802831002EB4F2 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1871967C24802831002EB4F2 /* Base */,
 				18B7A008249018B800DB520E /* es */,
+				1824E3592491481700F51B90 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
