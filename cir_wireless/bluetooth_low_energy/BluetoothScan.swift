@@ -23,7 +23,7 @@ class BluetoothScan: NSObject {
     // Bluetooth objects
     var uuidSerices: [CBUUID]?
     var bleCentralState: CBManagerState?
-    var bleCentralManager: CBCentralManager?    
+    var bleCentralManager: CBCentralManager!
     
     
     var cirsFoundWithIBeacon = [UUID : CirWirelessModel] ()

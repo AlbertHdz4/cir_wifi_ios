@@ -13,7 +13,7 @@ import CoreBluetooth
 class ScanBleController: UIViewController {
     
     // MARK: Constants
-    let DEFAULT_SCANNING_TIME: Double = 5
+    let DEFAULT_SCANNING_TIME: Double = 8
     let REUSABLE_CELL_ID = "cir_wireless"
     let REUSABLE_CELL_NAME = "CirWirelessCell"
     
@@ -48,6 +48,13 @@ class ScanBleController: UIViewController {
     private func loadViews () {
         courtain.courtainMessage.text = NSLocalizedString("Scanning Devices", comment: "Scanning BLE Devices")
         cirWirelessTable.backgroundColor = .white
+        cirWirelessTable.dataSource = self
+        cirWirelessTable.delegate = self
+    }
+    
+    
+    @objc func refreshList (_ refreshControl: UIRefreshControl) {
+        print("Refreshing table")
     }
     
     
@@ -63,6 +70,75 @@ class ScanBleController: UIViewController {
         self.cirWirelessTable.register(cirWirelessCell, forCellReuseIdentifier: REUSABLE_CELL_ID)
         
     }
+    
+    
+    // MARK: Pop Ups Area :D
+    private func popUpBlePermissionDenied () {
+        let permissionTitleAlert = NSLocalizedString("BLE Persmission Title Denied",
+                                                      comment: "Permission needs to be updated")
+                   
+                   let persmissionMessageAlert = NSLocalizedString("BLE Persmission Message Denied",
+                                                        comment: "Permission needs to be updated")
+                   
+                   var permissionPopUp: UIAlertController?
+                   
+                   let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: persmissionMessageAlert)
+                               
+                   let permissionActionComponents = AlertActionComponents(
+                       buttonTitle: NSLocalizedString("Settings",
+                                                      comment: "Leads user to setting values"),
+                       
+                       buttonHandler: {(_) -> Void in
+                           let settingsUrl = URL(string: UIApplication.openSettingsURLString)
+                           
+                           if UIApplication.shared.canOpenURL(settingsUrl!) {
+                               UIApplication.shared.open(
+                                   settingsUrl!,
+                                   completionHandler: { (success) in
+                                       permissionPopUp?.dismiss(animated: true, completion: nil)
+                                 })
+                           }
+                   })
+        permissionPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: permissionAlertComponents,
+                                                     buttonCharacteristic: permissionActionComponents)
+                   
+        self.present(permissionPopUp!, animated: true, completion: nil)
+    }
+    
+    
+    private func popUpNoneCirsFound () {
+        let scanAlertTitle = NSLocalizedString("Bluetooth Scanning",
+                                           comment: "None Cir Wireless near by")
+        let scanAlertMessage = NSLocalizedString("Cir's Not Found",
+                                             comment: "None Cir Wireless near by")
+        
+        var scanResultPopUp: UIAlertController?
+        
+        let scanAlertComponents = AlertComponents(alertTitle: scanAlertTitle,
+                                              alertMessage: scanAlertMessage)
+        let retryActionComponents = AlertActionComponents(
+            buttonTitle: NSLocalizedString("Retry",
+                                           comment: "Scan again"),
+            
+            buttonHandler: {(_) -> Void in
+                scanResultPopUp?.dismiss(animated: true, completion: nil)
+                self.scanAgain()
+        })
+        
+        let acceptActionComponents = AlertActionComponents(
+            buttonTitle: NSLocalizedString("Accept",
+                                          comment: "Just to dismiss dialog"),
+            buttonHandler: {(_) -> Void in
+                scanResultPopUp?.dismiss(animated: true, completion: nil)
+        })
+        
+        scanResultPopUp = try? PopUpAlert.popUpTwoButtons(alertCharacteristic: scanAlertComponents,
+                                                          buttonCharacteristic: [acceptActionComponents, retryActionComponents])
+        
+        self.present(scanResultPopUp!, animated: true, completion: nil)
+    }
+    // Pop Ups area :D (End)
+    
     // Funciones utiles del propio controler (End)
 }
 
@@ -91,8 +167,6 @@ extension ScanBleController: UITableViewDataSource {
 extension ScanBleController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
         print("indexPath: \(indexPath)")
     }
 }
@@ -119,37 +193,8 @@ extension ScanBleController: ScanProtocol {
           
         case .unauthorized :
             print("unauthorized")
-            
-            let permissionTitleAlert = NSLocalizedString("BLE Persmission Title Denied",
-                                               comment: "Permission needs to be updated")
-            
-            let persmissionMessageAlert = NSLocalizedString("BLE Persmission Message Denied",
-                                                 comment: "Permission needs to be updated")
-            
-            var permissionPopUp: UIAlertController?
-            
-            let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: persmissionMessageAlert)
-                        
-            let permissionActionComponents = AlertActionComponents(
-                buttonTitle: NSLocalizedString("Settings",
-                                               comment: "Leads user to setting values"),
-                
-                buttonHandler: {(_) -> Void in
-                    let settingsUrl = URL(string: UIApplication.openSettingsURLString)
-                    
-                    if UIApplication.shared.canOpenURL(settingsUrl!) {
-                        UIApplication.shared.open(
-                            settingsUrl!,
-                            completionHandler: { (success) in
-                                permissionPopUp?.dismiss(animated: true, completion: nil)
-                          })
-                    }
-            })
-            
-            permissionPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: permissionAlertComponents,
-                                              buttonCharacteristic: permissionActionComponents)
-            
-            self.present(permissionPopUp!, animated: true, completion: nil)
+            popUpBlePermissionDenied()
+           
           
         case .unknown :
             print("unknown")
@@ -176,46 +221,10 @@ extension ScanBleController: ScanProtocol {
         if scannedDevices.count != 0 {
             
             self.cirsFound = scannedDevices
-            self.cirWirelessTable.dataSource = self
-            self.cirWirelessTable.delegate = self
-            self.cirWirelessTable.tableFooterView = UIView()
-            
+            self.cirWirelessTable.reloadData()
+
         } else {
-            
-            let scanAlertTitle = NSLocalizedString("Bluetooth Scanning",
-                                               comment: "None Cir Wireless near by")
-            
-            let scanAlertMessage = NSLocalizedString("Cir's Not Found",
-                                                 comment: "None Cir Wireless near by")
-            
-            var scanResultPopUp: UIAlertController?
-            
-            let scanAlertComponents = AlertComponents(alertTitle: scanAlertTitle,
-                                                  alertMessage: scanAlertMessage)
-                        
-            let retryActionComponents = AlertActionComponents(
-                buttonTitle: NSLocalizedString("Retry",
-                                               comment: "Scan again"),
-                
-                buttonHandler: {(_) -> Void in
-                    scanResultPopUp?.dismiss(animated: true, completion: nil)
-                    self.scanAgain()
-            })
-            
-            
-            let acceptActionComponents = AlertActionComponents(
-                buttonTitle: NSLocalizedString("Accept",
-                                              comment: "Just to dismiss dialog"),
-               
-                buttonHandler: {(_) -> Void in
-                    scanResultPopUp?.dismiss(animated: true, completion: nil)
-            })
-            
-            scanResultPopUp = try? PopUpAlert.popUpTwoButtons(alertCharacteristic: scanAlertComponents,
-                                                              buttonCharacteristic: [acceptActionComponents, retryActionComponents])
-        
-            
-            self.present(scanResultPopUp!, animated: true, completion: nil)
+            popUpNoneCirsFound()
         }
     }
     

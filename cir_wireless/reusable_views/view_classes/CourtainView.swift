@@ -10,13 +10,21 @@ import UIKit
 
 class CourtainView: UIView {
     
+    let nibName = "Courtain"
+    
+    
     // Outlets
     @IBOutlet weak var courtain: UIView!
     @IBOutlet weak var activityLoader: UIActivityIndicatorView!
     @IBOutlet weak var courtainMessage: UILabel!
     
+
+    // MARK: Dimensiones de la cortina de carga
+    var width: CGFloat?
+    var height: CGFloat?
+    var xPosition: CGFloat?
+    var yPosition: CGFloat?
     
-    let nibName = "Courtain"
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -44,17 +52,37 @@ class CourtainView: UIView {
 
         activityLoader.color = .darkGray
         activityLoader.startAnimating()
+        
         return view
      }
     
     
     func hideCourtain () {
-        courtain.isHidden = true
+        xPosition = courtain.frame.origin.x
+        width = courtain.frame.size.width
+        height = courtain.frame.size.height
+        
+        UIView.animate(withDuration: 0.5,
+                       animations: {
+                        self.courtain.frame = CGRect(x: self.xPosition! - 1000, y: 0, width: self.width!, height: self.height!)
+        })
+        // courtain.isHidden = true
         activityLoader.stopAnimating()
     }
     
     
-    func showCourtain () { courtain.isHidden = false }
+    func showCourtain () {
+        xPosition = courtain.frame.origin.x
+        width = courtain.frame.size.width
+        height = courtain.frame.size.height
+        
+        UIView.animate(withDuration: 0.5,
+                       animations: {
+                        self.courtain.frame = CGRect(x: self.xPosition! + 1000, y: 0, width: self.width!, height: self.height!)
+        })
+        
+        activityLoader.startAnimating()
+    }
     
     
     func isCourtainHidden () -> Bool { return courtain.isHidden }
