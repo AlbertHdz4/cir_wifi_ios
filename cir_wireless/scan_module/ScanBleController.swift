@@ -25,11 +25,23 @@ class ScanBleController: UIViewController {
     
     // MARK: Variables para el escaneo de dispositivos
     var bleScan: BluetoothScan?
-    var cirsFound: [CirWirelessModel]?
+    var cirsFound = [CirWirelessModel] ()
+    
+    
+    lazy var refreshControl: UIRefreshControl = {
+           let refreshControl = UIRefreshControl()
+           refreshControl.addTarget(self, action:
+               #selector(handleRefresh(_:)),
+                                    for: UIControl.Event.valueChanged)
+           refreshControl.tintColor = UIColor.lightGray
+
+           return refreshControl
+    }()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // MARK: Algunos cambios en las vistas al iniciar
         loadViews()
@@ -47,25 +59,34 @@ class ScanBleController: UIViewController {
     // MARK: Funciones utiles del propio controler
     private func loadViews () {
         courtain.courtainMessage.text = NSLocalizedString("Scanning Devices", comment: "Scanning BLE Devices")
+        
+        // Customizamos la table view
         cirWirelessTable.backgroundColor = .white
+        cirWirelessTable.refreshControl = refreshControl
+        cirWirelessTable.tableFooterView = UIView()
+        
+        // Implementamos protocolos
         cirWirelessTable.dataSource = self
         cirWirelessTable.delegate = self
     }
     
     
-    @objc func refreshList (_ refreshControl: UIRefreshControl) {
-        print("Refreshing table")
-    }
-    
-    
     private func scanAgain () {
-        self.courtain.showCourtain()
+        self.courtain.visibility = .visible
+        self.courtain.showCourtain(animationFinished: { _ in
+            self.refreshControl.endRefreshing()
+        })
         self.bleScan?.initScan()
     }
     
     
-    private func registerTableViewCells() {
-        
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        print("Refreshing ... ")
+        scanAgain()
+    }
+    
+    
+    private func registerTableViewCells () {
         let cirWirelessCell = UINib(nibName: REUSABLE_CELL_NAME, bundle: nil)
         self.cirWirelessTable.register(cirWirelessCell, forCellReuseIdentifier: REUSABLE_CELL_ID)
         
@@ -73,6 +94,7 @@ class ScanBleController: UIViewController {
     
     
     // MARK: Pop Ups Area :D
+    // Pop up los permisos negados de bluetooth
     private func popUpBlePermissionDenied () {
         let permissionTitleAlert = NSLocalizedString("BLE Persmission Title Denied",
                                                       comment: "Permission needs to be updated")
@@ -106,6 +128,7 @@ class ScanBleController: UIViewController {
     }
     
     
+    // Pop up para indicar que ningun dispositivo Cir ha sido encontrado
     private func popUpNoneCirsFound () {
         let scanAlertTitle = NSLocalizedString("Bluetooth Scanning",
                                            comment: "None Cir Wireless near by")
@@ -147,8 +170,8 @@ class ScanBleController: UIViewController {
 extension ScanBleController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("EXECUTING TABLE VIEW: \(cirsFound?.count ?? 0)")
-        return cirsFound?.count ?? 0
+        print("EXECUTING TABLE VIEW: \(cirsFound.count)")
+        return cirsFound.count
     }
     
     
@@ -156,8 +179,8 @@ extension ScanBleController: UITableViewDataSource {
         let cirWirelessCell = cirWirelessTable.dequeueReusableCell(withIdentifier: REUSABLE_CELL_ID,
                                                                    for: indexPath) as? CirWirelessCell
         
-        cirWirelessCell?.cirWirelessMac.text = (cirsFound?[indexPath.row])?.getCirWirelessMac()
-        cirWirelessCell?.cirModel = cirsFound?[indexPath.row]
+        cirWirelessCell?.cirWirelessMac.text = (cirsFound[indexPath.row]).getCirWirelessMac()
+        cirWirelessCell?.cirModel = cirsFound[indexPath.row]
         
         return cirWirelessCell!
     }
@@ -167,7 +190,7 @@ extension ScanBleController: UITableViewDataSource {
 extension ScanBleController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("indexPath: \(indexPath)")
+        print("indexPath: \(cirsFound[indexPath.row].beacon?.beaconString)")
     }
 }
 // Delegados para la tabla de CIRs encontradas (End)
@@ -216,7 +239,9 @@ extension ScanBleController: ScanProtocol {
       
       
     func scanFinished(scannedDevices: [CirWirelessModel]) {
-        self.courtain.hideCourtain()
+        self.courtain.hideCourtain(animationFinished: { _ in
+            self.courtain.visibility = .invisible
+        })
         
         if scannedDevices.count != 0 {
             

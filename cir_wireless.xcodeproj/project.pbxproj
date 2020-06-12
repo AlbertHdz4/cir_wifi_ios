@@ -22,6 +22,7 @@
 		1871967D24802831002EB4F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871967B24802831002EB4F2 /* Main.storyboard */; };
 		1871967F24802842002EB4F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1871967E24802842002EB4F2 /* Assets.xcassets */; };
 		1871968224802842002EB4F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871968024802842002EB4F2 /* LaunchScreen.storyboard */; };
+		1890D89D24940BC30005F76B /* TestControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1890D89C24940BC30005F76B /* TestControllerViewController.swift */; };
 		18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A001248FF03900DB520E /* ScanBleController.swift */; };
 		18B7A0072490155A00DB520E /* PopUpAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A003248FF5B100DB520E /* PopUpAlert.swift */; };
 		18E299D624896D6800DAA22C /* BluetoothScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D524896D6800DAA22C /* BluetoothScan.swift */; };
@@ -51,6 +52,7 @@
 		1871967E24802842002EB4F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1871968124802842002EB4F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1871968324802842002EB4F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1890D89C24940BC30005F76B /* TestControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestControllerViewController.swift; sourceTree = "<group>"; };
 		18B7A001248FF03900DB520E /* ScanBleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanBleController.swift; sourceTree = "<group>"; };
 		18B7A003248FF5B100DB520E /* PopUpAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpAlert.swift; sourceTree = "<group>"; };
 		18B7A008249018B800DB520E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				1871968324802842002EB4F2 /* Info.plist */,
 				1824E33824912C7B00F51B90 /* Localizable.strings */,
 				1824E35624913C0500F51B90 /* InfoPlist.strings */,
+				1890D89C24940BC30005F76B /* TestControllerViewController.swift */,
 			);
 			path = cir_wireless;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18FB92F62492A7E500758541 /* ProgramExtensions.swift in Sources */,
+				1890D89D24940BC30005F76B /* TestControllerViewController.swift in Sources */,
 				18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */,
 				185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */,
 				18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */,

@@ -24,7 +24,7 @@ class CourtainView: UIView {
     var height: CGFloat?
     var xPosition: CGFloat?
     var yPosition: CGFloat?
-    
+ 
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -57,29 +57,34 @@ class CourtainView: UIView {
      }
     
     
-    func hideCourtain () {
+    func hideCourtain (animationFinished completion: ((Bool) -> Void)?) {
+        
         xPosition = courtain.frame.origin.x
         width = courtain.frame.size.width
         height = courtain.frame.size.height
-        
+
         UIView.animate(withDuration: 0.5,
                        animations: {
                         self.courtain.frame = CGRect(x: self.xPosition! - 1000, y: 0, width: self.width!, height: self.height!)
-        })
-        // courtain.isHidden = true
+        },
+                       completion: completion)
+        
         activityLoader.stopAnimating()
     }
     
     
-    func showCourtain () {
+    func showCourtain (animationFinished completion: ((Bool) -> Void)?) {
+        
         xPosition = courtain.frame.origin.x
         width = courtain.frame.size.width
         height = courtain.frame.size.height
+ 
         
         UIView.animate(withDuration: 0.5,
                        animations: {
                         self.courtain.frame = CGRect(x: self.xPosition! + 1000, y: 0, width: self.width!, height: self.height!)
-        })
+        },
+                       completion: completion)
         
         activityLoader.startAnimating()
     }
