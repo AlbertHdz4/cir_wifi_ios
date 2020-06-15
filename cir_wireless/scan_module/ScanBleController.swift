@@ -24,8 +24,10 @@ class ScanBleController: UIViewController {
     
     
     // MARK: Variables para el escaneo de dispositivos
+    var isBluetoothOn = false
     var bleScan: BluetoothScan?
     var cirsFound = [CirWirelessModel] ()
+    var selectedCirWireless : CirWirelessModel?
     
     
     lazy var refreshControl: UIRefreshControl = {
@@ -72,11 +74,19 @@ class ScanBleController: UIViewController {
     
     
     private func scanAgain () {
-        self.courtain.visibility = .visible
-        self.courtain.showCourtain(animationFinished: { _ in
-            self.refreshControl.endRefreshing()
-        })
-        self.bleScan?.initScan()
+        if isBluetoothOn {
+            
+            courtain.visibility = .visible
+            courtain.showCourtain(animationFinished: { _ in
+                self.refreshControl.endRefreshing()
+            })
+            bleScan?.scanDevices()
+            
+        } else {
+            
+            popUpTurnedBluetoothOff()
+            
+        }
     }
     
     
@@ -93,34 +103,38 @@ class ScanBleController: UIViewController {
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? ConfigurationController {
+            destination.cirWireless = self.selectedCirWireless
+        }
+    }
+    
+    
     // MARK: Pop Ups Area :D
     // Pop up los permisos negados de bluetooth
-    private func popUpBlePermissionDenied () {
+    private func popUpBluetoothPermissionDenied () {
+        var permissionPopUp: UIAlertController?
+        
         let permissionTitleAlert = NSLocalizedString("BLE Persmission Title Denied",
                                                       comment: "Permission needs to be updated")
-                   
-                   let persmissionMessageAlert = NSLocalizedString("BLE Persmission Message Denied",
+        let persmissionMessageAlert = NSLocalizedString("BLE Persmission Message Denied",
                                                         comment: "Permission needs to be updated")
                    
-                   var permissionPopUp: UIAlertController?
-                   
-                   let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: persmissionMessageAlert)
-                               
-                   let permissionActionComponents = AlertActionComponents(
-                       buttonTitle: NSLocalizedString("Settings",
-                                                      comment: "Leads user to setting values"),
-                       
-                       buttonHandler: {(_) -> Void in
-                           let settingsUrl = URL(string: UIApplication.openSettingsURLString)
-                           
-                           if UIApplication.shared.canOpenURL(settingsUrl!) {
-                               UIApplication.shared.open(
-                                   settingsUrl!,
-                                   completionHandler: { (success) in
-                                       permissionPopUp?.dismiss(animated: true, completion: nil)
-                                 })
-                           }
-                   })
+        let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: persmissionMessageAlert)
+        let permissionActionComponents = AlertActionComponents(buttonTitle: NSLocalizedString("Settings",
+                                                                                              comment: "Leads user to setting values"),
+                                                               buttonHandler: {(_) -> Void in
+                                                                let settingsUrl = URL(string: UIApplication.openSettingsURLString)
+                                                                if UIApplication.shared.canOpenURL(settingsUrl!) {
+                                                                    UIApplication.shared.open(
+                                                                        settingsUrl!,
+                                                                        completionHandler: { (success) in
+                                                                            permissionPopUp?.dismiss(animated: true, completion: nil)
+                                                                    }
+                                                                    )
+                                                                }
+        })
+        
         permissionPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: permissionAlertComponents,
                                                      buttonCharacteristic: permissionActionComponents)
                    
@@ -160,8 +174,36 @@ class ScanBleController: UIViewController {
         
         self.present(scanResultPopUp!, animated: true, completion: nil)
     }
-    // Pop Ups area :D (End)
     
+    
+    // Pop up para indicar que el bluetooth ha sido apagado
+    private func popUpTurnedBluetoothOff () {
+        var bluetoothOffPopUp: UIAlertController?
+        
+        let bluetoothOffTitle = NSLocalizedString("Bluetooth Off Title",
+                                                  comment: "When user turns bluetooth off in the middle of a process")
+        let bluetoothOffMessage = NSLocalizedString("Bluetooth Off Message",
+                                                    comment: "Bluetooth is mandatory for many process in the app")
+        
+        let bluetoothOffAlertComponents = AlertComponents(alertTitle: bluetoothOffTitle,
+                                                 alertMessage: bluetoothOffMessage)
+        let acceptActionComponents = AlertActionComponents(
+                  buttonTitle: NSLocalizedString("Accept",
+                                                comment: "Just to dismiss dialog"),
+                  buttonHandler: { _ -> Void in
+                    // En caso de que haya hecho scroll en la lista
+                    self.refreshControl.endRefreshing()
+                    
+                    bluetoothOffPopUp?.dismiss(animated: true, completion: nil)
+                    
+        })
+        
+        bluetoothOffPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: bluetoothOffAlertComponents,
+                                                           buttonCharacteristic: acceptActionComponents)
+        
+        self.present(bluetoothOffPopUp!, animated: true, completion: nil)
+    }
+    // Pop Ups area :D (End)
     // Funciones utiles del propio controler (End)
 }
 
@@ -190,7 +232,14 @@ extension ScanBleController: UITableViewDataSource {
 extension ScanBleController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("indexPath: \(cirsFound[indexPath.row].beacon?.beaconString)")
+        print("indexPath: \(cirsFound[indexPath.row].getCirWirelessMac())")
+        
+        if isBluetoothOn {
+            selectedCirWireless = cirsFound[indexPath.row]
+            self.performSegue(withIdentifier: "vcConfiguration", sender: self)
+        } else {
+            popUpTurnedBluetoothOff()
+        }
     }
 }
 // Delegados para la tabla de CIRs encontradas (End)
@@ -201,13 +250,16 @@ extension ScanBleController: ScanProtocol {
     
     func updateCentralState(newState: CBManagerState) {
         switch newState {
-        case .poweredOn:
+        case .poweredOn :
             print("poweredOn")
+            isBluetoothOn = true
             bleScan?.scanDevices()
-          
-          
+            
+            
         case .poweredOff :
             print("poweredOff")
+            isBluetoothOn = false
+            popUpTurnedBluetoothOff()
           
           
         case .resetting :
@@ -216,7 +268,7 @@ extension ScanBleController: ScanProtocol {
           
         case .unauthorized :
             print("unauthorized")
-            popUpBlePermissionDenied()
+            popUpBluetoothPermissionDenied()
            
           
         case .unknown :
@@ -233,8 +285,8 @@ extension ScanBleController: ScanProtocol {
       }
     
     
-    func updateScanProcessState(currentStatus: ScanProcess) {
-        print("updateScanProcessState: \(currentStatus)")
+    func updateScanProcessState(status: ScanProcess) {
+        print("updateScanProcessState: \(status)")
     }
       
       
@@ -244,7 +296,7 @@ extension ScanBleController: ScanProtocol {
         })
         
         if scannedDevices.count != 0 {
-            
+            self.cirsFound.removeAll()
             self.cirsFound = scannedDevices
             self.cirWirelessTable.reloadData()
 
@@ -254,7 +306,7 @@ extension ScanBleController: ScanProtocol {
     }
     
       
-    func errorOcurred(error: ErrorBluetoothScan) {
+    func errorScanOcurred(error: ErrorBluetoothScan) {
         print("errorOcurred: \(error)")
     }
 }

@@ -109,17 +109,13 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Scanning" id="y6z-lQ-XVt">
-                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="ne2-WG-gX2">
-                            <connections>
-                                <segue destination="gKf-FD-E31" kind="show" id="F6P-H4-c5m"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="ne2-WG-gX2"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cirWirelessTable" destination="qdb-J1-LOB" id="4ps-IK-bCC"/>
                         <outlet property="courtain" destination="iO3-gz-pAF" id="TjL-fv-p9i"/>
-                        <segue destination="gKf-FD-E31" kind="show" id="JwB-LG-LUo"/>
+                        <segue destination="gKf-FD-E31" kind="show" identifier="vcConfiguration" id="JwB-LG-LUo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -129,7 +125,7 @@
         <!--Configuration-->
         <scene sceneID="2wQ-pw-uoO">
             <objects>
-                <viewController id="gKf-FD-E31" sceneMemberID="viewController">
+                <viewController id="gKf-FD-E31" customClass="ConfigurationController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2S2-aF-tle">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -689,48 +685,7 @@
             </objects>
             <point key="canvasLocation" x="2292.753623188406" y="137.94642857142856"/>
         </scene>
-        <!--Test Controller View Controller-->
-        <scene sceneID="mIz-cq-xYb">
-            <objects>
-                <viewController id="lHQ-XD-b3G" customClass="TestControllerViewController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YZU-DW-XSO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uzQ-eg-Y1O" customClass="TestCo">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DtM-lv-wgF" customClass="CourtainView" customModule="Cir_Wireless" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="DtM-lv-wgF" firstAttribute="trailing" secondItem="mTk-5q-1fv" secondAttribute="trailing" id="0be-Wz-xKC"/>
-                            <constraint firstItem="uzQ-eg-Y1O" firstAttribute="top" secondItem="mTk-5q-1fv" secondAttribute="top" id="DrR-3X-AEC"/>
-                            <constraint firstItem="uzQ-eg-Y1O" firstAttribute="leading" secondItem="mTk-5q-1fv" secondAttribute="leading" id="IaP-Yp-NWo"/>
-                            <constraint firstItem="DtM-lv-wgF" firstAttribute="leading" secondItem="mTk-5q-1fv" secondAttribute="leading" id="IsK-h0-J13"/>
-                            <constraint firstItem="mTk-5q-1fv" firstAttribute="trailing" secondItem="uzQ-eg-Y1O" secondAttribute="trailing" id="Pzq-fD-wiP"/>
-                            <constraint firstItem="mTk-5q-1fv" firstAttribute="bottom" secondItem="DtM-lv-wgF" secondAttribute="bottom" id="dJc-cl-EAS"/>
-                            <constraint firstItem="mTk-5q-1fv" firstAttribute="bottom" secondItem="uzQ-eg-Y1O" secondAttribute="bottom" id="oee-MC-DRE"/>
-                            <constraint firstItem="DtM-lv-wgF" firstAttribute="top" secondItem="mTk-5q-1fv" secondAttribute="top" id="zTH-pu-wJA"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="mTk-5q-1fv"/>
-                    </view>
-                    <connections>
-                        <outlet property="courtain" destination="DtM-lv-wgF" id="bD4-U5-yAT"/>
-                        <outlet property="testTable" destination="uzQ-eg-Y1O" id="7kf-d9-cjv"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LR4-ZA-dR6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-723" y="781"/>
-        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="JwB-LG-LUo"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="background_grad_blue" width="628.5" height="1116"/>
         <image name="btn_ble" width="332" height="520"/>

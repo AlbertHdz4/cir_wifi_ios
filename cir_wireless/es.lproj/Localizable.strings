@@ -12,7 +12,8 @@
 "BLE Persmission Message Denied" = "Este permiso es necesario para continuar, actualizalo";
 "Bluetooth Scanning" = "Escaneo Bluetooth";
 "Cir's Not Found" = "Cir Wireless no encontrada";
-
+"Bluetooth Off Title" = "Bluetooth Apagado";
+"Bluetooth Off Message" = "El bluetooth debe permanecer encendido para continuar";
 
 // Button's Texts - Alerts
 "Ok" = "Ok";

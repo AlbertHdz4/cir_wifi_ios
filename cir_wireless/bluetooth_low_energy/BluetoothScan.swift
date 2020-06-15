@@ -37,24 +37,24 @@ class BluetoothScan: NSObject {
     
     
     func initScan () {
-        bleScanDelegate?.updateScanProcessState(currentStatus: .initializing)
+        bleScanDelegate?.updateScanProcessState(status: .initializing)
         bleCentralManager = CBCentralManager(delegate: self, queue: nil)
         
         if bleCentralManager != nil {
             
-            bleScanDelegate?.updateScanProcessState(currentStatus: .successfullyInitiated)
+            bleScanDelegate?.updateScanProcessState(status: .successfullyInitiated)
             
         } else {
             
-            bleScanDelegate?.updateScanProcessState(currentStatus: .unsuccessfullyInitiated)
-            bleScanDelegate?.errorOcurred(error: .bleManagerNil)
+            bleScanDelegate?.updateScanProcessState(status: .unsuccessfullyInitiated)
+            bleScanDelegate?.errorScanOcurred(error: .bleManagerNil)
         }
     }
     
     
     func scanDevices () {
         if bleCentralState == CBManagerState.poweredOn {
-            bleScanDelegate?.updateScanProcessState(currentStatus: .scanning)
+            bleScanDelegate?.updateScanProcessState(status: .scanning)
             
             bleCentralManager!.scanForPeripherals(withServices: uuidSerices,
                                                    options:[CBCentralManagerScanOptionAllowDuplicatesKey: false])
@@ -66,7 +66,7 @@ class BluetoothScan: NSObject {
     
     @objc func stopScan () {
         print("SCAN FINISHED")
-        bleScanDelegate?.updateScanProcessState(currentStatus: .finished)
+        bleScanDelegate?.updateScanProcessState(status: .finished)
         bleCentralManager?.stopScan()
         
         let listOfCirWirelessFound = mergeCirsWirelessFound()
@@ -90,15 +90,15 @@ class BluetoothScan: NSObject {
 }
 
 
-// Delegates para el proceso de escaneo
+// MARK: Delegates para el proceso de escaneo
 extension BluetoothScan: CBCentralManagerDelegate {
     
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         bleCentralState = central.state
         
-        if let bleCentral = bleScanDelegate {
-            bleCentral.updateCentralState(newState: central.state)
+        if let delegate = bleScanDelegate {
+            delegate.updateCentralState(newState: central.state)
         }
     }
     
@@ -106,13 +106,7 @@ extension BluetoothScan: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
         if let beacon = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
-            
-            // print("\n\n************************************")
-            // print("RSSI: ", RSSI)
-            // print("beacon:size: ", beacon.count)
-            // print("peripheral: ", peripheral.identifier)
 
-            
             let rssiInt = integer_t (truncating: RSSI)
             let beaconModel = BeaconModel(rssi: rssiInt, beaconPayload: beacon, advertisementData: advertisementData)
             let cirWireless = CirWirelessModel(peripheral: peripheral, peripheralId: peripheral.identifier, beacon: beaconModel)
@@ -137,23 +131,23 @@ extension BluetoothScan: CBCentralManagerDelegate {
 }
 
 
-// Protocolo para la comunicacion entre nuestra clase Bluetooth y la clase que la llama
+// MARK: Protocolo para la comunicacion entre nuestra clase Bluetooth y la clase que la llama
 protocol ScanProtocol {
     
     func updateCentralState (newState: CBManagerState)
     
     
-    func updateScanProcessState (currentStatus: ScanProcess)
+    func updateScanProcessState (status: ScanProcess)
     
     
     func scanFinished (scannedDevices: [CirWirelessModel])
     
     
-    func errorOcurred (error: ErrorBluetoothScan)
+    func errorScanOcurred (error: ErrorBluetoothScan)
 }
 
 
-// Tamanios en bytes de los beacons mandados por la CIR Wireless
+// MARK: Tamanios en bytes de los beacons mandados por la CIR Wireless
 enum BeaconSizes: Int {
     case iBeaconSize = 2
     
@@ -161,13 +155,13 @@ enum BeaconSizes: Int {
 }
 
 
-// Posibles errores generados
+// MARK: Posibles errores generados
 enum ErrorBluetoothScan {
     case bleManagerNil
 }
 
 
-// Estados del proceso de escaneo
+// MARK: Estados del proceso de escaneo
 enum ScanProcess {
     case initializing
     
