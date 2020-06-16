@@ -14,6 +14,11 @@
 "Cir's Not Found" = "Cir Wireless not found";
 "Bluetooth Off Title" = "Bluetooth Off";
 "Bluetooth Off Message" = "Bluetooth has to be turned on to continue";
+"Connection Error Title" = "Connection Error";
+"Connection Error Message" = "Connection cannot be established";
+"Please Wait" = "Please Wait ...";
+"Connecting Device Title" = "Connecting Device";
+
 
 // Textos de Botones de Alerts
 "Ok" = "Ok";
@@ -21,6 +26,7 @@
 "System Settings" = "Settings";
 "Retry" = "Retry";
 "Accept" = "Accept";
+
 
 // Courtain Texts
 "Scanning Devices" = "Scanning Devices";

@@ -236,7 +236,7 @@ extension ScanBleController: UITableViewDelegate {
         
         if isBluetoothOn {
             selectedCirWireless = cirsFound[indexPath.row]
-            self.performSegue(withIdentifier: "vcConfiguration", sender: self)
+            self.performSegue(withIdentifier: ControllerIdentifiers.vcConfiguration.rawValue, sender: self)
         } else {
             popUpTurnedBluetoothOff()
         }

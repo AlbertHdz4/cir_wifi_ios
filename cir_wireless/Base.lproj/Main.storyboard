@@ -298,12 +298,13 @@
                         <viewLayoutGuide key="safeArea" id="NEZ-DF-2lf"/>
                     </view>
                     <navigationItem key="navigationItem" title="Configuration" id="vem-rx-g1t">
-                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="yUd-JT-akg">
-                            <connections>
-                                <segue destination="6HE-TS-Thg" kind="show" id="3cu-nH-PBB"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="yUd-JT-akg"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="cirWirelessMac" destination="xm4-v1-oZB" id="n7n-dI-RsK"/>
+                        <outlet property="connectionStatus" destination="dPg-TU-Etu" id="oy5-1Y-NVM"/>
+                        <segue destination="6HE-TS-Thg" kind="show" identifier="vcAccessPoints" id="4A9-6R-I6s"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cB9-0i-yrU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -402,12 +403,11 @@
                         <viewLayoutGuide key="safeArea" id="dmp-hz-n98"/>
                     </view>
                     <navigationItem key="navigationItem" title="Access Points" id="B2H-R0-1J6">
-                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="IaJ-gh-Kgd">
-                            <connections>
-                                <segue destination="HKQ-F9-awK" kind="show" id="GJ4-Ms-TRc"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="IaJ-gh-Kgd"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="HKQ-F9-awK" kind="show" identifier="vcTestConenction" id="edy-dt-hlP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1F-YT-n7V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

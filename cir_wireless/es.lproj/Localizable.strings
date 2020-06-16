@@ -14,13 +14,19 @@
 "Cir's Not Found" = "Cir Wireless no encontrada";
 "Bluetooth Off Title" = "Bluetooth Apagado";
 "Bluetooth Off Message" = "El bluetooth debe permanecer encendido para continuar";
+"Connection Error Title" = "Error de conexión";
+"Conenction Error Message" = "La conexión no ha podido ser establecida";
+"Please Wait" = "Espere un momento ...";
+"Connecting Device Title" = "Connecting Device";
+
 
 // Button's Texts - Alerts
 "Ok" = "Ok";
-"Cancel" = "Cancel";
+"Cancel" = "Cancelar";
 "System Settings" = "Configuración";
 "Retry" = "Reintentar";
 "Accept" = "Aceptar";
+
 
 // Courtain Texts
 "Scanning Devices" = "Buscando dispositivos";
