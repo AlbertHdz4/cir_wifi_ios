@@ -17,7 +17,7 @@ class ConfigurationController: UIViewController {
     
     
     var cirWireless: CirWirelessModel?
-    var bleConnection: BluetoothConnection?
+    var bluetoothActions: CoreBluetoothActions?
     
     
     var connectingAlert: UIAlertController?
@@ -26,6 +26,7 @@ class ConfigurationController: UIViewController {
     // Outlets
     @IBOutlet weak var connectionStatus: UILabel!
     @IBOutlet weak var cirWirelessMac: UILabel!
+    @IBOutlet weak var configurationSelector: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -33,32 +34,26 @@ class ConfigurationController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        if let _ = cirWireless {
-            print("Everything ok")
+        if let _ = cirWireless, let _ = bluetoothActions {
             
             popUpConnectingCir()
-            
-            bleConnection = BluetoothConnection(cirToConnect: cirWireless!, connectionOptions: nil)
-            bleConnection?.bleConnectionDelegate = self
-            
-            // MARK: IMPORTANTE: este metodo debe de ser llamado antes de cualquier conexion
-            // bleConnection?.initConnection()
-            
-            
+            bluetoothActions?.bluetoothConnectionDelegate = self
+            bluetoothActions?.connectCirWireless(peripheralToConnect: cirWireless!.peripheral!)
             
         } else {
-            popUpErrorCirFound()
+            popUpErrorCirConnection()
         }
     }
     
     
     private func goBackToRootController () {
-        self.navigationController?.popToRootViewController(animated: true)
+        // bleConnection?.disconnectCirWireless()
+        navigationController?.popToRootViewController(animated: true)
     }
     
     
     // MARK: Pop up area :D
-    private func popUpErrorCirFound () {
+    private func popUpErrorCirConnection () {
         var errorCirAlert: UIAlertController?
     
         let errorCirAlertTitle = NSLocalizedString("Connection Error Title", comment: "In case the passed parameter were null")
@@ -93,51 +88,61 @@ class ConfigurationController: UIViewController {
     
     
     private func popUpCirConnected () { print("Cir connected") }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    // Pop up area (End)
 }
 
 
-extension ConfigurationController: ConnectionProtocol {
-    func updateCentralState(newState: CBManagerState) {
-        print("Central State: \(newState)")
-        switch newState {
+extension ConfigurationController: BluetoothConnectionProtocol {
+    func servicesAvailable(services: [CBService]?) {
+        print(services)
+    }
+    
+    
+    func updateBluetoothConnectProcess(status: BluetoothConnectionProcess) {
+        print(status)
+        
+        switch status {
+        case .connecting:
+            print("connecting")
             
-        case .unknown:
-            print("")
-        case .resetting:
-            print("")
-        case .unsupported:
-            print("")
-        case .unauthorized:
-            print("")
-        case .poweredOff:
-            print("")
-        case .poweredOn:
-            bleConnection?.connectCirWireless()
-            connectingAlert?.dismiss(animated: true, completion: nil)
             
-        @unknown default:
-            print("")
+        case .connected:
+            bluetoothActions?.discoverCirWirelessServices(specificServices: nil)
+            
+            
+        case .disconnecting:
+            print("disconnecting")
+            
+            
+        case .disconnected:
+            print("disconnected")
+            
+            
+        case .discoveringServicesAndCharacteristics:
+            print("discoveringServices")
+            
+            
+        case .connectionFailed:
+            print("connectionFailed")
+            
+            
+        case .servicesDiscovered:
+            print("servicesDiscovered")
+            
+            
+        case .noneServicesAvailable:
+            print("noneServicesAvailable")
+            popUpErrorCirConnection()
         }
     }
     
-    func updateConnectionProcess(status: ConnectionProcess) {
-        print("Connection Process Status: \(status)")
+    
+    func updateCentralState(newState: CBManagerState) {
+        print("")
     }
+    
     
     func errorConnectionOcurred(error: ErrorConnection) {
-        print("Connection Error Ocurred: \(error)")
+        print("")
     }
-    
-    
 }

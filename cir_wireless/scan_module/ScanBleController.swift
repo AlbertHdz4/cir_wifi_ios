@@ -25,7 +25,7 @@ class ScanBleController: UIViewController {
     
     // MARK: Variables para el escaneo de dispositivos
     var isBluetoothOn = false
-    var bleScan: BluetoothScan?
+    var bluetoothActions: CoreBluetoothActions?
     var cirsFound = [CirWirelessModel] ()
     var selectedCirWireless : CirWirelessModel?
     
@@ -51,10 +51,12 @@ class ScanBleController: UIViewController {
         
         
         // MARK: Comenzamos a escanear
-        bleScan = BluetoothScan(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS],
+        bluetoothActions = CoreBluetoothActions(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS],
                                 scanningTime: self.DEFAULT_SCANNING_TIME)
-        bleScan?.bleScanDelegate = self
-        bleScan?.initScan()
+        
+        bluetoothActions?.bluetoothActionsDelegate = self
+        bluetoothActions?.bluetoothScanDelegate = self
+        bluetoothActions?.initScan()
     }
     
     
@@ -80,7 +82,7 @@ class ScanBleController: UIViewController {
             courtain.showCourtain(animationFinished: { _ in
                 self.refreshControl.endRefreshing()
             })
-            bleScan?.scanDevices()
+            bluetoothActions?.scanDevices()
             
         } else {
             
@@ -106,6 +108,7 @@ class ScanBleController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? ConfigurationController {
             destination.cirWireless = self.selectedCirWireless
+            destination.bluetoothActions = self.bluetoothActions
         }
     }
     
@@ -245,52 +248,63 @@ extension ScanBleController: UITableViewDelegate {
 // Delegados para la tabla de CIRs encontradas (End)
 
 
-// MARK: Scan Devices Protocol
-extension ScanBleController: ScanProtocol {
+// MARK: Extensiones de los protocolos
+extension ScanBleController: BluetoothActionsProtocol {
+    
+    func updateBluetoothActionProcess(status: BluetoothActionsProcess) {
+        print(status)
+    }
+    
     
     func updateCentralState(newState: CBManagerState) {
+        
         switch newState {
+            
         case .poweredOn :
             print("poweredOn")
             isBluetoothOn = true
-            bleScan?.scanDevices()
-            
-            
+            bluetoothActions?.scanDevices()
+               
+               
         case .poweredOff :
             print("poweredOff")
             isBluetoothOn = false
             popUpTurnedBluetoothOff()
-          
-          
+             
+             
         case .resetting :
             print("resetting")
-          
-          
+             
+             
         case .unauthorized :
             print("unauthorized")
             popUpBluetoothPermissionDenied()
-           
-          
+              
+             
         case .unknown :
             print("unknown")
-          
-          
+             
+             
         case .unsupported :
             print("unsupported")
-          
-          
+             
+             
         default:
             print("\(newState)")
         }
-      }
-    
-    
-    func updateScanProcessState(status: ScanProcess) {
-        print("updateScanProcessState: \(status)")
     }
+       
+}
+
+
+extension ScanBleController: BluetoothScanProtocol {
+    
+    func updateBluetoothScanProcess(status: BluetoothScanProcess) {
+        print(status)
+    }
+    
       
-      
-    func scanFinished(scannedDevices: [CirWirelessModel]) {
+    func scanFinished (scannedDevices: [CirWirelessModel]) {
         self.courtain.hideCourtain(animationFinished: { _ in
             self.courtain.visibility = .invisible
         })
@@ -306,8 +320,8 @@ extension ScanBleController: ScanProtocol {
     }
     
       
-    func errorScanOcurred(error: ErrorBluetoothScan) {
+    func errorScanOcurred(error: ErrorBluetoothActions) {
         print("errorOcurred: \(error)")
     }
 }
-// Scan Devices Protocol (End)
+// Extensiones de los protocolos (End)
