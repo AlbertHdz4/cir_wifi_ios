@@ -321,7 +321,7 @@
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
                                                                 <connections>
-                                                                    <action selector="configWiFiConnection :" destination="gKf-FD-E31" eventType="touchUpInside" id="8ou-DB-uDf"/>
+                                                                    <segue destination="6HE-TS-Thg" kind="presentation" id="I6c-HE-6Tb"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -354,7 +354,7 @@
                                                                     </userDefinedRuntimeAttribute>
                                                                 </userDefinedRuntimeAttributes>
                                                                 <connections>
-                                                                    <action selector="testWiFiConnection:" destination="gKf-FD-E31" eventType="touchUpInside" id="tz5-3P-vl6"/>
+                                                                    <segue destination="HKQ-F9-awK" kind="presentation" id="ipw-Ba-60P"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -469,26 +469,31 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z0U-hO-o3o">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qwh-RN-TJG">
                                         <rect key="frame" x="0.0" y="235" width="394" height="498"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yE1-mh-5JQ">
-                                                <rect key="frame" x="0.0" y="10" width="394" height="478"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layout.cornerRadius">
-                                                        <integer key="value" value="8"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </tableView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18q-ug-Qhi">
+                                                <rect key="frame" x="0.0" y="193.00000000000003" width="394" height="20.333333333333371"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ixf-ct-3uj">
+                                                <rect key="frame" x="0.0" y="193.00000000000003" width="394" height="20.333333333333371"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tGr-gq-9hn">
+                                                <rect key="frame" x="0.0" y="187.00000000000003" width="394" height="34"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
-                                        <constraints>
-                                            <constraint firstItem="yE1-mh-5JQ" firstAttribute="top" secondItem="Z0U-hO-o3o" secondAttribute="top" constant="10" id="5Ic-9B-yWP"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="215" id="Gfz-qC-up9"/>
-                                            <constraint firstItem="yE1-mh-5JQ" firstAttribute="leading" secondItem="Z0U-hO-o3o" secondAttribute="leading" id="PYn-qN-s1k"/>
-                                            <constraint firstAttribute="bottom" secondItem="yE1-mh-5JQ" secondAttribute="bottom" constant="10" id="TzI-BI-N43"/>
-                                            <constraint firstAttribute="trailing" secondItem="yE1-mh-5JQ" secondAttribute="trailing" id="qSL-OZ-Fnh"/>
-                                        </constraints>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -525,7 +530,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1F-YT-n7V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="874" y="133"/>
+            <point key="canvasLocation" x="874" y="138"/>
         </scene>
         <!--Device-->
         <scene sceneID="SnP-2Q-xmI">
@@ -723,7 +728,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tqk-t7-IMP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="841" y="865"/>
+            <point key="canvasLocation" x="874" y="865"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="akI-eh-IYs">
@@ -850,11 +855,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Hx-vh6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="873.91304347826099" y="-626.11607142857144"/>
+            <point key="canvasLocation" x="874" y="-532"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rOR-fx-XCe"/>
+        <segue reference="xNa-7f-R1O"/>
+        <segue reference="ipw-Ba-60P"/>
+        <segue reference="I6c-HE-6Tb"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="background_grad_blue" width="512.66668701171875" height="910.66668701171875"/>
