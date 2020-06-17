@@ -31,3 +31,11 @@
 // Courtain Texts
 "Scanning Devices" = "Buscando dispositivos";
 
+
+// Label's Texts
+"Device Connected" = "Conectado a";
+
+
+// Page Control's Texts
+"Lock Label" = "Chapa";
+"Configuration Label" = "Configurar";

@@ -30,3 +30,12 @@
 
 // Courtain Texts
 "Scanning Devices" = "Scanning Devices";
+
+
+// Label's Texts
+"Device Connected" = "Connected to";
+
+
+// Page Control's Texts
+"Lock Label" = "Lock";
+"Configuration Label" = "Configure";

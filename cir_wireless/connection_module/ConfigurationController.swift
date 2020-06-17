@@ -12,6 +12,10 @@ import CoreBluetooth
 
 class ConfigurationController: UIViewController {
     
+    let SEGMENTED_CONTROL_VALUES = [NSLocalizedString("Lock Label", comment: "First value of segmented control"),
+                                    NSLocalizedString("Configuration Label", comment: "Second value of segmented control")]
+    
+    
     var isCirConnected = false
     var isBluetoothOn = false
     
@@ -32,7 +36,8 @@ class ConfigurationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // MARK: Algunos cambios necesarios antes de iniciar
+        loadViews()
         
         if let _ = cirWireless, let _ = bluetoothActions {
             
@@ -46,10 +51,27 @@ class ConfigurationController: UIViewController {
     }
     
     
+    private func loadViews() {
+        configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[0], forSegmentAt: 0)
+        configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[1], forSegmentAt: 1)
+    }
+    
+    
     private func goBackToRootController () {
-        // bleConnection?.disconnectCirWireless()
+        bluetoothActions?.disconnectCirWireless()
         navigationController?.popToRootViewController(animated: true)
     }
+    
+    
+    // MARK: Outlet actions
+    @IBAction func selectedSegment(_ sender: Any) {
+        if configurationSelector.selectedSegmentIndex == 0 {
+            print("Lock is selected")
+        } else {
+            print("Configuration is selected")
+        }
+    }
+    // Outlet actions (End)
     
     
     // MARK: Pop up area :D
@@ -95,6 +117,10 @@ class ConfigurationController: UIViewController {
 extension ConfigurationController: BluetoothConnectionProtocol {
     func servicesAvailable(services: [CBService]?) {
         print(services)
+        
+        connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
+        cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
+        connectingAlert?.dismiss(animated: true, completion: nil)
     }
     
     
