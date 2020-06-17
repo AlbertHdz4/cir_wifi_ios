@@ -39,3 +39,7 @@
 // Page Control's Texts
 "Lock Label" = "Lock";
 "Configuration Label" = "Configure";
+
+
+// View Cotroller's Texts
+"Version" = "Version";

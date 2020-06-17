@@ -136,13 +136,13 @@
 				1871968924805DA7002EB4F2 /* scan_module */,
 				1871967524802831002EB4F2 /* AppDelegate.swift */,
 				1871967724802831002EB4F2 /* SceneDelegate.swift */,
+				18CDB15E249AAAED0024DE00 /* AboutViewController.swift */,
 				1871967B24802831002EB4F2 /* Main.storyboard */,
 				1871967E24802842002EB4F2 /* Assets.xcassets */,
 				1871968024802842002EB4F2 /* LaunchScreen.storyboard */,
 				1871968324802842002EB4F2 /* Info.plist */,
 				1824E33824912C7B00F51B90 /* Localizable.strings */,
 				1824E35624913C0500F51B90 /* InfoPlist.strings */,
-				18CDB15E249AAAED0024DE00 /* AboutViewController.swift */,
 			);
 			path = cir_wireless;
 			sourceTree = "<group>";

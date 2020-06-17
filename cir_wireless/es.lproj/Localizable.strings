@@ -39,3 +39,7 @@
 // Page Control's Texts
 "Lock Label" = "Chapa";
 "Configuration Label" = "Configurar";
+
+
+// View Cotroller's Texts
+"Version" = "Versión";

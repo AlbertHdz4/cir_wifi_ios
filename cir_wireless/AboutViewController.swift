@@ -10,10 +10,15 @@ import UIKit
 
 class AboutViewController: UIViewController {
 
+    @IBOutlet weak var versionLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        let nsObject = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as AnyObject?
+        let version = nsObject as? String ?? "no available"
+        let vrs = NSLocalizedString("Version", comment: "App version")
+        versionLabel.text = "\(vrs): \(version)"
     }
 
 }

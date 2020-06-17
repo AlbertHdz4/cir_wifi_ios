@@ -795,10 +795,10 @@
             </objects>
             <point key="canvasLocation" x="1713" y="138"/>
         </scene>
-        <!--View Controller-->
+        <!--About View Controller-->
         <scene sceneID="xhy-ev-p86">
             <objects>
-                <viewController id="f8x-k1-KSA" sceneMemberID="viewController">
+                <viewController id="f8x-k1-KSA" customClass="AboutViewController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFill" id="bkD-0Y-AXI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -807,7 +807,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="logo_splash" translatesAutoresizingMaskIntoConstraints="NO" id="3T8-ka-s5Y">
-                                <rect key="frame" x="25" y="10" width="364" height="690"/>
+                                <rect key="frame" x="35" y="10" width="344" height="690"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="20l-g0-oDg"/>
                                 </constraints>
@@ -828,16 +828,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="uAl-ox-HMR" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" id="2b3-w9-hd4"/>
-                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" constant="25" id="Cgu-8J-onS"/>
                             <constraint firstItem="0HQ-Zi-eOT" firstAttribute="trailing" secondItem="TS6-GQ-lZI" secondAttribute="trailing" id="EQi-vn-ZRt"/>
                             <constraint firstAttribute="bottom" secondItem="7EY-fd-NdY" secondAttribute="bottom" id="QaK-p7-nBz"/>
                             <constraint firstItem="7EY-fd-NdY" firstAttribute="trailing" secondItem="0HQ-Zi-eOT" secondAttribute="trailing" id="TGG-sJ-xQP"/>
-                            <constraint firstItem="0HQ-Zi-eOT" firstAttribute="trailing" secondItem="3T8-ka-s5Y" secondAttribute="trailing" constant="25" id="beg-HD-Ap7"/>
+                            <constraint firstItem="0HQ-Zi-eOT" firstAttribute="trailing" secondItem="3T8-ka-s5Y" secondAttribute="trailing" constant="35" id="beg-HD-Ap7"/>
                             <constraint firstItem="uAl-ox-HMR" firstAttribute="trailing" secondItem="0HQ-Zi-eOT" secondAttribute="trailing" id="c2M-uL-fTj"/>
-                            <constraint firstItem="0HQ-Zi-eOT" firstAttribute="trailing" secondItem="3T8-ka-s5Y" secondAttribute="trailing" constant="25" id="h1e-ET-q5R"/>
                             <constraint firstItem="7EY-fd-NdY" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" id="jqQ-Pp-GRw"/>
                             <constraint firstItem="7EY-fd-NdY" firstAttribute="top" secondItem="0HQ-Zi-eOT" secondAttribute="top" id="mWN-j2-LAq"/>
-                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" constant="25" id="nls-6H-byT"/>
+                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" constant="35" id="nls-6H-byT"/>
                             <constraint firstItem="TS6-GQ-lZI" firstAttribute="top" secondItem="3T8-ka-s5Y" secondAttribute="bottom" constant="15" id="rgW-LJ-Qeb"/>
                             <constraint firstItem="0HQ-Zi-eOT" firstAttribute="bottom" secondItem="uAl-ox-HMR" secondAttribute="bottom" constant="34.666666666666629" id="roH-UC-JUX"/>
                             <constraint firstItem="3T8-ka-s5Y" firstAttribute="top" secondItem="0HQ-Zi-eOT" secondAttribute="top" constant="10" id="uNG-Ya-ezP"/>
@@ -846,6 +844,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0HQ-Zi-eOT"/>
                     </view>
+                    <connections>
+                        <outlet property="versionLabel" destination="TS6-GQ-lZI" id="FAv-4x-fhC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Hx-vh6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
