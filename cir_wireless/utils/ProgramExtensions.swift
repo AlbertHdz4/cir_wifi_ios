@@ -18,13 +18,14 @@ extension Data {
 
 
 extension UIView {
-
+    
     enum Visibility {
         case visible
         case invisible
         case gone
     }
 
+    
     var visibility: Visibility {
         get {
             let constraint = (self.constraints.filter{$0.firstAttribute == .height && $0.constant == 0}.first)
@@ -41,6 +42,7 @@ extension UIView {
         }
     }
 
+    
     private func setVisibility(_ visibility: Visibility) {
         let constraint = (self.constraints.filter{$0.firstAttribute == .height && $0.constant == 0}.first)
 
@@ -62,5 +64,47 @@ extension UIView {
                 constraint.isActive = true
             }
         }
+    }
+    
+
+    func hideWithOppacity (duration: TimeInterval, delay: TimeInterval, completion: ((Bool) -> Void)?) {
+            UIView.animate(withDuration: duration,
+                           delay: delay,
+                           options: UIView.AnimationOptions.curveEaseOut,
+                           animations: {
+                            self.alpha = 0
+                            
+            },
+                           completion: completion)
+    }
+    
+    
+    func showWithOppacity (duration: TimeInterval, delay: TimeInterval, completion: ((Bool) -> Void)?) {
+        UIView.animate(withDuration: duration,
+                       delay: delay,
+                       options: UIView.AnimationOptions.curveEaseOut,
+                       animations: {
+                        self.alpha = 1
+                        
+        },
+                       completion: completion)
+    }
+    
+    
+    func hideSliding (xPosition: CGFloat, yPosition: CGFloat, width: CGFloat, height: CGFloat, completion: ((Bool) -> Void)?) {
+        UIView.animate(withDuration: 0.5,
+                           animations: {
+                            self.frame = CGRect(x: xPosition - 1000, y: 0, width: width, height: height)
+            },
+                           completion: completion)
+    }
+    
+    
+    func showSliding (xPosition: CGFloat, yPosition: CGFloat, width: CGFloat, height: CGFloat, completion: ((Bool) -> Void)?) {
+        UIView.animate(withDuration: 0.5,
+                           animations: {
+                            self.frame = CGRect(x: xPosition + 1000, y: 0, width: width, height: height)
+            },
+                           completion: completion)
     }
 }

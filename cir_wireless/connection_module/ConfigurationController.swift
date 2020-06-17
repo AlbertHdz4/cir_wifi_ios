@@ -31,6 +31,9 @@ class ConfigurationController: UIViewController {
     @IBOutlet weak var connectionStatus: UILabel!
     @IBOutlet weak var cirWirelessMac: UILabel!
     @IBOutlet weak var configurationSelector: UISegmentedControl!
+    @IBOutlet weak var containerLockBtns: UIStackView!
+    @IBOutlet weak var containerReloadBtn: UIStackView!
+    @IBOutlet weak var containerConfigBtns: UIStackView!
     
     
     override func viewDidLoad() {
@@ -51,7 +54,7 @@ class ConfigurationController: UIViewController {
     }
     
     
-    private func loadViews() {
+    private func loadViews () {
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[0], forSegmentAt: 0)
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[1], forSegmentAt: 1)
     }
@@ -66,10 +69,54 @@ class ConfigurationController: UIViewController {
     // MARK: Outlet actions
     @IBAction func selectedSegment(_ sender: Any) {
         if configurationSelector.selectedSegmentIndex == 0 {
+            
             print("Lock is selected")
+            containerConfigBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
+                self.containerConfigBtns.isHidden = true
+                self.containerLockBtns.isHidden = false
+                self.containerReloadBtn.isHidden = false
+                self.containerLockBtns.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
+                self.containerReloadBtn.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
+                
+            })
+            
         } else {
+        
             print("Configuration is selected")
+            containerLockBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
+            containerReloadBtn.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
+                self.containerLockBtns.isHidden = true
+                self.containerReloadBtn.isHidden = true
+                self.containerConfigBtns.isHidden = false
+                self.containerConfigBtns.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
+            })
+            
         }
+    }
+    
+    
+    @IBAction func lockFridge (_ sender: Any) {
+        
+    }
+    
+    
+    @IBAction func unlockFridge (_ sender: Any) {
+        
+    }
+    
+    
+    @IBAction func realodFridge (_ sender: Any) {
+        
+    }
+    
+    
+    @IBAction func configWiFiConnection (_ sender: Any) {
+        
+    }
+    
+    
+    @IBAction func testWiFiConnection (_ sender: Any) {
+        
     }
     // Outlet actions (End)
     

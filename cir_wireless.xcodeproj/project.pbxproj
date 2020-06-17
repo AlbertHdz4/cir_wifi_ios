@@ -26,6 +26,7 @@
 		188C9FE324993628005478E7 /* ControllerIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C9FE224993628005478E7 /* ControllerIdentifiers.swift */; };
 		18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A001248FF03900DB520E /* ScanBleController.swift */; };
 		18B7A0072490155A00DB520E /* PopUpAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A003248FF5B100DB520E /* PopUpAlert.swift */; };
+		18CDB15F249AAAED0024DE00 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CDB15E249AAAED0024DE00 /* AboutViewController.swift */; };
 		18E299D624896D6800DAA22C /* CoreBluetoothActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D524896D6800DAA22C /* CoreBluetoothActions.swift */; };
 		18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D72489719E00DAA22C /* CirWirelessModel.swift */; };
 		18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D92489901300DAA22C /* BeaconModel.swift */; };
@@ -59,6 +60,7 @@
 		18B7A003248FF5B100DB520E /* PopUpAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpAlert.swift; sourceTree = "<group>"; };
 		18B7A008249018B800DB520E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		18B7A009249018B800DB520E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		18CDB15E249AAAED0024DE00 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		18E299D524896D6800DAA22C /* CoreBluetoothActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothActions.swift; sourceTree = "<group>"; };
 		18E299D72489719E00DAA22C /* CirWirelessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessModel.swift; sourceTree = "<group>"; };
 		18E299D92489901300DAA22C /* BeaconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconModel.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				1871968324802842002EB4F2 /* Info.plist */,
 				1824E33824912C7B00F51B90 /* Localizable.strings */,
 				1824E35624913C0500F51B90 /* InfoPlist.strings */,
+				18CDB15E249AAAED0024DE00 /* AboutViewController.swift */,
 			);
 			path = cir_wireless;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				182C625E2497D06400201DF4 /* ConfigurationController.swift in Sources */,
 				1864427024881A6000145AA7 /* RoundButton.swift in Sources */,
 				184B879F2492466500FF9C84 /* CirWirelessCell.swift in Sources */,
+				18CDB15F249AAAED0024DE00 /* AboutViewController.swift in Sources */,
 				1871967624802831002EB4F2 /* AppDelegate.swift in Sources */,
 				1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */,
 				1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */,

@@ -62,12 +62,8 @@ class CourtainView: UIView {
         xPosition = courtain.frame.origin.x
         width = courtain.frame.size.width
         height = courtain.frame.size.height
-
-        UIView.animate(withDuration: 0.5,
-                       animations: {
-                        self.courtain.frame = CGRect(x: self.xPosition! - 1000, y: 0, width: self.width!, height: self.height!)
-        },
-                       completion: completion)
+        
+        courtain.hideSliding(xPosition: xPosition!, yPosition: 0, width: width!, height: height!, completion: completion)
         
         activityLoader.stopAnimating()
     }
@@ -79,12 +75,7 @@ class CourtainView: UIView {
         width = courtain.frame.size.width
         height = courtain.frame.size.height
  
-        
-        UIView.animate(withDuration: 0.5,
-                       animations: {
-                        self.courtain.frame = CGRect(x: self.xPosition! + 1000, y: 0, width: self.width!, height: self.height!)
-        },
-                       completion: completion)
+        courtain.showSliding(xPosition: xPosition!, yPosition: 0, width: width!, height: height!, completion: completion)
         
         activityLoader.startAnimating()
     }
