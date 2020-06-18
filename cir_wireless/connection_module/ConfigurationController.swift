@@ -24,6 +24,19 @@ class ConfigurationController: UIViewController {
     var bluetoothActions: CoreBluetoothActions?
     
     
+    // MARK: Servicios bluetooth de la cir wireless
+    var cWInfoService: CBService?
+    var cwProtocolService: CBService?
+    var cWQuickCommandsService: CBService?
+    
+    
+    // MARK: Caracteristicas bluetooth de la cir wireless
+    var cwInfoCharacteristic: CBCharacteristic?
+    var cwQuickCommandsCharacteristic: CBCharacteristic?
+    var cwNotificationCharacteristic: CBCharacteristic?
+    var cwWriteCharacteristic: CBCharacteristic?
+    
+    
     var connectingAlert: UIAlertController?
     
     
@@ -162,12 +175,87 @@ class ConfigurationController: UIViewController {
 
 
 extension ConfigurationController: BluetoothConnectionProtocol {
+    
     func servicesAvailable(services: [CBService]?) {
-        print(services)
         
-        connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
-        cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
-        connectingAlert?.dismiss(animated: true, completion: nil)
+        if let _ = services {
+            // MARK: Se obtienen los servicios de la tarjeta CIR Wireless
+            for service in services! {
+                let serviceUuid = service.uuid.uuidString
+                
+                
+                if serviceUuid == BluetoothGattConstants.CBUUID_DEVICE_INFO_SERVICE {
+                    
+                    self.cWInfoService = service
+                   
+                } else if serviceUuid == BluetoothGattConstants.CBUUID_QUICK_COMMANDS_SERVICE {
+                   
+                    self.cWQuickCommandsService = service
+               
+                } else if serviceUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_SERVICE {
+                   
+                    self.cwProtocolService = service
+                                  
+                }
+            }
+            
+            
+            if let _ = self.cWInfoService {
+                
+                bluetoothActions?.discoverCirWirelessCharacteristics(serviceToBeExamined: cWInfoService!,
+                                                                     specificCharacteristics: [CBUUID(string: BluetoothGattConstants.CBUUID_DEVICE_INFO_CHARACTERISTIC)])
+            }
+            
+            if let _ = self.cWQuickCommandsService {
+                
+                bluetoothActions?.discoverCirWirelessCharacteristics(serviceToBeExamined: cWQuickCommandsService!,
+                                                                     specificCharacteristics: [CBUUID(string: BluetoothGattConstants.CBUUID_QUICK_COMMANDS_CHARACTERISTIC)])
+            }
+            
+            
+            if let _ = self.cwProtocolService {
+                
+                bluetoothActions?.discoverCirWirelessCharacteristics(serviceToBeExamined: cwProtocolService!,
+                                                                     specificCharacteristics: [CBUUID(string: BluetoothGattConstants.CBUUID_CIR_NAMA_WRITE_CHARACTERISTIC),
+                                                                                               CBUUID(string: BluetoothGattConstants.CBUUID_CIR_NAMA_NOTIFY_CHARACTERISTIC)])
+            }
+        }
+    }
+    
+    
+    func characteristicsAvailable(service: CBService, availableCharacteristics characteristics: [CBCharacteristic]) {
+        
+        for characteristic in characteristics {
+            let characteristicUuid = characteristic.uuid.uuidString
+               
+            if characteristicUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_NOTIFY_CHARACTERISTIC {
+                
+                self.cwNotificationCharacteristic = characteristic
+            
+            } else if characteristicUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_WRITE_CHARACTERISTIC {
+                
+                self.cwWriteCharacteristic = characteristic
+                
+            } else if characteristicUuid == BluetoothGattConstants.CBUUID_QUICK_COMMANDS_CHARACTERISTIC {
+                
+                self.cwQuickCommandsCharacteristic = characteristic
+                
+            } else if characteristicUuid == BluetoothGattConstants.CBUUID_DEVICE_INFO_CHARACTERISTIC {
+                
+                self.cwInfoCharacteristic = characteristic
+                
+            }
+        }
+        
+        
+        if let _ = cwInfoCharacteristic, let _ = cwNotificationCharacteristic,
+            let _ = cwWriteCharacteristic, let _ = cwQuickCommandsCharacteristic {
+            
+            connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
+            connectingAlert?.dismiss(animated: true, completion: nil)
+            cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
+            
+        }
     }
     
     
@@ -175,37 +263,43 @@ extension ConfigurationController: BluetoothConnectionProtocol {
         print(status)
         
         switch status {
-        case .connecting:
+        case .connecting :
             print("connecting")
             
             
-        case .connected:
+        case .connected :
             bluetoothActions?.discoverCirWirelessServices(specificServices: nil)
             
             
-        case .disconnecting:
+        case .disconnecting :
             print("disconnecting")
             
             
-        case .disconnected:
+        case .disconnected :
             print("disconnected")
             
             
-        case .discoveringServicesAndCharacteristics:
+        case .discoveringServicesAndCharacteristics :
             print("discoveringServices")
             
             
-        case .connectionFailed:
+        case .connectionFailed :
             print("connectionFailed")
             
             
-        case .servicesDiscovered:
+        case .servicesDiscovered :
             print("servicesDiscovered")
+        
             
+        case .characteristicsDiscovered :
+            print("characteristicsDiscovered")
             
-        case .noneServicesAvailable:
-            print("noneServicesAvailable")
+        
+        case .noneServicesAvailable,
+             .noneCharacteristicsAvailable :
+            print("noneServicesOrCharacteristics")
             popUpErrorCirConnection()
+        
         }
     }
     

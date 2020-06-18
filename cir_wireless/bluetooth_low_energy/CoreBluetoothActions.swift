@@ -115,6 +115,11 @@ class CoreBluetoothActions: NSObject {
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .discoveringServicesAndCharacteristics)
         cirWireless?.discoverServices(services)
     }
+    
+    
+    func discoverCirWirelessCharacteristics (serviceToBeExamined service: CBService, specificCharacteristics: [CBUUID]?) {
+        cirWireless?.discoverCharacteristics(specificCharacteristics, for: service)
+    }
     // Metodos para el proceso de conexion con la CIR Wireless (End)
 }
 
@@ -185,14 +190,27 @@ extension CoreBluetoothActions: CBCentralManagerDelegate {
 extension CoreBluetoothActions: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .servicesDiscovered)
+
         guard let services = peripheral.services else {
                 bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .noneServicesAvailable)
                 return
         }
         
         print("servicesDiscovered: ")
+        bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .servicesDiscovered)
         bluetoothConnectionDelegate?.servicesAvailable(services: services)
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        
+        guard let characteristics = service.characteristics else {
+            bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .noneServicesAvailable)
+            return
+        }
+        
+        bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .characteristicsDiscovered)
+        bluetoothConnectionDelegate?.characteristicsAvailable(service: service, availableCharacteristics: characteristics)
     }
     
 }
@@ -228,6 +246,9 @@ protocol BluetoothConnectionProtocol {
     
     
     func servicesAvailable (services: [CBService]?)
+    
+    
+    func characteristicsAvailable (service: CBService, availableCharacteristics characteristics: [CBCharacteristic])
     
     
     func errorConnectionOcurred (error: ErrorConnection)
@@ -300,7 +321,11 @@ enum BluetoothConnectionProcess {
     
     case servicesDiscovered
     
+    case characteristicsDiscovered
+    
     case noneServicesAvailable
+    
+    case noneCharacteristicsAvailable
     
     case connectionFailed
 }
