@@ -17,7 +17,7 @@
 		184E476624859C8D003BEEEA /* ContentDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184E476524859C8D003BEEEA /* ContentDescription.swift */; };
 		185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */; };
 		1864427024881A6000145AA7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864426F24881A6000145AA7 /* RoundButton.swift */; };
-		1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */; };
+		1869BCBE2486E415007095B4 /* QuickCommandPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869BCBD2486E415007095B4 /* QuickCommandPackage.swift */; };
 		1871967624802831002EB4F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967524802831002EB4F2 /* AppDelegate.swift */; };
 		1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967724802831002EB4F2 /* SceneDelegate.swift */; };
 		1871967D24802831002EB4F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871967B24802831002EB4F2 /* Main.storyboard */; };
@@ -30,6 +30,7 @@
 		18E299D624896D6800DAA22C /* CoreBluetoothActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D524896D6800DAA22C /* CoreBluetoothActions.swift */; };
 		18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D72489719E00DAA22C /* CirWirelessModel.swift */; };
 		18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D92489901300DAA22C /* BeaconModel.swift */; };
+		18E6F446249D30C900401A56 /* CirWirelessCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6F445249D30C900401A56 /* CirWirelessCommands.swift */; };
 		18FB92F62492A7E500758541 /* ProgramExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FB92F52492A7E500758541 /* ProgramExtensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +48,7 @@
 		184E476524859C8D003BEEEA /* ContentDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDescription.swift; sourceTree = "<group>"; };
 		185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothGattConstants.swift; sourceTree = "<group>"; };
 		1864426F24881A6000145AA7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
-		1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCommands.swift; sourceTree = "<group>"; };
+		1869BCBD2486E415007095B4 /* QuickCommandPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickCommandPackage.swift; sourceTree = "<group>"; };
 		1871967224802831002EB4F2 /* Cir Wireless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cir Wireless.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1871967524802831002EB4F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1871967724802831002EB4F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +65,7 @@
 		18E299D524896D6800DAA22C /* CoreBluetoothActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreBluetoothActions.swift; sourceTree = "<group>"; };
 		18E299D72489719E00DAA22C /* CirWirelessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessModel.swift; sourceTree = "<group>"; };
 		18E299D92489901300DAA22C /* BeaconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconModel.swift; sourceTree = "<group>"; };
+		18E6F445249D30C900401A56 /* CirWirelessCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCommands.swift; sourceTree = "<group>"; };
 		18FB92F52492A7E500758541 /* ProgramExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,9 +184,10 @@
 			children = (
 				18E299D92489901300DAA22C /* BeaconModel.swift */,
 				18E299D72489719E00DAA22C /* CirWirelessModel.swift */,
-				1869BCBD2486E415007095B4 /* CirWirelessCommands.swift */,
+				1869BCBD2486E415007095B4 /* QuickCommandPackage.swift */,
 				18E299D524896D6800DAA22C /* CoreBluetoothActions.swift */,
 				185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */,
+				18E6F445249D30C900401A56 /* CirWirelessCommands.swift */,
 			);
 			path = bluetooth_low_energy;
 			sourceTree = "<group>";
@@ -288,13 +291,14 @@
 				185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */,
 				18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */,
 				18E299D624896D6800DAA22C /* CoreBluetoothActions.swift in Sources */,
+				18E6F446249D30C900401A56 /* CirWirelessCommands.swift in Sources */,
 				182797D62481AB2C001DB18D /* CourtainView.swift in Sources */,
 				182C625E2497D06400201DF4 /* ConfigurationController.swift in Sources */,
 				1864427024881A6000145AA7 /* RoundButton.swift in Sources */,
 				184B879F2492466500FF9C84 /* CirWirelessCell.swift in Sources */,
 				18CDB15F249AAAED0024DE00 /* AboutViewController.swift in Sources */,
 				1871967624802831002EB4F2 /* AppDelegate.swift in Sources */,
-				1869BCBE2486E415007095B4 /* CirWirelessCommands.swift in Sources */,
+				1869BCBE2486E415007095B4 /* QuickCommandPackage.swift in Sources */,
 				1871967824802831002EB4F2 /* SceneDelegate.swift in Sources */,
 				18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */,
 				184E476624859C8D003BEEEA /* ContentDescription.swift in Sources */,

@@ -14,16 +14,16 @@ class CourtainView: UIView {
     
     
     // Outlets
-    @IBOutlet weak var courtain: UIView!
-    @IBOutlet weak var activityLoader: UIActivityIndicatorView!
-    @IBOutlet weak var courtainMessage: UILabel!
+    @IBOutlet weak var courtain         : UIView!
+    @IBOutlet weak var activityLoader   : UIActivityIndicatorView!
+    @IBOutlet weak var courtainMessage  : UILabel!
     
 
     // MARK: Dimensiones de la cortina de carga
-    var width: CGFloat?
-    var height: CGFloat?
-    var xPosition: CGFloat?
-    var yPosition: CGFloat?
+    var width       : CGFloat?
+    var height      : CGFloat?
+    var xPosition   : CGFloat?
+    var yPosition   : CGFloat?
  
     
     required init?(coder aDecoder: NSCoder) {

@@ -9,7 +9,7 @@
 import UIKit
 
 class RoundButton: UIButton {
-    private var shadowLayer: CAShapeLayer!
+    private var shadowLayer : CAShapeLayer!
 
     override func layoutSubviews() {
         super.layoutSubviews()

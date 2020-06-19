@@ -10,11 +10,12 @@ import Foundation
 
 enum ControllerIdentifiers: String {
     
-    case vcScanDevices = "vcScanDevices"
+    case vcScanDevices      = "vcScanDevices"
     
-    case vcConfiguration = "vcConfiguration"
+    case vcConfiguration    = "vcConfiguration"
     
-    case vcAccessPoints = "vcAccessPoints"
+    case vcAccessPoints     = "vcAccessPoints"
     
-    case vcTestConenction = "vcTestConenction"
+    case vcTestConenction   = "vcTestConenction"
+    
 }

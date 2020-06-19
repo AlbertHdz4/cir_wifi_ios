@@ -9,10 +9,10 @@
 import Foundation
 
 enum ContentDescription: String {
-    case lockBtn = "Lock Fridge"
-    case unlockBtn = "Unlock Fridge"
-    case rechargeBtn = "Recharge Fridge"
-    case configBtn = "Config Access Points"
-    case testBtn = "Test WiFi connection"
-    case noDescription = "No description"
+    case lockBtn        = "Lock Fridge"
+    case unlockBtn      = "Unlock Fridge"
+    case rechargeBtn    = "Recharge Fridge"
+    case configBtn      = "Config Access Points"
+    case testBtn        = "Test WiFi connection"
+    case noDescription  = "No description"
 }

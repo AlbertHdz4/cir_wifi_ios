@@ -13,21 +13,21 @@ import CoreBluetooth
 class ScanBleController: UIViewController {
     
     // MARK: Constants
-    let DEFAULT_SCANNING_TIME: Double = 8
-    let REUSABLE_CELL_ID = "cir_wireless"
-    let REUSABLE_CELL_NAME = "CirWirelessCell"
+    let DEFAULT_SCANNING_TIME   : Double = 8
+    let REUSABLE_CELL_ID        = "cir_wireless"
+    let REUSABLE_CELL_NAME      = "CirWirelessCell"
     
     
     // MARK: Outlets
-    @IBOutlet weak var courtain: CourtainView!
-    @IBOutlet weak var cirWirelessTable: UITableView!
+    @IBOutlet weak var courtain         : CourtainView!
+    @IBOutlet weak var cirWirelessTable : UITableView!
     
     
     // MARK: Variables para el escaneo de dispositivos
-    var isBluetoothOn = false
-    var bluetoothActions: CoreBluetoothActions?
-    var cirsFound = [CirWirelessModel] ()
-    var selectedCirWireless : CirWirelessModel?
+    var isBluetoothOn           = false
+    var bluetoothActions        : CoreBluetoothActions?
+    var cirsFound               = [CirWirelessModel] ()
+    var selectedCirWireless     : CirWirelessModel?
     
     
     lazy var refreshControl: UIRefreshControl = {

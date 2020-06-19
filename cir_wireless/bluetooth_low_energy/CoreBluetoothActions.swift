@@ -17,25 +17,25 @@ class CoreBluetoothActions: NSObject {
     var scanningTime: Double?
     
     // Delegates
-    var bluetoothActionsDelegate: BluetoothActionsProtocol?
-    var bluetoothScanDelegate: BluetoothScanProtocol?
-    var bluetoothConnectionDelegate: BluetoothConnectionProtocol?
+    var bluetoothActionsDelegate    : BluetoothActionsProtocol?
+    var bluetoothScanDelegate       : BluetoothScanProtocol?
+    var bluetoothConnectionDelegate : BluetoothConnectionProtocol?
     
     
     // Bluetooth objects
-    var uuidSerices: [CBUUID]?
-    var bleCentralState: CBManagerState?
-    var bleCentralManager: CBCentralManager!
-    var cirWireless: CBPeripheral?
+    var uuidSerices                 : [CBUUID]?
+    var bleCentralState             : CBManagerState?
+    var bleCentralManager           : CBCentralManager!
+    var cirWireless                 : CBPeripheral?
     
     
-    var cirsFoundWithIBeacon = [UUID : CirWirelessModel] ()
-    var cirsFoundWithPayloadBeacon = [UUID : CirWirelessModel] ()
+    var cirsFoundWithIBeacon        = [UUID : CirWirelessModel] ()
+    var cirsFoundWithPayloadBeacon  = [UUID : CirWirelessModel] ()
     
     
     init (filterBy uuidServices: Array<CBUUID>, scanningTime: Double = 5) {
-        self.uuidSerices = uuidServices
-        self.scanningTime = scanningTime
+        self.uuidSerices    = uuidServices
+        self.scanningTime   = scanningTime
     }
     
     

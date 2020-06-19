@@ -12,41 +12,41 @@ import CoreBluetooth
 
 class ConfigurationController: UIViewController {
     
-    let SEGMENTED_CONTROL_VALUES = [NSLocalizedString("Lock Label", comment: "First value of segmented control"),
-                                    NSLocalizedString("Configuration Label", comment: "Second value of segmented control")]
+    let SEGMENTED_CONTROL_VALUES    = [NSLocalizedString("Lock Label", comment: "First value of segmented control"),
+                                       NSLocalizedString("Configuration Label", comment: "Second value of segmented control")]
     
     
-    var isCirConnected = false
-    var isBluetoothOn = false
+    var isCirConnected              = false
+    var isBluetoothOn               = false
     
     
-    var cirWireless: CirWirelessModel?
-    var bluetoothActions: CoreBluetoothActions?
+    var cirWireless                             : CirWirelessModel?
+    var bluetoothActions                        : CoreBluetoothActions?
     
     
     // MARK: Servicios bluetooth de la cir wireless
-    var cWInfoService: CBService?
-    var cwProtocolService: CBService?
-    var cWQuickCommandsService: CBService?
+    var cWInfoService                           : CBService?
+    var cwProtocolService                       : CBService?
+    var cWQuickCommandsService                  : CBService?
     
     
     // MARK: Caracteristicas bluetooth de la cir wireless
-    var cwInfoCharacteristic: CBCharacteristic?
-    var cwQuickCommandsCharacteristic: CBCharacteristic?
-    var cwNotificationCharacteristic: CBCharacteristic?
-    var cwWriteCharacteristic: CBCharacteristic?
+    var cwInfoCharacteristic                    : CBCharacteristic?
+    var cwQuickCommandsCharacteristic           : CBCharacteristic?
+    var cwNotificationCharacteristic            : CBCharacteristic?
+    var cwWriteCharacteristic                   : CBCharacteristic?
     
     
-    var connectingAlert: UIAlertController?
+    var connectingAlert                         : UIAlertController?
     
     
     // Outlets
-    @IBOutlet weak var connectionStatus: UILabel!
-    @IBOutlet weak var cirWirelessMac: UILabel!
-    @IBOutlet weak var configurationSelector: UISegmentedControl!
-    @IBOutlet weak var containerLockBtns: UIStackView!
-    @IBOutlet weak var containerReloadBtn: UIStackView!
-    @IBOutlet weak var containerConfigBtns: UIStackView!
+    @IBOutlet weak var connectionStatus         : UILabel!
+    @IBOutlet weak var cirWirelessMac           : UILabel!
+    @IBOutlet weak var configurationSelector    : UISegmentedControl!
+    @IBOutlet weak var containerLockBtns        : UIStackView!
+    @IBOutlet weak var containerReloadBtn       : UIStackView!
+    @IBOutlet weak var containerConfigBtns      : UIStackView!
     
     
     override func viewDidLoad() {

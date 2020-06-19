@@ -9,11 +9,12 @@
 import UIKit
 
 class CirWirelessCell: UITableViewCell {
+    
     // Outlets
-    @IBOutlet weak var cirWirelessMac: UILabel!
+    @IBOutlet weak var cirWirelessMac   : UILabel!
     
     
-    var cirModel: CirWirelessModel?
+    var cirModel                        : CirWirelessModel?
     
     
     override func awakeFromNib() {

@@ -13,19 +13,20 @@ import CoreBluetooth
 
 class CirWirelessModel {
     
-    var peripheral : CBPeripheral?
-    var peripheralId : UUID?
-    var beacon: BeaconModel? // Primer beacon, almacena todo el payload del dispositivo
-    var iBeacon: BeaconModel? // Segundo beacon estructurado como iBeacon
-    var cirWirelessState: CirWirelessState?
-    private var cirWirelessMac: String?
+    var peripheral              : CBPeripheral?
+    var peripheralId            : UUID?
+    var beacon                  : BeaconModel? // Primer beacon, almacena todo el payload del dispositivo
+    var iBeacon                 : BeaconModel? // Segundo beacon estructurado como iBeacon
+    var cirWirelessState        : CirWirelessState?
+    private var cirWirelessMac  : String?
     
     
     init (peripheral: CBPeripheral, peripheralId: UUID, beacon: BeaconModel) {
-        self.peripheral = peripheral
-        self.beacon = beacon
-        self.peripheralId = peripheralId
+        self.peripheral     = peripheral
+        self.beacon         = beacon
+        self.peripheralId   = peripheralId
     }
+    
     
     func getCirWirelessMac () -> String {
         
@@ -38,6 +39,7 @@ class CirWirelessModel {
         
         return cirWirelessMac!
     }
+    
     
     private func addDotsToMac (macWithoutDots: String) -> String {
 
