@@ -79,7 +79,7 @@ class ConfigurationController: UIViewController {
     }
     
     
-    // MARK: Outlet actions
+    // Outlet actions --------------------------------------------------
     @IBAction func selectedSegment(_ sender: Any) {
         if configurationSelector.selectedSegmentIndex == 0 {
             
@@ -131,10 +131,10 @@ class ConfigurationController: UIViewController {
     @IBAction func testWiFiConnection (_ sender: Any) {
         
     }
-    // Outlet actions (End)
+    // // ---------------------------------------------------------
     
     
-    // MARK: Pop up area :D
+    // Pop up area :D ---------------------------------------------
     private func popUpErrorCirConnection () {
         var errorCirAlert: UIAlertController?
     
@@ -170,7 +170,7 @@ class ConfigurationController: UIViewController {
     
     
     private func popUpCirConnected () { print("Cir connected") }
-    // Pop up area (End)
+    // --------------------------------------------------------------
 }
 
 
@@ -179,6 +179,7 @@ extension ConfigurationController: BluetoothConnectionProtocol {
     func servicesAvailable(services: [CBService]?) {
         
         if let _ = services {
+            
             // MARK: Se obtienen los servicios de la tarjeta CIR Wireless
             for service in services! {
                 let serviceUuid = service.uuid.uuidString

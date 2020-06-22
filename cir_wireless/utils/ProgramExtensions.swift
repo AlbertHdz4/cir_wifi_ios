@@ -9,14 +9,19 @@
 import Foundation
 import UIKit
 
-// Extensiones
+// Extensiones -------------------
+
+
+// Aniade la conversion de bytes a string ---------
 extension Data {
     var hexDescription: String {
         return reduce("") {$0 + String(format: "%02x", $1)}
     }
 }
+// ------------------------------------------------
 
 
+// Aniade opciones de visibilidad a las vistas ---------
 extension UIView {
     
     enum Visibility {
@@ -108,3 +113,6 @@ extension UIView {
                            completion: completion)
     }
 }
+// ------------------------------------------------
+
+

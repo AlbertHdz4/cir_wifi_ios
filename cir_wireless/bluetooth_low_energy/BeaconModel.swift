@@ -6,8 +6,10 @@
 //  Copyright © 2020 SOFTEL. All rights reserved.
 //
 
+
 import Foundation
 import CoreBluetooth
+
 
 class BeaconModel {
     

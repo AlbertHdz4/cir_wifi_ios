@@ -1,9 +1,9 @@
 //
 //  sftlencrypt.cpp
-//  DataLoggerConfiguraciones
+//  cir_wireless
 //
-//  Created by softel on 7/31/19.
-//  Copyright © 2019 SOFTEL. All rights reserved.
+//  Created by softel on 22/06/20.
+//  Copyright © 2020 SOFTEL. All rights reserved.
 //
 
 #include "sftlencrypt.hpp"
@@ -41,9 +41,6 @@ void diversify_key (Enc_Sec_Data_t   *pEncData,
     
 }
 
-/* ------------------------------   */
-/* ERNESTO TEST                     */
-/* ------------------------------   */
 
 void decryptCpp (Enc_Sec_Data_t    *pEncData,
                  u_int8_t *        ioData,

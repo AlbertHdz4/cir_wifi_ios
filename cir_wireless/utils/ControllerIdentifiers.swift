@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+// Identificadores para los View Controllers -------
 enum ControllerIdentifiers: String {
     
     case vcScanDevices      = "vcScanDevices"
@@ -19,3 +21,4 @@ enum ControllerIdentifiers: String {
     case vcTestConenction   = "vcTestConenction"
     
 }
+// --------------------------------------------------

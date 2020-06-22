@@ -60,7 +60,7 @@ class ScanBleController: UIViewController {
     }
     
     
-    // MARK: Funciones utiles del propio controler
+    // Funciones utiles del propio controler ---------------------
     private func loadViews () {
         courtain.courtainMessage.text = NSLocalizedString("Scanning Devices", comment: "Scanning BLE Devices")
         
@@ -113,7 +113,7 @@ class ScanBleController: UIViewController {
     }
     
     
-    // MARK: Pop Ups Area :D
+    // Pop Ups Area :D -------------------------------------------
     // Pop up los permisos negados de bluetooth
     private func popUpBluetoothPermissionDenied () {
         var permissionPopUp: UIAlertController?
@@ -206,12 +206,12 @@ class ScanBleController: UIViewController {
         
         self.present(bluetoothOffPopUp!, animated: true, completion: nil)
     }
-    // Pop Ups area :D (End)
-    // Funciones utiles del propio controler (End)
+    // ------------------------------------------------
+    // ------------------------------------------------
 }
 
 
-// MARK: Delegados para la tabla de CIRs encontradas
+// Delegados para la tabla de CIRs encontradas ----------------------------
 extension ScanBleController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -245,10 +245,10 @@ extension ScanBleController: UITableViewDelegate {
         }
     }
 }
-// Delegados para la tabla de CIRs encontradas (End)
+// --------------------------------------------------------------------------
 
 
-// MARK: Extensiones de los protocolos
+// Extensiones de los protocolos --------------------------------------------
 extension ScanBleController: BluetoothActionsProtocol {
     
     func updateBluetoothActionProcess(status: BluetoothActionsProcess) {
@@ -324,4 +324,4 @@ extension ScanBleController: BluetoothScanProtocol {
         print("errorOcurred: \(error)")
     }
 }
-// Extensiones de los protocolos (End)
+// --------------------------------------------------------------------------

@@ -56,7 +56,7 @@ class CoreBluetoothActions: NSObject {
     }
     
     
-    // MARK: Metodos para el proceso de escaneo
+    // Metodos para el proceso de escaneo -------------------------------------------------------------
     func scanDevices () {
         if bleCentralState == CBManagerState.poweredOn {
             bluetoothScanDelegate?.updateBluetoothScanProcess(status: .scanning)
@@ -77,7 +77,6 @@ class CoreBluetoothActions: NSObject {
         let listOfCirWirelessFound = mergeCirsWirelessFound()
         bluetoothScanDelegate?.scanFinished(scannedDevices: listOfCirWirelessFound)
     }
-    // Metodos para el proceso de escaneo (End)
     
     
     // Mezcla ambos beacons (beaconPayload y iBeacon mandados por la CIR)
@@ -93,10 +92,10 @@ class CoreBluetoothActions: NSObject {
         
         return cirWirelessFound
     }
-    // Metodos para el proceso de escaneo (End)
+    // -------------------------------------------------------------------------------------------------
     
     
-    // MARK: Metodos para el proceso de conexion con la CIR Wireless
+    // Metodos para el proceso de conexion con la CIR Wireless -----------------------------------------
     func connectCirWireless (peripheralToConnect: CBPeripheral) {
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .connecting)
         cirWireless = peripheralToConnect
@@ -120,11 +119,11 @@ class CoreBluetoothActions: NSObject {
     func discoverCirWirelessCharacteristics (serviceToBeExamined service: CBService, specificCharacteristics: [CBUUID]?) {
         cirWireless?.discoverCharacteristics(specificCharacteristics, for: service)
     }
-    // Metodos para el proceso de conexion con la CIR Wireless (End)
+    // -------------------------------------------------------------------------------------------------
 }
 
 
-// MARK: Delegates para el proceso de escaneo
+// Delegates para el proceso de escaneo ----------------------------------------------------------------
 extension CoreBluetoothActions: CBCentralManagerDelegate {
     
     
@@ -163,7 +162,7 @@ extension CoreBluetoothActions: CBCentralManagerDelegate {
     }
     
     
-    // MARK: Delegados de la conexion Bluetooth
+    // Delegados de la conexion Bluetooth ---------------------------------------------
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         print("FUCK THIS DOESN'T WORK")
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .connectionFailed)
@@ -183,10 +182,12 @@ extension CoreBluetoothActions: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         print("Error disconnecting: ")
     }
-    // Delegados de la conexion Bluetooth (End)
+    // ----------------------------------------------------------------------------------
 }
+// -------------------------------------------------------------------------------------------------------
 
 
+// Delegados para la conexion con el dispositivo ---------------------------------------------------------
 extension CoreBluetoothActions: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -214,10 +215,10 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
     }
     
 }
+// -------------------------------------------------------------------------------------------------
 
 
-
-// MARK: Protocolo para la comunicacion entre nuestra clase Bluetooth y la clase que la llama
+// Protocolo para la comunicacion entre nuestra clase Bluetooth y la clase que la llama ---------------
 protocol BluetoothActionsProtocol {
     
     func updateCentralState (newState: CBManagerState)
@@ -254,27 +255,28 @@ protocol BluetoothConnectionProtocol {
     func errorConnectionOcurred (error: ErrorConnection)
     
 }
-// Protocolo para la comunicacion entre nuestra clase Bluetooth y la clase que la llama (End)
+// -------------------------------------------------------------------------------------------------
 
 
-// MARK: Tamanios en bytes de los beacons mandados por la CIR Wireless
+// Tamanios en bytes de los beacons mandados por la CIR Wireless -----------------------------------
 enum BeaconSizes: Int {
     case iBeaconSize = 2
     
     case beaconPayloadSize = 26
 }
+// -------------------------------------------------------------------------------------------------
 
 
-// MARK: Posibles errores generados
+// Posibles errores generados ----------------------------------------------------------------------
 enum ErrorBluetoothActions {
     
     case bleManagerNil
     
 }
-// Posibles errores generados (End)
+// -------------------------------------------------------------------------------------------------
 
 
-// MARK: Posibles errores en la conexion Bluetooth
+// Posibles errores en la conexion Bluetooth -------------------------------------------------------
 enum ErrorConnection {
     
     case connectionError
@@ -282,11 +284,11 @@ enum ErrorConnection {
     case disconnectionError
     
 }
-// Posibles errores en la conexion Bluetooth (End)
+// -------------------------------------------------------------------------------------------------
 
 
 
-// MARK: Estados de el Bluetooth Manager
+// Estados de el Bluetooth Manager -----------------------------------------------------------------
 enum BluetoothActionsProcess {
     
     case initializing
@@ -296,9 +298,10 @@ enum BluetoothActionsProcess {
     case successfullyInitiated
     
 }
+// -------------------------------------------------------------------------------------------------
 
 
-// MARK: Estados del proceso de escaneo
+// Estados del proceso de escaneo ------------------------------------------------------------------
 enum BluetoothScanProcess {
     
     case scanning
@@ -306,8 +309,10 @@ enum BluetoothScanProcess {
     case finished
     
 }
+// -------------------------------------------------------------------------------------------------
 
 
+// Estados del proceso de conexion -----------------------------------------------------------------
 enum BluetoothConnectionProcess {
     case connecting
     
@@ -329,3 +334,4 @@ enum BluetoothConnectionProcess {
     
     case connectionFailed
 }
+// -------------------------------------------------------------------------------------------------

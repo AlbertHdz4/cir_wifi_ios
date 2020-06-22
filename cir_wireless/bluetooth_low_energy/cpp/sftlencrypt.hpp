@@ -1,21 +1,23 @@
 //
 //  sftlencrypt.hpp
-//  DataLoggerConfiguraciones
+//  cir_wireless
 //
-//  Created by softel on 7/31/19.
-//  Copyright © 2019 SOFTEL. All rights reserved.
+//  Created by softel on 22/06/20.
+//  Copyright © 2020 SOFTEL. All rights reserved.
 //
 
-#ifndef D_SFTL_ENCRYPT_H
-#define D_SFTL_ENCRYPT_H
+#ifndef sftlencrypt_hpp
+#define sftlencrypt_hpp
 
-#include <stdint.h>
+
 #include <stdio.h>
+
 
 struct Mac_Data{
     u_int8_t data[6];       //MAC
     u_int8_t len;           //LONGITUD
 };
+
 
 typedef struct {
     u_int8_t   inKey[16];   //LLAVE
@@ -25,5 +27,4 @@ typedef struct {
     int16_t    kDataRounds; //ITERACIONES
 } Enc_Sec_Data_t;
 
-
-#endif
+#endif /* sftlencrypt_hpp */

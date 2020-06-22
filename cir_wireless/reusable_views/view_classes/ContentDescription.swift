@@ -8,11 +8,16 @@
 
 import Foundation
 
+
+// Descripcion de contenido para los botones ------
 enum ContentDescription: String {
+    
     case lockBtn        = "Lock Fridge"
     case unlockBtn      = "Unlock Fridge"
     case rechargeBtn    = "Recharge Fridge"
     case configBtn      = "Config Access Points"
     case testBtn        = "Test WiFi connection"
     case noDescription  = "No description"
+    
 }
+// ------------------------------------------------

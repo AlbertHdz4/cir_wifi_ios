@@ -16,6 +16,7 @@ struct QuickCommandPackage {
                               0x3e, 0x8c, 0xf6, 0x1a, 0x5a, 0xcb,
                               0x94, 0xe6, 0x53, 0x15]
     
+
     var commandLenght   : UInt8?
     var quickCommand    : QuickCommands?
     var payload         : [UInt8]?
@@ -53,7 +54,8 @@ struct QuickCommandPackage {
 
 
 
-// Estos comandos y su uso detallado estan en el documento: 'Servicio QUICK CMDS BLE CIR Wireless v3.4.7'
+// Estos comandos y su uso detallado estan en el documento:
+// 'Servicio QUICK CMDS BLE CIR Wireless v3.4.7' ---------------------------
 enum QuickCommands: UInt8 {
     
     case _OPEN_LOCK = 0x0F
@@ -77,10 +79,10 @@ enum QuickCommands: UInt8 {
     case _UNLOCK_CIR_DUE_TO_TEST_PRODUCTION_FAILED = 0x52
     
 }
+// -------------------------------------------------------------------------
 
 
-
-// Para parsear la respuesta de la CIR Wireless
+// Para parsear la respuesta de la CIR Wireless ----------------------------
 struct QuickCommandResponse {
     
     var length: UInt64?
@@ -117,8 +119,10 @@ struct QuickCommandResponse {
         return response == PackageResponse._BAD_RESPONSE.rawValue
     }
 }
+// ----------------------------------------------------------------------------
 
 
+// Posibles respuestas de la CIR Wireless -------------------------------------
 enum PackageResponse: UInt8 {
     
     case _BAD_RESPONSE = 0x00
@@ -132,3 +136,4 @@ enum PackageResponse: UInt8 {
     case _PRODUCTION_TEST_ALREADY_ENABLED_CURRENTLY_RUNNING = 0x51
     
 }
+// -----------------------------------------------------------------------------
