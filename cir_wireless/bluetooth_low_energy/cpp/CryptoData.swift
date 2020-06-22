@@ -12,7 +12,7 @@ import Foundation
 /**
  * Utilidad de encriptación, desencriptación y cálculo de CRC de paquetes de datos
  */
-class CryptoUtils {
+class CryptoData {
 
     
     /**

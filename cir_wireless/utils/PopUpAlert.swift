@@ -12,7 +12,7 @@ import UIKit
 class PopUpAlert {
 
     
-    private static func popUp (alertCharacteristic alertComponents: AlertComponents) -> UIAlertController {
+    public static func popUp (alertCharacteristic alertComponents: AlertComponents) -> UIAlertController {
         return UIAlertController(title: alertComponents.alertTitle,
                                       message: alertComponents.alertMessage,
                                       preferredStyle: alertComponents.alertStyle!)

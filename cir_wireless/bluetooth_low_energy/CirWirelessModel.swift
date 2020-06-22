@@ -13,12 +13,13 @@ import CoreBluetooth
 
 class CirWirelessModel {
     
-    var peripheral              : CBPeripheral?
-    var peripheralId            : UUID?
-    var beacon                  : BeaconModel? // Primer beacon, almacena todo el payload del dispositivo
-    var iBeacon                 : BeaconModel? // Segundo beacon estructurado como iBeacon
-    var cirWirelessState        : CirWirelessState?
-    private var cirWirelessMac  : String?
+    var peripheral                          : CBPeripheral?
+    var peripheralId                        : UUID?
+    var beacon                              : BeaconModel? // Primer beacon, almacena todo el payload del dispositivo
+    var iBeacon                             : BeaconModel? // Segundo beacon estructurado como iBeacon
+    var cirWirelessState                    : CirWirelessState?
+    private var cirWirelessMac              : String?
+    private var cirWirelessMacBytes         : [UInt8]?
     
     
     init (peripheral: CBPeripheral, peripheralId: UUID, beacon: BeaconModel) {
@@ -31,8 +32,9 @@ class CirWirelessModel {
     func getCirWirelessMac () -> String {
         
         if cirWirelessMac == nil {
+            
             let macReversed = String(((iBeacon?.advertisementData[BeaconFields.cirWirelessMac.rawValue] as? Data)!.hexDescription).reversed())
-            cirWirelessMac = addDotsToMac(macWithoutDots: macReversed)
+            sanitizeMacValues(macToFix: macReversed)
             
         }
         
@@ -41,16 +43,20 @@ class CirWirelessModel {
     }
     
     
-    private func addDotsToMac (macWithoutDots: String) -> String {
+    private func sanitizeMacValues (macToFix: String) {
 
-        print(macWithoutDots)
+        let macArray = Array(macToFix)
         
-        let macArray = Array(macWithoutDots)
-        let macWithDots = "\(macArray[1])\(macArray[0]):\(macArray[3])\(macArray[2]):" +
-                          "\(macArray[5])\(macArray[4]):\(macArray[7])\(macArray[6]):" +
-                          "\(macArray[9])\(macArray[8]):\(macArray[11])\(macArray[10])"
+        cirWirelessMacBytes =  ("\(macArray[1])\(macArray[0])\(macArray[3])\(macArray[2])" +
+                                "\(macArray[5])\(macArray[4])\(macArray[7])\(macArray[6])" +
+                                "\(macArray[9])\(macArray[8])\(macArray[11])\(macArray[10])")
+                                .lowercased()
+                                .hexaToBytes
         
-        return macWithDots.uppercased()
+
+        cirWirelessMac =   ("\(macArray[1])\(macArray[0]):\(macArray[3])\(macArray[2]):" +
+                             "\(macArray[5])\(macArray[4]):\(macArray[7])\(macArray[6]):" +
+                             "\(macArray[9])\(macArray[8]):\(macArray[11])\(macArray[10])").uppercased()
     }
 }
 

@@ -120,6 +120,18 @@ class CoreBluetoothActions: NSObject {
         cirWireless?.discoverCharacteristics(specificCharacteristics, for: service)
     }
     // -------------------------------------------------------------------------------------------------
+    
+    
+    // Metodos para la escritura y lectura de las catacteristicas ------------------------------------------------\
+    func writeCirWirelessCharacteristic (command: Data, characteristic: CBCharacteristic, type: CBCharacteristicWriteType) {
+        cirWireless?.writeValue(command, for: characteristic, type: type)
+    }
+    
+    
+    func readCirWirelessCharacteristic (characteristic: CBCharacteristic) {
+        cirWireless?.readValue(for: characteristic)
+    }
+    // -------------------------------------------------------------------------------------------------
 }
 
 
@@ -214,6 +226,26 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
         bluetoothConnectionDelegate?.characteristicsAvailable(service: service, availableCharacteristics: characteristics)
     }
     
+    
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        print("Successfully written in char: ")
+        bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .successfullyWrittenInCharacteristic)
+        bluetoothConnectionDelegate?.successfullyWrittenInCharacteristic(characteristic: characteristic, writtenValue: (characteristic.value) ?? Data())
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
+        print("Successfully written in descriptor:")
+        bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .successfullyWrittenInDescriptor)
+        bluetoothConnectionDelegate?.successfullyWrittenInDescriptor(descriptor: descriptor, writtenValue: (descriptor.value as! Data))
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+        print("didUpdateNotificationStateFor:")
+    }
+    
+    
 }
 // -------------------------------------------------------------------------------------------------
 
@@ -250,6 +282,12 @@ protocol BluetoothConnectionProtocol {
     
     
     func characteristicsAvailable (service: CBService, availableCharacteristics characteristics: [CBCharacteristic])
+    
+    
+    func successfullyWrittenInCharacteristic (characteristic: CBCharacteristic, writtenValue: Data)
+    
+    
+    func successfullyWrittenInDescriptor (descriptor: CBDescriptor, writtenValue: Data)
     
     
     func errorConnectionOcurred (error: ErrorConnection)
@@ -331,6 +369,10 @@ enum BluetoothConnectionProcess {
     case noneServicesAvailable
     
     case noneCharacteristicsAvailable
+    
+    case successfullyWrittenInCharacteristic
+    
+    case successfullyWrittenInDescriptor
     
     case connectionFailed
 }

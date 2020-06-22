@@ -18,6 +18,7 @@
 "Connection Error Message" = "Connection cannot be established";
 "Please Wait" = "Please Wait ...";
 "Connecting Device Title" = "Connecting Device";
+"Sending Command Title" = "Sending command";
 
 
 // Textos de Botones de Alerts

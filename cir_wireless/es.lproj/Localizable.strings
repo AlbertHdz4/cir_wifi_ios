@@ -17,7 +17,8 @@
 "Connection Error Title" = "Error de conexión";
 "Conenction Error Message" = "La conexión no ha podido ser establecida";
 "Please Wait" = "Espere un momento ...";
-"Connecting Device Title" = "Connecting Device";
+"Connecting Device Title" = "Conectando dispositivo";
+"Sending Command Title" = "Enviando comando";
 
 
 // Button's Texts - Alerts

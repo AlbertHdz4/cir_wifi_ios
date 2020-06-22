@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		180793FA24A0FBE600A19221 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180793F924A0FBE600A19221 /* CryptoUtils.swift */; };
+		180793FA24A0FBE600A19221 /* CryptoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180793F924A0FBE600A19221 /* CryptoData.swift */; };
 		1807940224A0FE7100A19221 /* sftlencrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1807940024A0FE7100A19221 /* sftlencrypt.cpp */; };
 		1807940424A1063800A19221 /* CryptoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1807940324A1063800A19221 /* CryptoConstants.swift */; };
+		1807940624A1172000A19221 /* CurrentDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1807940524A1172000A19221 /* CurrentDate.swift */; };
 		1824E33624912C7B00F51B90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1824E33824912C7B00F51B90 /* Localizable.strings */; };
 		1824E35424913C0500F51B90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1824E35624913C0500F51B90 /* InfoPlist.strings */; };
 		182797D42481AAC5001DB18D /* Courtain.xib in Resources */ = {isa = PBXBuildFile; fileRef = 182797D32481AAC5001DB18D /* Courtain.xib */; };
@@ -38,11 +39,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		180793F924A0FBE600A19221 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
+		180793F924A0FBE600A19221 /* CryptoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoData.swift; sourceTree = "<group>"; };
 		180793FF24A0FE7000A19221 /* cir_wireless-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cir_wireless-Bridging-Header.h"; sourceTree = "<group>"; };
 		1807940024A0FE7100A19221 /* sftlencrypt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sftlencrypt.cpp; sourceTree = "<group>"; };
 		1807940124A0FE7100A19221 /* sftlencrypt.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sftlencrypt.hpp; sourceTree = "<group>"; };
 		1807940324A1063800A19221 /* CryptoConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoConstants.swift; sourceTree = "<group>"; };
+		1807940524A1172000A19221 /* CurrentDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDate.swift; sourceTree = "<group>"; };
 		1824E33724912C7B00F51B90 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1824E33924912C8000F51B90 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1824E35524913C0500F51B90 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		180793FB24A0FD9300A19221 /* cpp */ = {
 			isa = PBXGroup;
 			children = (
+				180793F924A0FBE600A19221 /* CryptoData.swift */,
 				1807940024A0FE7100A19221 /* sftlencrypt.cpp */,
 				1807940124A0FE7100A19221 /* sftlencrypt.hpp */,
 				180793FF24A0FE7000A19221 /* cir_wireless-Bridging-Header.h */,
@@ -225,7 +228,7 @@
 				18B7A003248FF5B100DB520E /* PopUpAlert.swift */,
 				18FB92F52492A7E500758541 /* ProgramExtensions.swift */,
 				188C9FE224993628005478E7 /* ControllerIdentifiers.swift */,
-				180793F924A0FBE600A19221 /* CryptoUtils.swift */,
+				1807940524A1172000A19221 /* CurrentDate.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -316,7 +319,8 @@
 				18E299D624896D6800DAA22C /* CoreBluetoothActions.swift in Sources */,
 				18E6F446249D30C900401A56 /* CirWirelessCommands.swift in Sources */,
 				182797D62481AB2C001DB18D /* CourtainView.swift in Sources */,
-				180793FA24A0FBE600A19221 /* CryptoUtils.swift in Sources */,
+				1807940624A1172000A19221 /* CurrentDate.swift in Sources */,
+				180793FA24A0FBE600A19221 /* CryptoData.swift in Sources */,
 				182C625E2497D06400201DF4 /* ConfigurationController.swift in Sources */,
 				1864427024881A6000145AA7 /* RoundButton.swift in Sources */,
 				184B879F2492466500FF9C84 /* CirWirelessCell.swift in Sources */,

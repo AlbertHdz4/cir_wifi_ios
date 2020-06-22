@@ -11,42 +11,67 @@ import Foundation
 
 class CirWirelessCommands {
     
-    public static func openLock () -> NSData {
+    public static func openLockCommand () -> Data {
+        let command = QuickCommandPackage(
+            commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
+            quickCommand: ._OPEN_LOCK)
+            .getQuickCommandPackage()
+        
+        var data = Data.init()
+        data.append(contentsOf: command)
+        
+        return data
+    }
+    
+    
+    public static func closeLockCommand () -> Data {
+        let command = QuickCommandPackage(
+            commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
+            quickCommand: ._CLOSE_LOCK)
+            .getQuickCommandPackage()
+        
+        var data = Data.init()
+        data.append(contentsOf: command)
+        
+        return data
+    }
+    
+    
+    public static func reloadFridgeCommand () -> Data {
+        let command = QuickCommandPackage(
+            commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
+            quickCommand: ._RELOAD)
+            .getQuickCommandPackage()
+        
+        var data = Data.init()
+        data.append(contentsOf: command)
+        
+        return data
+    }
+    
+    
+    public static func setDateCommand () -> NSData {
+        
         return NSData()
     }
     
     
-    public static func closeLock () -> NSData {
+    public static func readDateCommand () -> NSData {
         return NSData()
     }
     
     
-    public static func reloadFridge () -> NSData {
+    public static func setWiFiSettingsCommand () -> NSData {
         return NSData()
     }
     
     
-    public static func setDate () -> NSData {
+    public static func getSeenAccessPointsCommand () -> NSData {
         return NSData()
     }
     
     
-    public static func readDate () -> NSData {
-        return NSData()
-    }
-    
-    
-    public static func setWiFiSettings () -> NSData {
-        return NSData()
-    }
-    
-    
-    public static func getSeenAccessPoints () -> NSData {
-        return NSData()
-    }
-    
-    
-    public static func getWiFiConnectionStatus () -> NSData {
+    public static func getWiFiConnectionStatusCommand () -> NSData {
         return NSData()
     }
 }

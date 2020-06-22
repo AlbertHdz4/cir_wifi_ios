@@ -38,6 +38,7 @@ class ConfigurationController: UIViewController {
     
     
     var connectingAlert                         : UIAlertController?
+    var sendingCommandAlert                     : UIAlertController?
     
     
     // Outlets
@@ -70,6 +71,7 @@ class ConfigurationController: UIViewController {
     private func loadViews () {
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[0], forSegmentAt: 0)
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[1], forSegmentAt: 1)
+        popUpSendingCommand()
     }
     
     
@@ -109,17 +111,24 @@ class ConfigurationController: UIViewController {
     
     
     @IBAction func lockFridge (_ sender: Any) {
-        
+        self.present(sendingCommandAlert!, animated: true, completion: nil)
+        let command = CirWirelessCommands.closeLockCommand()
+        print(command.hexDescription)
+        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
     }
     
     
     @IBAction func unlockFridge (_ sender: Any) {
-        
+        self.present(sendingCommandAlert!, animated: true, completion: nil)
+        let command = CirWirelessCommands.openLockCommand()
+        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
     }
     
     
     @IBAction func realodFridge (_ sender: Any) {
-        
+        self.present(sendingCommandAlert!, animated: true, completion: nil)
+        let command = CirWirelessCommands.reloadFridgeCommand()
+        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
     }
     
     
@@ -153,6 +162,15 @@ class ConfigurationController: UIViewController {
     }
     
     
+    private func popUpSendingCommand () {
+        let sendingCommandTitle = NSLocalizedString("Sending Command Title", comment: "Present when command is being sent")
+        let sendingCommandMessage = NSLocalizedString("Please Wait", comment: "Wait ...")
+        let sendingAlertComponents = AlertComponents(alertTitle: sendingCommandTitle, alertMessage: sendingCommandMessage)
+        
+        sendingCommandAlert = PopUpAlert.popUp(alertCharacteristic: sendingAlertComponents)
+    }
+    
+    
     private func popUpConnectingCir () {
     
         let connectingAlertTitle = NSLocalizedString("Connecting Device Title", comment: "Connectig with CIR Wireless")
@@ -167,13 +185,11 @@ class ConfigurationController: UIViewController {
         
         self.present(connectingAlert!, animated: true, completion: nil)
     }
-    
-    
-    private func popUpCirConnected () { print("Cir connected") }
     // --------------------------------------------------------------
 }
 
 
+// Protocolo de comunicacion entre Bluetooth Actions y nuestro controlador ------------------------------------
 extension ConfigurationController: BluetoothConnectionProtocol {
     
     func servicesAvailable(services: [CBService]?) {
@@ -301,7 +317,22 @@ extension ConfigurationController: BluetoothConnectionProtocol {
             print("noneServicesOrCharacteristics")
             popUpErrorCirConnection()
         
+        case .successfullyWrittenInCharacteristic:
+            sendingCommandAlert?.dismiss(animated: true, completion: nil)
+        
+        case .successfullyWrittenInDescriptor:
+            sendingCommandAlert?.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    
+    func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
+        print("successfullyWrittenInCharacteristic: ")
+    }
+    
+    
+    func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
+        print("successfullyWrittenInDescriptor: ")
     }
     
     
@@ -314,3 +345,4 @@ extension ConfigurationController: BluetoothConnectionProtocol {
         print("")
     }
 }
+// ---------------------------------------------------------------------------------------------------------
