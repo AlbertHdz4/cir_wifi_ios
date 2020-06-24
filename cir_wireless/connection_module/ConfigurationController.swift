@@ -22,6 +22,7 @@ class ConfigurationController: UIViewController {
     
     var cirWireless                             : CirWirelessModel?
     var bluetoothActions                        : CoreBluetoothActions?
+    var quickCommandResponseState               : QuickCommandResponseState = ._WAITING
     
     
     // MARK: Servicios bluetooth de la cir wireless
@@ -81,6 +82,43 @@ class ConfigurationController: UIViewController {
     }
     
     
+    private func validateFirmwareVersion (firmwareValue: Data) {
+        let firmwareInt: Int = Int(String(firmwareValue[1]) + String(firmwareValue[2]) + String(firmwareValue[3])) ?? 0
+           connectingAlert?.dismiss(animated: true, completion: nil)
+           
+           if firmwareInt == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue {
+               
+               connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
+               cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
+               
+           } else {
+               
+               popUpNotValidFirmware()
+               
+           }
+    }
+    
+    
+    private func validateQuickCommandResponse (quickCommandResponse: Data) {
+        if quickCommandResponse[1] == {
+            switch quickCommandResponseState {
+                
+            case ._LOCKING:
+                print("")
+                
+            case ._UNLOCKING:
+                print("")
+                
+            case ._RELOADING:
+                print("")
+                
+            default :
+                print("")
+            }
+        }
+    }
+    
+    
     // Outlet actions --------------------------------------------------
     @IBAction func selectedSegment(_ sender: Any) {
         if configurationSelector.selectedSegmentIndex == 0 {
@@ -112,22 +150,27 @@ class ConfigurationController: UIViewController {
     
     @IBAction func lockFridge (_ sender: Any) {
         self.present(sendingCommandAlert!, animated: true, completion: nil)
-        let command = CirWirelessCommands.closeLockCommand()
+        let command = CirWirelessCommands.closeLockCommand(cirWirelessMac: cirWireless!.getCirWirelessMacBytes()) // Comando ya encriptado
         print(command.hexDescription)
+        quickCommandResponseState = ._LOCKING
         bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
     }
     
     
     @IBAction func unlockFridge (_ sender: Any) {
         self.present(sendingCommandAlert!, animated: true, completion: nil)
-        let command = CirWirelessCommands.openLockCommand()
+        let command = CirWirelessCommands.openLockCommand(cirWirelessMac: cirWireless!.getCirWirelessMacBytes()) // Comando ya encriptado
+        print(command.hexDescription)
+        quickCommandResponseState = ._UNLOCKING
         bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
     }
     
     
     @IBAction func realodFridge (_ sender: Any) {
         self.present(sendingCommandAlert!, animated: true, completion: nil)
-        let command = CirWirelessCommands.reloadFridgeCommand()
+        let command = CirWirelessCommands.reloadFridgeCommand(cirWirelessMac: cirWireless!.getCirWirelessMacBytes()) // Comando ya encriptado
+        print(command.hexDescription)
+        quickCommandResponseState = ._RELOADING
         bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
     }
     
@@ -144,13 +187,29 @@ class ConfigurationController: UIViewController {
     
     
     // Pop up area :D ---------------------------------------------
+    private func popUpNotValidFirmware () {
+        var firmwareNotValid: UIAlertController?
+        
+        let fwNotValidTitle = NSLocalizedString("Firmware Invalid Title", comment: "If the firmware is not valid")
+        let fwNotValidMessage = NSLocalizedString("Firmware Invalid Message", comment: "Message")
+        let fwNotValidComponents = AlertComponents(alertTitle: fwNotValidTitle, alertMessage: fwNotValidMessage)
+        let fwNotValidAction = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: {_ in
+            firmwareNotValid?.dismiss(animated: true, completion: nil)
+            self.goBackToRootController()
+        })
+        
+        firmwareNotValid = PopUpAlert.popUpOneButton(alertCharacteristic: fwNotValidComponents, buttonCharacteristic: fwNotValidAction)
+        self.present(firmwareNotValid!, animated: true, completion: nil)
+    }
+    
+    
     private func popUpErrorCirConnection () {
         var errorCirAlert: UIAlertController?
     
         let errorCirAlertTitle = NSLocalizedString("Connection Error Title", comment: "In case the passed parameter were null")
         let errorCirAlertMessage = NSLocalizedString("Connection Error Message", comment: "Message")
         let errorCirAlertComponents = AlertComponents(alertTitle: errorCirAlertTitle, alertMessage: errorCirAlertMessage)
-        let errorCirAlertAction = AlertActionComponents(buttonTitle: "Accept", buttonHandler: { _ in
+        let errorCirAlertAction = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: { _ in
             errorCirAlert?.dismiss(animated: true, completion: nil)
             self.goBackToRootController()
         })
@@ -176,7 +235,7 @@ class ConfigurationController: UIViewController {
         let connectingAlertTitle = NSLocalizedString("Connecting Device Title", comment: "Connectig with CIR Wireless")
         let connectingAlertMessage = NSLocalizedString("Please Wait", comment: "Message")
         let connectingAlertComponents = AlertComponents(alertTitle: connectingAlertTitle, alertMessage: connectingAlertMessage)
-        let connectingAlertAction = AlertActionComponents(buttonTitle: "Cancel", buttonHandler: { _ in
+        let connectingAlertAction = AlertActionComponents(buttonTitle: NSLocalizedString("Cancel", comment: "Cancel"), buttonHandler: { _ in
             self.connectingAlert?.dismiss(animated: true, completion: nil)
             self.goBackToRootController()
         })
@@ -191,6 +250,7 @@ class ConfigurationController: UIViewController {
 
 // Protocolo de comunicacion entre Bluetooth Actions y nuestro controlador ------------------------------------
 extension ConfigurationController: BluetoothConnectionProtocol {
+
     
     func servicesAvailable(services: [CBService]?) {
         
@@ -268,10 +328,8 @@ extension ConfigurationController: BluetoothConnectionProtocol {
         if let _ = cwInfoCharacteristic, let _ = cwNotificationCharacteristic,
             let _ = cwWriteCharacteristic, let _ = cwQuickCommandsCharacteristic {
             
-            connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
-            connectingAlert?.dismiss(animated: true, completion: nil)
-            cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
-            
+            // Leemos el firmware de la CIR, solo se permite a dia de hoy la version 3.5.0 en adelante
+            bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwInfoCharacteristic!)
         }
     }
     
@@ -326,8 +384,23 @@ extension ConfigurationController: BluetoothConnectionProtocol {
     }
     
     
+    func successfullyReadCharacteristic(characteristic: CBCharacteristic, readValue: Data?) {
+        print("successfullyReadCharacteristic:value: \(readValue!.hexDescription)")
+        
+        if characteristic.uuid.uuidString == cwInfoCharacteristic?.uuid.uuidString, let firmwareValue = readValue {
+            
+            validateFirmwareVersion(firmwareValue: firmwareValue)
+   
+        } else if characteristic.uuid.uuidString == cwQuickCommandsCharacteristic?.uuid.uuidString, let response = readValue {
+            validateQuickCommandResponse(quickCommandResponse: response)
+        }
+        
+    }
+    
+    
     func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
         print("successfullyWrittenInCharacteristic: ")
+        bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwQuickCommandsCharacteristic!)
     }
     
     
@@ -344,5 +417,19 @@ extension ConfigurationController: BluetoothConnectionProtocol {
     func errorConnectionOcurred(error: ErrorConnection) {
         print("")
     }
+}
+// ---------------------------------------------------------------------------------------------------------
+
+
+// Estados para esperar la respuesta de Quick Commands -----------------------------------------------------
+enum QuickCommandResponseState: String {
+    
+    case _UNLOCKING = "Unlock Fridge"
+    
+    case _LOCKING = "Lock Fridge"
+    
+    case _RELOADING = "Recharge Fridge"
+
+    case _WAITING = "Waiting for"
 }
 // ---------------------------------------------------------------------------------------------------------

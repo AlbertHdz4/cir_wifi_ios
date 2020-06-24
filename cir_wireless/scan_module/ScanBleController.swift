@@ -235,7 +235,7 @@ extension ScanBleController: UITableViewDataSource {
 extension ScanBleController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("indexPath: \(cirsFound[indexPath.row].getCirWirelessMac())")
+        print("indexPath: \(String(describing: cirsFound[indexPath.row].getCirWirelessMac()))")
         
         if isBluetoothOn {
             selectedCirWireless = cirsFound[indexPath.row]

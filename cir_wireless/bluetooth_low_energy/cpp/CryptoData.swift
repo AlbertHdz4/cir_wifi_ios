@@ -39,8 +39,8 @@ class CryptoData {
      */
     static func encryptData(/*encSecDataStruct: Enc_Sec_Data_t = ENC_SEC_DATA_T,*/reverseMac: [UInt8], data: [UInt8]) -> [UInt8] {
         
-        let macStruct = (UInt8(reverseMac[0]), UInt8(reverseMac[1]), UInt8(reverseMac[2]),
-                         UInt8(reverseMac[3]), UInt8(reverseMac[4]), UInt8(reverseMac[5]))
+        let macStruct = (UInt8(reverseMac[5]), UInt8(reverseMac[4]), UInt8(reverseMac[3]),
+                         UInt8(reverseMac[2]), UInt8(reverseMac[1]), UInt8(reverseMac[0]))
         
         var myStruct = Enc_Sec_Data_t(inKey: KEY,
                                       inDiv: macStruct,

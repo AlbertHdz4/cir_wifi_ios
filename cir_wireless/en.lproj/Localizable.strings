@@ -19,6 +19,8 @@
 "Please Wait" = "Please Wait ...";
 "Connecting Device Title" = "Connecting Device";
 "Sending Command Title" = "Sending command";
+"Firmware Invalid Title" = "Invalid Firmware Version";
+"Firmware Invalid Message" = "Cannot connect with a device with invalid firmware, contact technical support";
 
 
 // Textos de Botones de Alerts

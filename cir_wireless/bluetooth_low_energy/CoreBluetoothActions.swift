@@ -10,7 +10,9 @@
 import Foundation
 import CoreBluetooth
 
-
+/**
+ * Servicio Bluetooth: Desde este servicio se manejan todos los eventos bluetooth entre iPhone y la CIR Wireless
+ */
 class CoreBluetoothActions: NSObject {
     
     // Tunning variables
@@ -235,17 +237,21 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
     
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
-        print("Successfully written in descriptor:")
+        print("Successfully written in descriptor: ")
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .successfullyWrittenInDescriptor)
         bluetoothConnectionDelegate?.successfullyWrittenInDescriptor(descriptor: descriptor, writtenValue: (descriptor.value as! Data))
     }
     
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
-        print("didUpdateNotificationStateFor:")
+        print("didUpdateNotificationStateFor: ")
     }
     
     
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        print("didUpdateValueFor: \(characteristic.value?.hexDescription)")
+        bluetoothConnectionDelegate?.successfullyReadCharacteristic(characteristic: characteristic, readValue: characteristic.value)
+    }
 }
 // -------------------------------------------------------------------------------------------------
 
@@ -282,6 +288,9 @@ protocol BluetoothConnectionProtocol {
     
     
     func characteristicsAvailable (service: CBService, availableCharacteristics characteristics: [CBCharacteristic])
+    
+    
+    func successfullyReadCharacteristic (characteristic: CBCharacteristic, readValue: Data?)
     
     
     func successfullyWrittenInCharacteristic (characteristic: CBCharacteristic, writtenValue: Data)

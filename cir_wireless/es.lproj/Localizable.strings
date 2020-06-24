@@ -19,6 +19,8 @@
 "Please Wait" = "Espere un momento ...";
 "Connecting Device Title" = "Conectando dispositivo";
 "Sending Command Title" = "Enviando comando";
+"Firmware Invalid Title" = "Firmware Inválido";
+"Firmware Invalid Message" = "No se puede conectar con este dispositivo, contacte a soporte técnico";
 
 
 // Button's Texts - Alerts

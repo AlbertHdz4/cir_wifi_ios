@@ -30,4 +30,11 @@ class BluetoothGattConstants {
 
     // Identificadores de los servicios BLE
     public static let CBUUID_SERVICE_CIR_WIRELESS : CBUUID  = CBUUID(string: "00050000-0000-1000-8000-00805f9baaaa")
+    
+    
+    enum AllowedFirmwares: Int {
+        
+        case _FIRMWARE_350 = 350
+        
+    }
 }

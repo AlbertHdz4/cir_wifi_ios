@@ -11,40 +11,41 @@ import Foundation
 
 class CirWirelessCommands {
     
-    public static func openLockCommand () -> Data {
-        let command = QuickCommandPackage(
-            commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
-            quickCommand: ._OPEN_LOCK)
-            .getQuickCommandPackage()
+    public static func openLockCommand (cirWirelessMac: [UInt8]) -> Data {
+        let package = QuickCommandPackage(commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
+                                          quickCommand: ._OPEN_LOCK).getQuickCommandPackage()
         
-        var data = Data.init()
-        data.append(contentsOf: command)
+        let encryptedPackage = CryptoData.encryptData(reverseMac: cirWirelessMac, data: package)
         
-        return data
-    }
-    
-    
-    public static func closeLockCommand () -> Data {
-        let command = QuickCommandPackage(
-            commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
-            quickCommand: ._CLOSE_LOCK)
-            .getQuickCommandPackage()
-        
-        var data = Data.init()
-        data.append(contentsOf: command)
+        var data = Data()
+        data.append(contentsOf: encryptedPackage)
         
         return data
     }
     
     
-    public static func reloadFridgeCommand () -> Data {
-        let command = QuickCommandPackage(
-            commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
-            quickCommand: ._RELOAD)
-            .getQuickCommandPackage()
+    public static func closeLockCommand (cirWirelessMac: [UInt8]) -> Data {
         
-        var data = Data.init()
-        data.append(contentsOf: command)
+        let package = QuickCommandPackage(commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
+                                          quickCommand: ._CLOSE_LOCK).getQuickCommandPackage()
+        
+        let encryptedPackage = CryptoData.encryptData(reverseMac: cirWirelessMac, data: package)
+        
+        var data = Data()
+        data.append(contentsOf: encryptedPackage)
+        
+        return data
+    }
+    
+    
+    public static func reloadFridgeCommand (cirWirelessMac: [UInt8]) -> Data {
+        let package = QuickCommandPackage(commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
+                                          quickCommand: ._RELOAD).getQuickCommandPackage()
+        
+        let encryptedPackage = CryptoData.encryptData(reverseMac: cirWirelessMac, data: package)
+        
+        var data = Data()
+        data.append(contentsOf: encryptedPackage)
         
         return data
     }

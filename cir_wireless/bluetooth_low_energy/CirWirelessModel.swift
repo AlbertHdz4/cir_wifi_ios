@@ -29,15 +29,22 @@ class CirWirelessModel {
     }
     
     
+    func getCirWirelessMacBytes () -> [UInt8] {
+        if cirWirelessMacBytes == nil {
+            let _ = getCirWirelessMac()
+        }
+        
+        return cirWirelessMacBytes!
+    }
+    
+    
     func getCirWirelessMac () -> String {
         
         if cirWirelessMac == nil {
-            
+
             let macReversed = String(((iBeacon?.advertisementData[BeaconFields.cirWirelessMac.rawValue] as? Data)!.hexDescription).reversed())
             sanitizeMacValues(macToFix: macReversed)
-            
         }
-        
         
         return cirWirelessMac!
     }
