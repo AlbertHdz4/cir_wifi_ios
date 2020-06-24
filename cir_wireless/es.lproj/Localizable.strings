@@ -8,27 +8,36 @@
 
 
 // Alert's Texts
-"BLE Persmission Title Denied" = "Permiso Bluetooth Negado";
-"BLE Persmission Message Denied" = "Este permiso es necesario para continuar, actualizalo";
-"Bluetooth Scanning" = "Escaneo Bluetooth";
-"Cir's Not Found" = "Cir Wireless no encontrada";
-"Bluetooth Off Title" = "Bluetooth Apagado";
-"Bluetooth Off Message" = "El bluetooth debe permanecer encendido para continuar";
-"Connection Error Title" = "Error de conexión";
-"Conenction Error Message" = "La conexión no ha podido ser establecida";
-"Please Wait" = "Espere un momento ...";
-"Connecting Device Title" = "Conectando dispositivo";
-"Sending Command Title" = "Enviando comando";
-"Firmware Invalid Title" = "Firmware Inválido";
-"Firmware Invalid Message" = "No se puede conectar con este dispositivo, contacte a soporte técnico";
+"BLE Persmission Title Denied"      = "Permiso Bluetooth Negado";
+"BLE Persmission Message Denied"    = "Este permiso es necesario para continuar, actualizalo";
+"Bluetooth Scanning"                = "Escaneo Bluetooth";
+"Cir's Not Found"                   = "Cir Wireless no encontrada";
+"Bluetooth Off Title"               = "Bluetooth Apagado";
+"Bluetooth Off Message"             = "El bluetooth debe permanecer encendido para continuar";
+"Connection Error Title"            = "Error de conexión";
+"Conenction Error Message"          = "La conexión no ha podido ser establecida";
+"Please Wait"                       = "Espere un momento ...";
+"Connecting Device Title"           = "Conectando dispositivo";
+"Sending Command Title"             = "Enviando comando";
+"Firmware Invalid Title"            = "Firmware Inválido";
+"Firmware Invalid Message"          = "No se puede conectar con este dispositivo, contacte a soporte técnico";
+"Error Ocurred Title"               = "Ocurrió un Error";
+"Error Ocurred Message"             = "Intenta de nuevo o conectate de nuevo con el dispositivo";
+"Lock Disabled"                     = "Chapa no habilitada";
+"Locked"                            = "Chapa cerrada";
+"Unlocked"                          = "Chapa abierta";
+"Reload Disabled"                   = "Recarga no habilitada";
+"Reload Enabled"                    = "Recarga habilitada";
+"Option Disabled"                   = "Oops ...";
+"Option Success"                    = "Éxito";
 
 
 // Button's Texts - Alerts
-"Ok" = "Ok";
-"Cancel" = "Cancelar";
-"System Settings" = "Configuración";
-"Retry" = "Reintentar";
-"Accept" = "Aceptar";
+"Ok"                = "Ok";
+"Cancel"            = "Cancelar";
+"System Settings"   = "Configuración";
+"Retry"             = "Reintentar";
+"Accept"            = "Aceptar";
 
 
 // Courtain Texts
@@ -40,8 +49,8 @@
 
 
 // Page Control's Texts
-"Lock Label" = "Chapa";
-"Configuration Label" = "Configurar";
+"Lock Label"            = "Chapa";
+"Configuration Label"   = "Configurar";
 
 
 // View Cotroller's Texts

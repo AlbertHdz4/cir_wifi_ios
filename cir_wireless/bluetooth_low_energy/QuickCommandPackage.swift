@@ -122,15 +122,15 @@ struct QuickCommandResponse {
     }
     
     
-    func isOk () -> Bool {
-        return response == PackageResponse._BAD_RESPONSE.rawValue
+    func isValid () -> Bool {
+        return response != QuickCommandReponses._BAD_RESPONSE.rawValue
     }
 }
 // ----------------------------------------------------------------------------
 
 
 // Posibles respuestas de la CIR Wireless -------------------------------------
-enum PackageResponse: UInt8 {
+enum QuickCommandReponses: UInt8 {
     
     case _BAD_RESPONSE = 0x00
     

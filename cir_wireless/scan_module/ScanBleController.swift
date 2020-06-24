@@ -215,7 +215,6 @@ class ScanBleController: UIViewController {
 extension ScanBleController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("EXECUTING TABLE VIEW: \(cirsFound.count)")
         return cirsFound.count
     }
     
@@ -235,13 +234,16 @@ extension ScanBleController: UITableViewDataSource {
 extension ScanBleController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("indexPath: \(String(describing: cirsFound[indexPath.row].getCirWirelessMac()))")
         
         if isBluetoothOn {
+            
             selectedCirWireless = cirsFound[indexPath.row]
             self.performSegue(withIdentifier: ControllerIdentifiers.vcConfiguration.rawValue, sender: self)
+            
         } else {
+            
             popUpTurnedBluetoothOff()
+            
         }
     }
 }

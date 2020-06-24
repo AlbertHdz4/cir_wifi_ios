@@ -41,6 +41,9 @@ class ConfigurationController: UIViewController {
     var connectingAlert                         : UIAlertController?
     var sendingCommandAlert                     : UIAlertController?
     
+    var responseAlert                           : UIAlertController!
+    var responseTitle                           : String!
+    var responseMessage                         : String!
     
     // Outlets
     @IBOutlet weak var connectionStatus         : UILabel!
@@ -99,22 +102,63 @@ class ConfigurationController: UIViewController {
     }
     
     
-    private func validateQuickCommandResponse (quickCommandResponse: Data) {
-        if quickCommandResponse[1] == {
-            switch quickCommandResponseState {
+    private func validateQuickCommandResponse (quickCommandResponse: QuickCommandResponse) {
+        
+        if quickCommandResponse.isValid() {
+            print("It is a valid respose")
+            
+            if quickCommandResponse.response != QuickCommandReponses._LOCK_DISABLED.rawValue {
+                responseTitle = NSLocalizedString("Option Success", comment: "Command successfully sent")
                 
-            case ._LOCKING:
-                print("")
+                switch quickCommandResponseState {
+                case ._LOCKING:
+                    responseMessage = NSLocalizedString("Locked", comment: "Lock is closed")
+                    
+                case ._UNLOCKING:
+                    responseMessage = NSLocalizedString("Unlocked", comment: "Lock is opened")
+                    
+                case ._RELOADING:
+                    responseMessage = NSLocalizedString("Reload Enabled", comment: "Reload enabled")
+                    
+                case ._WAITING:
+                    print("Waiting for command")
+                }
                 
-            case ._UNLOCKING:
-                print("")
+            } else {
                 
-            case ._RELOADING:
-                print("")
+                switch quickCommandResponseState {
+                case ._LOCKING, ._UNLOCKING:
+                    responseTitle = NSLocalizedString("Option Disabled", comment: "Lock is disabled or unavailble by hardware or firmware")
+                    responseMessage = NSLocalizedString("Lock Disabled", comment: "Lock is disabled or unavailble by hardware or firmware")
+                                 
+                case ._RELOADING:
+                    responseTitle = NSLocalizedString("Option Disabled", comment: "Reload is disabled or unavailble by hardware or firmware")
+                    responseMessage = NSLocalizedString("Reload Disabled", comment: "Reload is disabled or unavailble by hardware or firmware")
+                              
+                case ._WAITING:
+                    print("Waiting for command")
+                }
                 
-            default :
-                print("")
             }
+            
+        } else {
+            responseTitle = NSLocalizedString("Error Ocurred Title", comment: "")
+            responseMessage = NSLocalizedString("Error Ocurred Message", comment: "")
+        }
+        
+        responseAlert = popUpCommandResponse(title: responseTitle, message: responseMessage, buttonHandler: { _ in
+            self.responseAlert.dismiss(animated: true, completion: nil)
+        })
+    }
+    
+    
+    private func presentPopUp () {
+        
+        if quickCommandResponseState != ._WAITING {
+            
+            self.present(responseAlert, animated: true, completion: nil)
+            quickCommandResponseState = ._WAITING
+            
         }
     }
     
@@ -149,7 +193,9 @@ class ConfigurationController: UIViewController {
     
     
     @IBAction func lockFridge (_ sender: Any) {
+        
         self.present(sendingCommandAlert!, animated: true, completion: nil)
+        
         let command = CirWirelessCommands.closeLockCommand(cirWirelessMac: cirWireless!.getCirWirelessMacBytes()) // Comando ya encriptado
         print(command.hexDescription)
         quickCommandResponseState = ._LOCKING
@@ -227,6 +273,17 @@ class ConfigurationController: UIViewController {
         let sendingAlertComponents = AlertComponents(alertTitle: sendingCommandTitle, alertMessage: sendingCommandMessage)
         
         sendingCommandAlert = PopUpAlert.popUp(alertCharacteristic: sendingAlertComponents)
+    }
+    
+    
+    private func popUpCommandResponse (title: String, message: String, buttonHandler: ((UIAlertAction) -> Void)?) -> UIAlertController {
+        let commandResponseAlert: UIAlertController!
+        let commandResponseAlertComponents =  AlertComponents(alertTitle: title, alertMessage: message)
+        let commandResponseAlertAction = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: buttonHandler)
+        
+        commandResponseAlert = PopUpAlert.popUpOneButton(alertCharacteristic: commandResponseAlertComponents, buttonCharacteristic: commandResponseAlertAction)
+        
+        return commandResponseAlert
     }
     
     
@@ -335,51 +392,65 @@ extension ConfigurationController: BluetoothConnectionProtocol {
     
     
     func updateBluetoothConnectProcess(status: BluetoothConnectionProcess) {
+        
         print(status)
         
         switch status {
+            
         case .connecting :
+            
             print("connecting")
             
             
         case .connected :
+            
             bluetoothActions?.discoverCirWirelessServices(specificServices: nil)
             
             
         case .disconnecting :
+            
             print("disconnecting")
             
             
         case .disconnected :
+            
             print("disconnected")
             
             
         case .discoveringServicesAndCharacteristics :
+            
             print("discoveringServices")
             
             
         case .connectionFailed :
+            
             print("connectionFailed")
             
             
         case .servicesDiscovered :
+            
             print("servicesDiscovered")
         
             
         case .characteristicsDiscovered :
+            
             print("characteristicsDiscovered")
             
         
         case .noneServicesAvailable,
              .noneCharacteristicsAvailable :
+            
             print("noneServicesOrCharacteristics")
             popUpErrorCirConnection()
         
-        case .successfullyWrittenInCharacteristic:
-            sendingCommandAlert?.dismiss(animated: true, completion: nil)
-        
-        case .successfullyWrittenInDescriptor:
-            sendingCommandAlert?.dismiss(animated: true, completion: nil)
+        case .successfullyWrittenInCharacteristic,
+             .successfullyWrittenInDescriptor:
+            
+            print("successfullyWritten")
+            sendingCommandAlert?.dismiss(animated: true, completion: {
+                self.presentPopUp()
+            })
+            
         }
     }
     
@@ -392,7 +463,8 @@ extension ConfigurationController: BluetoothConnectionProtocol {
             validateFirmwareVersion(firmwareValue: firmwareValue)
    
         } else if characteristic.uuid.uuidString == cwQuickCommandsCharacteristic?.uuid.uuidString, let response = readValue {
-            validateQuickCommandResponse(quickCommandResponse: response)
+            let qCResponse = QuickCommandResponse(responsePackage: response.hexDescription.hexaToBytes)
+            validateQuickCommandResponse(quickCommandResponse: qCResponse)
         }
         
     }
