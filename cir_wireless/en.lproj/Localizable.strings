@@ -30,6 +30,9 @@
 "Reload Enabled"                    = "Reload is enabled";
 "Option Disabled"                   = "Oops ...";
 "Option Success"                    = "Success";
+"Bad Passcode Title"                = "Bad Passcode";
+"Bad Passcode Message"              = "You must enter a correct passcode";
+"Sending Passcode Title"            = "Sending Configuration";
 
 
 // Textos de Botones de Alerts

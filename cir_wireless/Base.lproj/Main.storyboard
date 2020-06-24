@@ -430,7 +430,7 @@
         <!--Access Points-->
         <scene sceneID="Pwi-CA-be3">
             <objects>
-                <viewController title="Access Points" id="6HE-TS-Thg" sceneMemberID="viewController">
+                <viewController title="Access Points" id="6HE-TS-Thg" customClass="AccessPointViewController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Msk-Kg-bZn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -441,8 +441,14 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="fpO-ey-aIx">
                                 <rect key="frame" x="10" y="20" width="394" height="641"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfZ-4j-Mtq">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_access_points" translatesAutoresizingMaskIntoConstraints="NO" id="mNe-OC-Ldk">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="150"/>
+                                        <rect key="frame" x="0.0" y="6" width="394" height="144"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="GQM-mw-Qv2"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="TyO-TK-cfO"/>
@@ -484,8 +490,19 @@
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ruh-Nm-DMj">
                                                 <rect key="frame" x="50" y="184.66666666666669" width="294" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES" textContentType="password"/>
                                             </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GkN-z8-euV" customClass="RoundButton" customModule="Cir_Wireless" customModuleProvider="target">
+                                                <rect key="frame" x="155" y="240" width="84" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="84" id="xAd-7S-Ca4"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="Accept"/>
+                                                <connections>
+                                                    <action selector="acceptPasscode:" destination="6HE-TS-Thg" eventType="touchUpInside" id="zmI-W6-utx"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="ruh-Nm-DMj" secondAttribute="trailing" constant="50" id="2DJ-RN-t6A"/>
@@ -495,9 +512,11 @@
                                             <constraint firstItem="ruh-Nm-DMj" firstAttribute="centerY" secondItem="qwh-RN-TJG" secondAttribute="centerY" id="Qxl-uk-iY7"/>
                                             <constraint firstItem="9Fb-l5-doQ" firstAttribute="leading" secondItem="qwh-RN-TJG" secondAttribute="leading" id="W15-g1-Mi3"/>
                                             <constraint firstAttribute="trailing" secondItem="JQL-Qz-1ia" secondAttribute="trailing" id="Xv4-Mz-6Uo"/>
+                                            <constraint firstItem="GkN-z8-euV" firstAttribute="top" secondItem="ruh-Nm-DMj" secondAttribute="bottom" constant="21.333333333333314" id="g9F-Zr-Imu"/>
                                             <constraint firstAttribute="trailing" secondItem="9Fb-l5-doQ" secondAttribute="trailing" id="mCe-4M-J3q"/>
                                             <constraint firstItem="JQL-Qz-1ia" firstAttribute="leading" secondItem="qwh-RN-TJG" secondAttribute="leading" id="pr0-Tb-SUY"/>
                                             <constraint firstItem="JQL-Qz-1ia" firstAttribute="top" secondItem="9Fb-l5-doQ" secondAttribute="bottom" constant="35" id="qfJ-bQ-Pzu"/>
+                                            <constraint firstItem="GkN-z8-euV" firstAttribute="centerX" secondItem="qwh-RN-TJG" secondAttribute="centerX" id="tCX-lb-fxb"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -532,10 +551,13 @@
                     <navigationItem key="navigationItem" title="Access Points" id="B2H-R0-1J6">
                         <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="IaJ-gh-Kgd"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="passcodeField" destination="ruh-Nm-DMj" id="OYe-CC-0tV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1F-YT-n7V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="873.91304347826099" y="137.94642857142856"/>
+            <point key="canvasLocation" x="873.91304347826099" y="136.95652173913044"/>
         </scene>
         <!--Device-->
         <scene sceneID="SnP-2Q-xmI">

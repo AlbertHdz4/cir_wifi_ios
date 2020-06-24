@@ -118,9 +118,9 @@ class ScanBleController: UIViewController {
     private func popUpBluetoothPermissionDenied () {
         var permissionPopUp: UIAlertController?
         
-        let permissionTitleAlert = NSLocalizedString("BLE Persmission Title Denied",
+        let permissionTitleAlert        = NSLocalizedString("BLE Persmission Title Denied",
                                                       comment: "Permission needs to be updated")
-        let persmissionMessageAlert = NSLocalizedString("BLE Persmission Message Denied",
+        let persmissionMessageAlert     = NSLocalizedString("BLE Persmission Message Denied",
                                                         comment: "Permission needs to be updated")
                    
         let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: persmissionMessageAlert)
@@ -147,16 +147,18 @@ class ScanBleController: UIViewController {
     
     // Pop up para indicar que ningun dispositivo Cir ha sido encontrado
     private func popUpNoneCirsFound () {
-        let scanAlertTitle = NSLocalizedString("Bluetooth Scanning",
+        var scanResultPopUp         : UIAlertController?
+        
+        let scanAlertTitle          = NSLocalizedString("Bluetooth Scanning",
                                            comment: "None Cir Wireless near by")
-        let scanAlertMessage = NSLocalizedString("Cir's Not Found",
+        
+        let scanAlertMessage        = NSLocalizedString("Cir's Not Found",
                                              comment: "None Cir Wireless near by")
         
-        var scanResultPopUp: UIAlertController?
-        
-        let scanAlertComponents = AlertComponents(alertTitle: scanAlertTitle,
+        let scanAlertComponents     = AlertComponents(alertTitle: scanAlertTitle,
                                               alertMessage: scanAlertMessage)
-        let retryActionComponents = AlertActionComponents(
+        
+        let retryActionComponents   = AlertActionComponents(
             buttonTitle: NSLocalizedString("Retry",
                                            comment: "Scan again"),
             
@@ -165,14 +167,14 @@ class ScanBleController: UIViewController {
                 self.scanAgain()
         })
         
-        let acceptActionComponents = AlertActionComponents(
+        let acceptActionComponents  = AlertActionComponents(
             buttonTitle: NSLocalizedString("Accept",
                                           comment: "Just to dismiss dialog"),
             buttonHandler: {(_) -> Void in
                 scanResultPopUp?.dismiss(animated: true, completion: nil)
         })
         
-        scanResultPopUp = try? PopUpAlert.popUpTwoButtons(alertCharacteristic: scanAlertComponents,
+        scanResultPopUp             = try? PopUpAlert.popUpTwoButtons(alertCharacteristic: scanAlertComponents,
                                                           buttonCharacteristic: [acceptActionComponents, retryActionComponents])
         
         self.present(scanResultPopUp!, animated: true, completion: nil)
@@ -181,16 +183,16 @@ class ScanBleController: UIViewController {
     
     // Pop up para indicar que el bluetooth ha sido apagado
     private func popUpTurnedBluetoothOff () {
-        var bluetoothOffPopUp: UIAlertController?
+        var bluetoothOffPopUp               : UIAlertController?
         
-        let bluetoothOffTitle = NSLocalizedString("Bluetooth Off Title",
+        let bluetoothOffTitle               = NSLocalizedString("Bluetooth Off Title",
                                                   comment: "When user turns bluetooth off in the middle of a process")
-        let bluetoothOffMessage = NSLocalizedString("Bluetooth Off Message",
+        let bluetoothOffMessage             = NSLocalizedString("Bluetooth Off Message",
                                                     comment: "Bluetooth is mandatory for many process in the app")
         
-        let bluetoothOffAlertComponents = AlertComponents(alertTitle: bluetoothOffTitle,
+        let bluetoothOffAlertComponents     = AlertComponents(alertTitle: bluetoothOffTitle,
                                                  alertMessage: bluetoothOffMessage)
-        let acceptActionComponents = AlertActionComponents(
+        let acceptActionComponents          = AlertActionComponents(
                   buttonTitle: NSLocalizedString("Accept",
                                                 comment: "Just to dismiss dialog"),
                   buttonHandler: { _ -> Void in
@@ -201,7 +203,7 @@ class ScanBleController: UIViewController {
                     
         })
         
-        bluetoothOffPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: bluetoothOffAlertComponents,
+        bluetoothOffPopUp                   = PopUpAlert.popUpOneButton(alertCharacteristic: bluetoothOffAlertComponents,
                                                            buttonCharacteristic: acceptActionComponents)
         
         self.present(bluetoothOffPopUp!, animated: true, completion: nil)
@@ -209,6 +211,7 @@ class ScanBleController: UIViewController {
     // ------------------------------------------------
     // ------------------------------------------------
 }
+
 
 
 // Delegados para la tabla de CIRs encontradas ----------------------------
@@ -220,11 +223,11 @@ extension ScanBleController: UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cirWirelessCell = cirWirelessTable.dequeueReusableCell(withIdentifier: REUSABLE_CELL_ID,
+        let cirWirelessCell                     = cirWirelessTable.dequeueReusableCell(withIdentifier: REUSABLE_CELL_ID,
                                                                    for: indexPath) as? CirWirelessCell
         
-        cirWirelessCell?.cirWirelessMac.text = (cirsFound[indexPath.row]).getCirWirelessMac()
-        cirWirelessCell?.cirModel = cirsFound[indexPath.row]
+        cirWirelessCell?.cirWirelessMac.text    = (cirsFound[indexPath.row]).getCirWirelessMac()
+        cirWirelessCell?.cirModel               = cirsFound[indexPath.row]
         
         return cirWirelessCell!
     }
@@ -248,6 +251,7 @@ extension ScanBleController: UITableViewDelegate {
     }
 }
 // --------------------------------------------------------------------------
+
 
 
 // Extensiones de los protocolos --------------------------------------------

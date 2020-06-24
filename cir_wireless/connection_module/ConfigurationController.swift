@@ -34,8 +34,8 @@ class ConfigurationController: UIViewController {
     // MARK: Caracteristicas bluetooth de la cir wireless
     var cwInfoCharacteristic                    : CBCharacteristic?
     var cwQuickCommandsCharacteristic           : CBCharacteristic?
-    var cwNotificationCharacteristic            : CBCharacteristic?
-    var cwWriteCharacteristic                   : CBCharacteristic?
+    var cwProtocolNotificationCharac            : CBCharacteristic?
+    var cwProtocolWriteCharacteristic           : CBCharacteristic?
     
     
     var connectingAlert                         : UIAlertController?
@@ -163,15 +163,25 @@ class ConfigurationController: UIViewController {
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? AccessPointViewController {
+            destination.cirWireless                     = self.cirWireless
+            destination.cwProtocolService               = self.cwProtocolService
+            destination.cwProtocolNotificationCharac    = self.cwProtocolNotificationCharac
+            destination.cwProtocolWriteCharacteristic   = self.cwProtocolWriteCharacteristic
+        }
+    }
+    
+    
     // Outlet actions --------------------------------------------------
     @IBAction func selectedSegment(_ sender: Any) {
         if configurationSelector.selectedSegmentIndex == 0 {
             
             print("Lock is selected")
             containerConfigBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
-                self.containerConfigBtns.isHidden = true
-                self.containerLockBtns.isHidden = false
-                self.containerReloadBtn.isHidden = false
+                self.containerConfigBtns.isHidden   = true
+                self.containerLockBtns.isHidden     = false
+                self.containerReloadBtn.isHidden    = false
                 self.containerLockBtns.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
                 self.containerReloadBtn.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
                 
@@ -182,9 +192,9 @@ class ConfigurationController: UIViewController {
             print("Configuration is selected")
             containerLockBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
             containerReloadBtn.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
-                self.containerLockBtns.isHidden = true
-                self.containerReloadBtn.isHidden = true
-                self.containerConfigBtns.isHidden = false
+                self.containerLockBtns.isHidden     = true
+                self.containerReloadBtn.isHidden    = true
+                self.containerConfigBtns.isHidden   = false
                 self.containerConfigBtns.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
             })
             
@@ -222,24 +232,24 @@ class ConfigurationController: UIViewController {
     
     
     @IBAction func configWiFiConnection (_ sender: Any) {
-        
+        self.performSegue(withIdentifier: ControllerIdentifiers.vcAccessPoints.rawValue, sender: self)
     }
     
     
     @IBAction func testWiFiConnection (_ sender: Any) {
-        
+        self.performSegue(withIdentifier: ControllerIdentifiers.vcTestConenction.rawValue, sender: self)
     }
-    // // ---------------------------------------------------------
+    // ------------------------------------------------------------
     
     
     // Pop up area :D ---------------------------------------------
     private func popUpNotValidFirmware () {
         var firmwareNotValid: UIAlertController?
         
-        let fwNotValidTitle = NSLocalizedString("Firmware Invalid Title", comment: "If the firmware is not valid")
-        let fwNotValidMessage = NSLocalizedString("Firmware Invalid Message", comment: "Message")
-        let fwNotValidComponents = AlertComponents(alertTitle: fwNotValidTitle, alertMessage: fwNotValidMessage)
-        let fwNotValidAction = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: {_ in
+        let fwNotValidTitle         = NSLocalizedString("Firmware Invalid Title", comment: "If the firmware is not valid")
+        let fwNotValidMessage       = NSLocalizedString("Firmware Invalid Message", comment: "Message")
+        let fwNotValidComponents    = AlertComponents(alertTitle: fwNotValidTitle, alertMessage: fwNotValidMessage)
+        let fwNotValidAction        = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: {_ in
             firmwareNotValid?.dismiss(animated: true, completion: nil)
             self.goBackToRootController()
         })
@@ -252,10 +262,10 @@ class ConfigurationController: UIViewController {
     private func popUpErrorCirConnection () {
         var errorCirAlert: UIAlertController?
     
-        let errorCirAlertTitle = NSLocalizedString("Connection Error Title", comment: "In case the passed parameter were null")
-        let errorCirAlertMessage = NSLocalizedString("Connection Error Message", comment: "Message")
-        let errorCirAlertComponents = AlertComponents(alertTitle: errorCirAlertTitle, alertMessage: errorCirAlertMessage)
-        let errorCirAlertAction = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: { _ in
+        let errorCirAlertTitle          = NSLocalizedString("Connection Error Title", comment: "In case the passed parameter were null")
+        let errorCirAlertMessage        = NSLocalizedString("Connection Error Message", comment: "Message")
+        let errorCirAlertComponents     = AlertComponents(alertTitle: errorCirAlertTitle, alertMessage: errorCirAlertMessage)
+        let errorCirAlertAction         = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: { _ in
             errorCirAlert?.dismiss(animated: true, completion: nil)
             self.goBackToRootController()
         })
@@ -268,9 +278,9 @@ class ConfigurationController: UIViewController {
     
     
     private func popUpSendingCommand () {
-        let sendingCommandTitle = NSLocalizedString("Sending Command Title", comment: "Present when command is being sent")
-        let sendingCommandMessage = NSLocalizedString("Please Wait", comment: "Wait ...")
-        let sendingAlertComponents = AlertComponents(alertTitle: sendingCommandTitle, alertMessage: sendingCommandMessage)
+        let sendingCommandTitle     = NSLocalizedString("Sending Command Title", comment: "Present when command is being sent")
+        let sendingCommandMessage   = NSLocalizedString("Please Wait", comment: "Wait ...")
+        let sendingAlertComponents  = AlertComponents(alertTitle: sendingCommandTitle, alertMessage: sendingCommandMessage)
         
         sendingCommandAlert = PopUpAlert.popUp(alertCharacteristic: sendingAlertComponents)
     }
@@ -278,8 +288,8 @@ class ConfigurationController: UIViewController {
     
     private func popUpCommandResponse (title: String, message: String, buttonHandler: ((UIAlertAction) -> Void)?) -> UIAlertController {
         let commandResponseAlert: UIAlertController!
-        let commandResponseAlertComponents =  AlertComponents(alertTitle: title, alertMessage: message)
-        let commandResponseAlertAction = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: buttonHandler)
+        let commandResponseAlertComponents  =  AlertComponents(alertTitle: title, alertMessage: message)
+        let commandResponseAlertAction      = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: buttonHandler)
         
         commandResponseAlert = PopUpAlert.popUpOneButton(alertCharacteristic: commandResponseAlertComponents, buttonCharacteristic: commandResponseAlertAction)
         
@@ -289,10 +299,10 @@ class ConfigurationController: UIViewController {
     
     private func popUpConnectingCir () {
     
-        let connectingAlertTitle = NSLocalizedString("Connecting Device Title", comment: "Connectig with CIR Wireless")
-        let connectingAlertMessage = NSLocalizedString("Please Wait", comment: "Message")
-        let connectingAlertComponents = AlertComponents(alertTitle: connectingAlertTitle, alertMessage: connectingAlertMessage)
-        let connectingAlertAction = AlertActionComponents(buttonTitle: NSLocalizedString("Cancel", comment: "Cancel"), buttonHandler: { _ in
+        let connectingAlertTitle        = NSLocalizedString("Connecting Device Title", comment: "Connectig with CIR Wireless")
+        let connectingAlertMessage      = NSLocalizedString("Please Wait", comment: "Message")
+        let connectingAlertComponents   = AlertComponents(alertTitle: connectingAlertTitle, alertMessage: connectingAlertMessage)
+        let connectingAlertAction       = AlertActionComponents(buttonTitle: NSLocalizedString("Cancel", comment: "Cancel"), buttonHandler: { _ in
             self.connectingAlert?.dismiss(animated: true, completion: nil)
             self.goBackToRootController()
         })
@@ -364,11 +374,11 @@ extension ConfigurationController: BluetoothConnectionProtocol {
                
             if characteristicUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_NOTIFY_CHARACTERISTIC {
                 
-                self.cwNotificationCharacteristic = characteristic
+                self.cwProtocolNotificationCharac = characteristic
             
             } else if characteristicUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_WRITE_CHARACTERISTIC {
                 
-                self.cwWriteCharacteristic = characteristic
+                self.cwProtocolWriteCharacteristic = characteristic
                 
             } else if characteristicUuid == BluetoothGattConstants.CBUUID_QUICK_COMMANDS_CHARACTERISTIC {
                 
@@ -382,8 +392,8 @@ extension ConfigurationController: BluetoothConnectionProtocol {
         }
         
         
-        if let _ = cwInfoCharacteristic, let _ = cwNotificationCharacteristic,
-            let _ = cwWriteCharacteristic, let _ = cwQuickCommandsCharacteristic {
+        if let _ = cwInfoCharacteristic, let _ = cwProtocolNotificationCharac,
+            let _ = cwProtocolWriteCharacteristic, let _ = cwQuickCommandsCharacteristic {
             
             // Leemos el firmware de la CIR, solo se permite a dia de hoy la version 3.5.0 en adelante
             bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwInfoCharacteristic!)
@@ -496,12 +506,12 @@ extension ConfigurationController: BluetoothConnectionProtocol {
 // Estados para esperar la respuesta de Quick Commands -----------------------------------------------------
 enum QuickCommandResponseState: String {
     
-    case _UNLOCKING = "Unlock Fridge"
+    case _UNLOCKING     = "Unlock Fridge"
     
-    case _LOCKING = "Lock Fridge"
+    case _LOCKING       = "Lock Fridge"
     
-    case _RELOADING = "Recharge Fridge"
+    case _RELOADING     = "Recharge Fridge"
 
-    case _WAITING = "Waiting for"
+    case _WAITING       = "Waiting for"
 }
 // ---------------------------------------------------------------------------------------------------------

@@ -65,25 +65,25 @@ enum QuickCommandsLenghts: UInt8 {
 // 'Servicio QUICK CMDS BLE CIR Wireless v3.4.7' ---------------------------
 enum QuickCommands: UInt8 {
     
-    case _OPEN_LOCK = 0x0F
+    case _OPEN_LOCK                                 = 0x0F
     
-    case _CLOSE_LOCK = 0x0E
+    case _CLOSE_LOCK                                = 0x0E
     
-    case _SET_DATE = 0x29
+    case _SET_DATE                                  = 0x29
     
-    case _READ_DATE = 0x32
+    case _READ_DATE                                 = 0x32
     
-    case _REINIT_EXIT_REACTIVATION_TIME = 0x2B
+    case _REINIT_EXIT_REACTIVATION_TIME             = 0x2B
     
-    case _MAINTENANCE = 0x17
+    case _MAINTENANCE                               = 0x17
     
-    case _RELOAD = 0x19
+    case _RELOAD                                    = 0x19
     
-    case _ENABLE_PRODUCTION_TEST = 0x4E
+    case _ENABLE_PRODUCTION_TEST                    = 0x4E
     
-    case _READ_FLAGS_OF_PRODUCTION_TEST = 0x3D
+    case _READ_FLAGS_OF_PRODUCTION_TEST             = 0x3D
     
-    case _UNLOCK_CIR_DUE_TO_TEST_PRODUCTION_FAILED = 0x52
+    case _UNLOCK_CIR_DUE_TO_TEST_PRODUCTION_FAILED  = 0x52
     
 }
 // -------------------------------------------------------------------------
@@ -92,18 +92,18 @@ enum QuickCommands: UInt8 {
 // Para parsear la respuesta de la CIR Wireless ----------------------------
 struct QuickCommandResponse {
     
-    var length: UInt64?
-    var response: UInt8?
-    var payload: [UInt8]?
-    var fullPackage: [UInt8]?
+    var length      : UInt64?
+    var response    : UInt8?
+    var payload     : [UInt8]?
+    var fullPackage : [UInt8]?
     
     
     init (responsePackage: [UInt8]?) {
         
-        self.fullPackage = responsePackage
-        self.length = toInt64(bytes: [responsePackage![0]])
-        self.response = responsePackage?[1]
-        self.payload = Array(responsePackage?[2..<responsePackage!.count] ?? [])
+        self.fullPackage    = responsePackage
+        self.length         = toInt64(bytes: [responsePackage![0]])
+        self.response       = responsePackage?[1]
+        self.payload        = Array(responsePackage?[2..<responsePackage!.count] ?? [])
         
     }
     
@@ -132,15 +132,15 @@ struct QuickCommandResponse {
 // Posibles respuestas de la CIR Wireless -------------------------------------
 enum QuickCommandReponses: UInt8 {
     
-    case _BAD_RESPONSE = 0x00
+    case _BAD_RESPONSE                                          = 0x00
     
-    case _GOOD_RESPONSE = 0x01
+    case _GOOD_RESPONSE                                         = 0x01
     
-    case _LOCK_DISABLED = 0x1E
+    case _LOCK_DISABLED                                         = 0x1E
     
-    case _PRODUCTION_TEST_ALREADY_SUCCESSFULLY_COMPLETED = 0x4F
+    case _PRODUCTION_TEST_ALREADY_SUCCESSFULLY_COMPLETED        = 0x4F
     
-    case _PRODUCTION_TEST_ALREADY_ENABLED_CURRENTLY_RUNNING = 0x51
+    case _PRODUCTION_TEST_ALREADY_ENABLED_CURRENTLY_RUNNING     = 0x51
     
 }
 // -----------------------------------------------------------------------------

@@ -70,15 +70,15 @@ class PopUpAlert {
 
 // Alert's components
 struct AlertComponents {
-    var alertTitle: String?
-    var alertMessage: String?
-    var alertStyle: UIAlertController.Style?
+    var alertTitle          : String?
+    var alertMessage        : String?
+    var alertStyle          : UIAlertController.Style?
     
     
     init (alertTitle: String, alertMessage: String, alertStyle: UIAlertController.Style = .alert) {
-        self.alertTitle = alertTitle
-        self.alertMessage = alertMessage
-        self.alertStyle = alertStyle
+        self.alertTitle     = alertTitle
+        self.alertMessage   = alertMessage
+        self.alertStyle     = alertStyle
     }
     
 }
@@ -86,21 +86,22 @@ struct AlertComponents {
 
 // Button's components
 struct AlertActionComponents {
-    var buttonTitle: String?
-    var buttonStyle: UIAlertAction.Style?
-    var buttonHandler: ((UIAlertAction) -> Void)?
+    var buttonTitle         : String?
+    var buttonStyle         : UIAlertAction.Style?
+    var buttonHandler       : ((UIAlertAction) -> Void)?
     
     
     init (buttonTitle: String, buttonStyle: UIAlertAction.Style = .default, buttonHandler: ((UIAlertAction) -> Void)?) {
-        self.buttonTitle = buttonTitle
-        self.buttonStyle = buttonStyle
-        self.buttonHandler = buttonHandler
+        self.buttonTitle    = buttonTitle
+        self.buttonStyle    = buttonStyle
+        self.buttonHandler  = buttonHandler
     }
 }
 
 
 // Possible errors with alert
 enum AlertError: Error {
+    
     case alertParametersNil
     
     case oneButtonLessParameters
@@ -108,4 +109,5 @@ enum AlertError: Error {
     case twoButtonLessParameters
     
     case threeButtonsLessParameters
+    
 }

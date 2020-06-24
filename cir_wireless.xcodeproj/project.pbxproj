@@ -34,6 +34,8 @@
 		18E299D82489719E00DAA22C /* CirWirelessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D72489719E00DAA22C /* CirWirelessModel.swift */; };
 		18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E299D92489901300DAA22C /* BeaconModel.swift */; };
 		18E6F446249D30C900401A56 /* CirWirelessCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6F445249D30C900401A56 /* CirWirelessCommands.swift */; };
+		18F5BBB224A397E600DF0C40 /* AccessPointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F5BBB124A397E600DF0C40 /* AccessPointViewController.swift */; };
+		18F5BBB424A3A91A00DF0C40 /* CirProtocolPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F5BBB324A3A91A00DF0C40 /* CirProtocolPackage.swift */; };
 		18FB92F62492A7E500758541 /* ProgramExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FB92F52492A7E500758541 /* ProgramExtensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,8 @@
 		18E299D72489719E00DAA22C /* CirWirelessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessModel.swift; sourceTree = "<group>"; };
 		18E299D92489901300DAA22C /* BeaconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconModel.swift; sourceTree = "<group>"; };
 		18E6F445249D30C900401A56 /* CirWirelessCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCommands.swift; sourceTree = "<group>"; };
+		18F5BBB124A397E600DF0C40 /* AccessPointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessPointViewController.swift; sourceTree = "<group>"; };
+		18F5BBB324A3A91A00DF0C40 /* CirProtocolPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirProtocolPackage.swift; sourceTree = "<group>"; };
 		18FB92F52492A7E500758541 /* ProgramExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -187,6 +191,7 @@
 		1871968C24805DE1002EB4F2 /* config_ap_module */ = {
 			isa = PBXGroup;
 			children = (
+				18F5BBB124A397E600DF0C40 /* AccessPointViewController.swift */,
 			);
 			path = config_ap_module;
 			sourceTree = "<group>";
@@ -208,6 +213,7 @@
 				18E299D524896D6800DAA22C /* CoreBluetoothActions.swift */,
 				185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */,
 				18E6F445249D30C900401A56 /* CirWirelessCommands.swift */,
+				18F5BBB324A3A91A00DF0C40 /* CirProtocolPackage.swift */,
 			);
 			path = bluetooth_low_energy;
 			sourceTree = "<group>";
@@ -308,10 +314,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				18FB92F62492A7E500758541 /* ProgramExtensions.swift in Sources */,
+				18F5BBB424A3A91A00DF0C40 /* CirProtocolPackage.swift in Sources */,
 				18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */,
 				1807940224A0FE7100A19221 /* sftlencrypt.cpp in Sources */,
 				188C9FE324993628005478E7 /* ControllerIdentifiers.swift in Sources */,
 				185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */,
+				18F5BBB224A397E600DF0C40 /* AccessPointViewController.swift in Sources */,
 				18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */,
 				18E299D624896D6800DAA22C /* CoreBluetoothActions.swift in Sources */,
 				18E6F446249D30C900401A56 /* CirWirelessCommands.swift in Sources */,

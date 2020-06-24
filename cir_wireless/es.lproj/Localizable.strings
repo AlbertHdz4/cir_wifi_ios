@@ -30,6 +30,9 @@
 "Reload Enabled"                    = "Recarga habilitada";
 "Option Disabled"                   = "Oops ...";
 "Option Success"                    = "Éxito";
+"Bad Passcode Title"                = "Contraseña Incorrecta";
+"Bad Passcode Message"              = "Debes ingresar una contraseña válida";
+"Sending Passcode Title"            = "Enviando Configuración";
 
 
 // Button's Texts - Alerts
