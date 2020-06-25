@@ -18,6 +18,8 @@
 		182C625E2497D06400201DF4 /* ConfigurationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C625D2497D06400201DF4 /* ConfigurationController.swift */; };
 		184B879F2492466500FF9C84 /* CirWirelessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184B879D2492466500FF9C84 /* CirWirelessCell.swift */; };
 		184B87A02492466500FF9C84 /* CirWirelessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 184B879E2492466500FF9C84 /* CirWirelessCell.xib */; };
+		1855017E24A509A30027F514 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1855017D24A509A30027F514 /* ExternalAccessory.framework */; };
+		1855018024A5179B0027F514 /* InternationalizationStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1855017F24A5179B0027F514 /* InternationalizationStrings.swift */; };
 		185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */; };
 		1864427024881A6000145AA7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864426F24881A6000145AA7 /* RoundButton.swift */; };
 		1869BCBE2486E415007095B4 /* QuickCommandPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869BCBD2486E415007095B4 /* QuickCommandPackage.swift */; };
@@ -56,6 +58,9 @@
 		182C625D2497D06400201DF4 /* ConfigurationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationController.swift; sourceTree = "<group>"; };
 		184B879D2492466500FF9C84 /* CirWirelessCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCell.swift; sourceTree = "<group>"; };
 		184B879E2492466500FF9C84 /* CirWirelessCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CirWirelessCell.xib; sourceTree = "<group>"; };
+		1855017A24A5091E0027F514 /* Cir Wireless.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Cir Wireless.entitlements"; sourceTree = "<group>"; };
+		1855017D24A509A30027F514 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		1855017F24A5179B0027F514 /* InternationalizationStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternationalizationStrings.swift; sourceTree = "<group>"; };
 		185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothGattConstants.swift; sourceTree = "<group>"; };
 		1864426F24881A6000145AA7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		1869BCBD2486E415007095B4 /* QuickCommandPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickCommandPackage.swift; sourceTree = "<group>"; };
@@ -86,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1855017E24A509A30027F514 /* ExternalAccessory.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,11 +138,20 @@
 			path = view_classes;
 			sourceTree = "<group>";
 		};
+		1855017C24A509A30027F514 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1855017D24A509A30027F514 /* ExternalAccessory.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1871966924802831002EB4F2 = {
 			isa = PBXGroup;
 			children = (
 				1871967424802831002EB4F2 /* cir_wireless */,
 				1871967324802831002EB4F2 /* Products */,
+				1855017C24A509A30027F514 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,6 +166,7 @@
 		1871967424802831002EB4F2 /* cir_wireless */ = {
 			isa = PBXGroup;
 			children = (
+				1855017A24A5091E0027F514 /* Cir Wireless.entitlements */,
 				18B7A0062490151A00DB520E /* utils */,
 				182797C224819B60001DB18D /* reusable_views */,
 				18719691248060C2002EB4F2 /* web_services */,
@@ -232,6 +248,7 @@
 				18FB92F52492A7E500758541 /* ProgramExtensions.swift */,
 				188C9FE224993628005478E7 /* ControllerIdentifiers.swift */,
 				1807940524A1172000A19221 /* CurrentDate.swift */,
+				1855017F24A5179B0027F514 /* InternationalizationStrings.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -317,6 +334,7 @@
 				18F5BBB424A3A91A00DF0C40 /* CirProtocolPackage.swift in Sources */,
 				18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */,
 				1807940224A0FE7100A19221 /* sftlencrypt.cpp in Sources */,
+				1855018024A5179B0027F514 /* InternationalizationStrings.swift in Sources */,
 				188C9FE324993628005478E7 /* ControllerIdentifiers.swift in Sources */,
 				185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */,
 				18F5BBB224A397E600DF0C40 /* AccessPointViewController.swift in Sources */,
@@ -433,7 +451,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -488,7 +506,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -503,7 +521,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir Wireless.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -514,6 +534,7 @@
 				MARKETING_VERSION = 0.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "Cir Wireless";
+				PROVISIONING_PROFILE_SPECIFIER = "CIR Wireless Dev";
 				SWIFT_OBJC_BRIDGING_HEADER = "cir_wireless/bluetooth_low_energy/cpp/cir_wireless-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -526,7 +547,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir WirelessRelease.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -537,6 +560,7 @@
 				MARKETING_VERSION = 0.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "Cir Wireless";
+				PROVISIONING_PROFILE_SPECIFIER = "CIR Wireless Dev";
 				SWIFT_OBJC_BRIDGING_HEADER = "cir_wireless/bluetooth_low_energy/cpp/cir_wireless-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

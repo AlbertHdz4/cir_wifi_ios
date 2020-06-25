@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreBluetooth
-
+import CoreLocation
 
 class ScanBleController: UIViewController {
     
@@ -28,6 +28,7 @@ class ScanBleController: UIViewController {
     var bluetoothActions        : CoreBluetoothActions?
     var cirsFound               = [CirWirelessModel] ()
     var selectedCirWireless     : CirWirelessModel?
+    var locationManager         : CLLocationManager?
     
     
     lazy var refreshControl: UIRefreshControl = {
@@ -44,19 +45,25 @@ class ScanBleController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: Comenzamos a escanear
+        bluetoothActions = CoreBluetoothActions(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS],
+                                scanningTime: self.DEFAULT_SCANNING_TIME)
+        bluetoothActions?.bluetoothActionsDelegate = self
+        bluetoothActions?.bluetoothScanDelegate = self
+
+        
+        // Para pedir los permisos de localizacion
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+
         
         // MARK: Algunos cambios en las vistas al iniciar
         loadViews()
         registerTableViewCells()
+
         
-        
-        // MARK: Comenzamos a escanear
-        bluetoothActions = CoreBluetoothActions(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS],
-                                scanningTime: self.DEFAULT_SCANNING_TIME)
-        
-        bluetoothActions?.bluetoothActionsDelegate = self
-        bluetoothActions?.bluetoothScanDelegate = self
-        bluetoothActions?.initScan()
+        // Revisamos permisos de ubicacion
+        arePermissionsGranted()
     }
     
     
@@ -72,6 +79,36 @@ class ScanBleController: UIViewController {
         // Implementamos protocolos
         cirWirelessTable.dataSource = self
         cirWirelessTable.delegate = self
+    }
+    
+    
+    private func arePermissionsGranted () {
+
+        if CLLocationManager.locationServicesEnabled() {
+            
+            switch CLLocationManager.authorizationStatus() {
+                
+                case .notDetermined,
+                     .restricted,
+                     .denied:
+                    locationManager?.requestAlwaysAuthorization()
+                    print("No access")
+    
+                case .authorizedAlways,
+                     .authorizedWhenInUse:
+                    bluetoothActions?.initScan()
+                    print("Access")
+                
+                @unknown default:
+                break
+                
+            }
+            
+        } else {
+            
+            print("Location services are not enabled")
+            popUpLocationServicesDisabled()
+        }
     }
     
     
@@ -120,10 +157,10 @@ class ScanBleController: UIViewController {
         
         let permissionTitleAlert        = NSLocalizedString("BLE Persmission Title Denied",
                                                       comment: "Permission needs to be updated")
-        let persmissionMessageAlert     = NSLocalizedString("BLE Persmission Message Denied",
+        let permissionMessageAlert     = NSLocalizedString("BLE Persmission Message Denied",
                                                         comment: "Permission needs to be updated")
                    
-        let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: persmissionMessageAlert)
+        let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: permissionMessageAlert)
         let permissionActionComponents = AlertActionComponents(buttonTitle: NSLocalizedString("Settings",
                                                                                               comment: "Leads user to setting values"),
                                                                buttonHandler: {(_) -> Void in
@@ -142,6 +179,38 @@ class ScanBleController: UIViewController {
                                                      buttonCharacteristic: permissionActionComponents)
                    
         self.present(permissionPopUp!, animated: true, completion: nil)
+    }
+    
+    
+    private func popUpLocationServicesDisabled () {
+        var locationPopUp: UIAlertController?
+        
+        let locationTitleAlert        = NSLocalizedString("Location Services",
+                                                      comment: "Location Services are disabled")
+        let locationMessageAlert     = NSLocalizedString("Location Services Disabled",
+                                                        comment: "")
+                   
+        let locationAlertComponents = AlertComponents(alertTitle: locationTitleAlert, alertMessage: locationMessageAlert)
+        let locationActionComponents = AlertActionComponents(buttonTitle: NSLocalizedString("Settings",
+                                                                                              comment: "Leads user to setting values"),
+                                                               buttonHandler: {(_) -> Void in
+
+                                                                let locationURL = URL(string: UIApplication.openSettingsURLString)
+
+                                                                if UIApplication.shared.canOpenURL(locationURL!) {
+                                                                    UIApplication.shared.open(
+                                                                        locationURL!,
+                                                                        completionHandler: { (success) in
+                                                                            locationPopUp?.dismiss(animated: true, completion: nil)
+                                                                    }
+                                                                    )
+                                                                }
+        })
+        
+        locationPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: locationAlertComponents,
+                                                     buttonCharacteristic: locationActionComponents)
+                   
+        self.present(locationPopUp!, animated: true, completion: nil)
     }
     
     
@@ -331,3 +400,27 @@ extension ScanBleController: BluetoothScanProtocol {
     }
 }
 // --------------------------------------------------------------------------
+
+
+
+extension ScanBleController:  CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        
+        switch status {
+            
+        case .notDetermined,
+             .restricted,
+             .denied:
+            popUpLocationServicesDisabled()
+            
+        case .authorizedAlways,
+             .authorizedWhenInUse:
+            bluetoothActions?.initScan()
+            
+        @unknown default:
+            print("")
+        }
+        
+    }
+}

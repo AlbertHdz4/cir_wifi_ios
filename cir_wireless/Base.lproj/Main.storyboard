@@ -552,7 +552,9 @@
                         <barButtonItem key="rightBarButtonItem" image="info.circle" catalog="system" id="IaJ-gh-Kgd"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="cirWirelessMac" destination="KE5-hV-mA0" id="udm-n5-2vh"/>
                         <outlet property="passcodeField" destination="ruh-Nm-DMj" id="OYe-CC-0tV"/>
+                        <outlet property="ssid" destination="9Fb-l5-doQ" id="rUr-Po-QhG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n1F-YT-n7V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

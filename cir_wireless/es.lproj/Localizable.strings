@@ -33,6 +33,10 @@
 "Bad Passcode Title"                = "Contraseña Incorrecta";
 "Bad Passcode Message"              = "Debes ingresar una contraseña válida";
 "Sending Passcode Title"            = "Enviando Configuración";
+"Location Services"                 = "Servicios de Localización";
+"Location Services Disabled"        = "Tus servicios de localización están deshabilitados, habilitalos para continuar";
+"WiFi Unavailable"                  = "Conexión WiFi";
+"WiFi Unavailable Message"          = "Necesitas estár conectado a una red WiFi para configurar a la CIR Wireless";
 
 
 // Button's Texts - Alerts

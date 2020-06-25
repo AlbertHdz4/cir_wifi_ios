@@ -12,6 +12,9 @@ import SystemConfiguration.CaptiveNetwork
 
 class AccessPointViewController: UIViewController {
 
+    var isWiFiAvailable                       : Bool = false
+    var wiFiName                                : String?
+    
     var cirWireless                             : CirWirelessModel?
     var bluetoothActions                        : CoreBluetoothActions?
      
@@ -30,15 +33,36 @@ class AccessPointViewController: UIViewController {
     
     // Outlets
     @IBOutlet weak var passcodeField: UITextField!
+    @IBOutlet weak var cirWirelessMac: UILabel!
+    @IBOutlet weak var ssid: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadViews()
-        let wifiName = getWiFiName()
-        print(wifiName)
+        
+        if let _ = cirWireless {
+            cirWirelessMac.text = cirWireless?.getCirWirelessMac()
+        }
+        
+        
+        if let wiFiName = getWiFiSsid() {
+            
+            self.wiFiName   = wiFiName
+            ssid.text       = wiFiName
+            isWiFiAvailable = true
+        }
+        
+
         passcodeField.delegate = self
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if wiFiName == nil {
+            popUpWiFiUnavailable()
+        }
     }
     
     
@@ -50,7 +74,7 @@ class AccessPointViewController: UIViewController {
     
     
     // Obtenemos el nombre del WiFi al que esta conectado el iPhone ----------------
-    private func getWiFiName () -> String? {
+    func getWiFiSsid () -> String? {
         var ssid: String?
         
         if let interfaces = CNCopySupportedInterfaces() as NSArray? {
@@ -70,13 +94,20 @@ class AccessPointViewController: UIViewController {
     // Outlets Actions -------------------------------------------------------------
     @IBAction func acceptPasscode(_ sender: Any) {
         
-        if !(passcodeField.text?.isEmpty ?? true) {
-
-            self.present(configuringWiFiAlert, animated: true, completion: nil)
+        if isWiFiAvailable {
+            
+            if !(passcodeField.text?.isEmpty ?? true) {
+                
+                self.present(configuringWiFiAlert, animated: true, completion: nil)
+                
+            } else {
+                
+                popUpBadPassword()
+            }
             
         } else {
             
-            popUpBadPassword()
+            popUpWiFiUnavailable()
             
         }
     }
@@ -103,7 +134,7 @@ class AccessPointViewController: UIViewController {
         let badPasscodeMessage      = NSLocalizedString("Bad Passcode Message", comment: "Message")
         
         let badPasscodeComponents   = AlertComponents(alertTitle: badPasscodeTitle, alertMessage: badPasscodeMessage)
-        let badPasscodeActions      = AlertActionComponents(buttonTitle: "Accept", buttonHandler: {_ in
+        let badPasscodeActions      = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
             badPasscodeAlert.dismiss(animated: true, completion: nil)
         })
         
@@ -121,8 +152,25 @@ class AccessPointViewController: UIViewController {
         let configComponents        = AlertComponents(alertTitle: configTitle, alertMessage: configMessage)
         
         configuringWiFiAlert        = PopUpAlert.popUp(alertCharacteristic: configComponents)
-        
     }
+    
+    
+    private func popUpWiFiUnavailable () {
+        var wiFiAlert               : UIAlertController!
+        
+        let wiFiUnavailableTitle        = NSLocalizedString("WiFi Unavailable", comment: "WiFi is turned off or disconnected")
+        let wiFiUnavailableMessage      = NSLocalizedString("WiFi Unavailable Message", comment: "Message")
+        
+        let wiFiUnavailableComponents   = AlertComponents(alertTitle: wiFiUnavailableTitle, alertMessage: wiFiUnavailableMessage)
+        let wiFiUnavailableActions      = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
+            wiFiAlert.dismiss(animated: true, completion: nil)
+        })
+        
+        wiFiAlert                       = PopUpAlert.popUpOneButton(alertCharacteristic: wiFiUnavailableComponents, buttonCharacteristic: wiFiUnavailableActions)
+        
+        self.present(wiFiAlert, animated: true, completion: nil)
+    }
+    
     // -----------------------------------------------------------------------------
     
 }
