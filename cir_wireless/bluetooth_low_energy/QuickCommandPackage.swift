@@ -12,24 +12,27 @@ import Foundation
 struct QuickCommandPackage {
     
     // Default password
-    let _PASSWORD       : [UInt8] = [0x4a, 0xb0, 0x0d, 0xc6, 0xfc, 0x4e,
-                              0x3e, 0x8c, 0xf6, 0x1a, 0x5a, 0xcb,
-                              0x94, 0xe6, 0x53, 0x15]
+    let _PASSWORD                       : [UInt8] = [0x4a, 0xb0, 0x0d, 0xc6, 0xfc, 0x4e,
+                                                     0x3e, 0x8c, 0xf6, 0x1a, 0x5a, 0xcb,
+                                                     0x94, 0xe6, 0x53, 0x15]
     
 
-    var commandLenght   : UInt8?
-    var quickCommand    : QuickCommands?
-    var payload         : [UInt8]?
+    var commandLenght                   : UInt8?
+    var quickCommand                    : QuickCommands?
+    var payload                         : [UInt8]?
+    var fullPackage                     : [UInt8]!
     
     
     init(commandLenght: UInt8, quickCommand: QuickCommands, payload: [UInt8]? = nil) {
         self.commandLenght  = commandLenght
         self.quickCommand   = quickCommand
         self.payload        = payload
+        self.fullPackage    = formPackage()
     }
     
     
-    func getQuickCommandPackage () -> [UInt8] {
+    private func formPackage () -> [UInt8] {
+        
         var quickCommandPackage = insertArray(toModify: [self.commandLenght!, self.quickCommand!.rawValue], toInsert: self._PASSWORD)
         
         if let _ = payload {
@@ -58,6 +61,7 @@ enum QuickCommandsLenghts: UInt8 {
     
     case _COMMAND_WITHOUT_PAYLOAD = 0x12
     
+    case _COMMAND_WITH_DATE = 0x19
 }
 // ------------------------------------------------------------------
 

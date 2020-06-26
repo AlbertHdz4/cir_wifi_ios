@@ -88,17 +88,17 @@ class ConfigurationController: UIViewController {
     private func validateFirmwareVersion (firmwareValue: Data) {
         let firmwareInt: Int = Int(String(firmwareValue[1]) + String(firmwareValue[2]) + String(firmwareValue[3])) ?? 0
            connectingAlert?.dismiss(animated: true, completion: nil)
-           
-           if firmwareInt == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue {
+        
+        if firmwareInt == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue {
+            let commandDate = CirWirelessCommands.setDateCommand(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, dateBytes: DatePackage.getDatePackage().fullPackage)
+            connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
+            cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
                
-               connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
-               cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
+        } else {
                
-           } else {
+            popUpNotValidFirmware()
                
-               popUpNotValidFirmware()
-               
-           }
+        }
     }
     
     
@@ -122,6 +122,12 @@ class ConfigurationController: UIViewController {
                     
                 case ._WAITING:
                     print("Waiting for command")
+                    
+                case ._SET_DATE:
+                    print("Successfully set")
+                    
+                case ._READ_DATE:
+                    print("Reading date")
                 }
                 
             } else {
@@ -506,6 +512,10 @@ extension ConfigurationController: BluetoothConnectionProtocol {
 // Estados para esperar la respuesta de Quick Commands -----------------------------------------------------
 enum QuickCommandResponseState: String {
     
+    case _SET_DATE      = "Set Date"
+    
+    case _READ_DATE     = "Read Date"
+    
     case _UNLOCKING     = "Unlock Fridge"
     
     case _LOCKING       = "Lock Fridge"
@@ -513,5 +523,6 @@ enum QuickCommandResponseState: String {
     case _RELOADING     = "Recharge Fridge"
 
     case _WAITING       = "Waiting for"
+    
 }
 // ---------------------------------------------------------------------------------------------------------

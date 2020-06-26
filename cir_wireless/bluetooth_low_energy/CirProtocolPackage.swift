@@ -11,19 +11,17 @@ import Foundation
 
 struct CirProtocolPackage {
     
-    var preambulo           : UInt8!
-    var destino             : UInt8!
-    var origen              : UInt8!
+    var preambulo           : CirProtocolHeader!
+    var destino             : CirProtocolHeader!
+    var origen              : CirProtocolHeader!
     var packageLength       : UInt8!
-    var command             : UInt8!
+    var command             : CirProtocolCommands!
     var payload             : [UInt8]?
-    var crcMSB              : UInt8!
-    var crcLSB              : UInt8!
+    var fullPackage         : [UInt8]!
     
     
-    init(preambulo: UInt8, destino: UInt8, origen: UInt8,
-         packageLength: UInt8, command: UInt8, payload: [UInt8]?,
-         crcMSB: UInt8, crcLSB: UInt8) {
+    init (preambulo: CirProtocolHeader, destino: CirProtocolHeader, origen: CirProtocolHeader,
+          packageLength: UInt8, command: CirProtocolCommands, payload: [UInt8]?) {
         
         self.preambulo      = preambulo
         self.destino        = destino
@@ -31,12 +29,31 @@ struct CirProtocolPackage {
         self.packageLength  = packageLength
         self.command        = command
         self.payload        = payload
-        self.crcMSB         = crcMSB
-        self.crcLSB         = crcLSB
-        
+        self.fullPackage    = formPackage()
     }
     
     
+    private func formPackage () -> [UInt8] {
+        var package = [UInt8] ()
+        
+        package[0] = preambulo.rawValue
+        package[1] = destino.rawValue
+        package[2] = origen.rawValue
+        package[3] = packageLength
+        package[4] = command.rawValue
+        
+        if let _ = payload {
+            for value in payload! {
+                package.append(value)
+            }
+        }
+        
+        let crc = CryptoData.crc16(buffer: package).byteArray
+        
+        package.append(crc[0])
+        package.append(crc[1])
+        return package
+    }
 }
 
 
@@ -47,6 +64,13 @@ enum CirProtocolHeader      : UInt8 {
     case _DESTINO           = 0x10
     
     case _ORIGEN            = 0x13
+
+}
+
+
+enum CirProtocolCommmonLengths  : UInt8 {
+    
+    case _BASE_PACKAGE_LENGTH   = 0x07
 
 }
 
@@ -98,16 +122,59 @@ struct CirProtocolResponse {
     var preambulo           : UInt8!
     var destino             : UInt8!
     var origen              : UInt8!
-    var packageLenth        : UInt8!
+    var packageLength       : UInt8!
+    var response            : UInt8!
     var payload             : [UInt8]?
     var crcMSB              : UInt8!
     var crcLSB              : UInt8!
+    var entirePackage       : [UInt8]!
     
     
+    init (protocolResponse: [UInt8]) {
+        self.entirePackage  = protocolResponse
+        self.preambulo      = protocolResponse[0]
+        self.destino        = protocolResponse[1]
+        self.origen         = protocolResponse[2]
+        self.packageLength  = protocolResponse[3]
+        self.response       = protocolResponse[4]
+        self.crcMSB         = protocolResponse[Int(packageLength) - 2]
+        self.crcLSB         = protocolResponse[Int(packageLength) - 1]
+        self.payload        = getPayload()
+    }
     
+    
+    func isAPoleoPackage () -> Bool {
+        return entirePackage[4] == CirProtocolResponses._POLEO_PACKAGE.rawValue
+    }
+    
+    
+    func getPayload () -> [UInt8]? {
+        
+        var payloadPackage = [UInt8] ()
+        
+        if packageLength > 7 {
+            for i in 4..<(packageLength - 2) {
+                payloadPackage.append(entirePackage[Int(i)])
+            }
+        }
+        
+        return payloadPackage
+    }
 }
 
 
 enum CirProtocolResponses   : UInt8 {
-    case _POLEO_PACKAGE     = 0x0a
+    case _POLEO_PACKAGE                     = 0x0a
+    
+    case _TASK_SUCCESSFULLY_RESET           = 0x48
+    
+    case _SEEN_ACCESS_POINTS                = 0x4A
+    
+    case _SSID_SUCCESSFULLY_RECEIVED        = 0x22
+    
+    case _SSID_BAD_RECEIVED                 = 0x23
+    
+    case _PASSCODE_SUCCESSFULLY_RECEIVED    = 0x25
+    
+    case _PASSCODE_BAD_RECEIVED             = 0x26
 }

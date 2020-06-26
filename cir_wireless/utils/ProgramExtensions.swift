@@ -125,3 +125,25 @@ extension StringProtocol {
 }
 // ----------------------------------------------------------------------------------------
 
+
+// Utilizado para el CRC, parte un UInt16 en un arreglo UInt8 ------------------------------
+extension UInt16 {
+    var byteArray: [UInt8] {
+        return [UInt8((self >> 8) & 0x00FF), UInt8(self & 0x00FF)]
+    }
+}
+// ----------------------------------------------------------------------------------------
+
+
+// Convierte un Int en un arreglo de UInt8 ------------------------------------------------
+extension Int {
+    func toByteArray(size: Int) -> [UInt8] {
+        var msgLength = [UInt8](repeating: 0, count: size)
+        
+        for i in 0...(size - 1) {
+            msgLength[i] = UInt8(0x0000FF & self >> Int(((size - 1) - i) * 8))
+        }
+        return msgLength
+    }
+}
+// ----------------------------------------------------------------------------------------
