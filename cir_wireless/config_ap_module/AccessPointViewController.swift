@@ -14,10 +14,13 @@ class AccessPointViewController: UIViewController {
     
     let MAX_LENGTH_SSID_CHARACTERS              = 40
     let MAX_LENGTH_PASSCODE_CHARACTERS          = 20
-    
-    
+
+    var isFirstTimeHere                         : Bool = true
     var isWiFiAvailable                         : Bool = false
     var wiFiName                                : String?
+
+    
+    var machineState                            : MachineState = ._POLING
     
     
     var cirWireless                             : CirWirelessModel?
@@ -52,16 +55,17 @@ class AccessPointViewController: UIViewController {
         }
         
         
-        if let wiFiName = getWiFiSsid() {
-            
+        if let wiFiName = getWiFiSsid(), let _ = cwProtocolNotificationCharac, let _ = cwProtocolWriteCharacteristic {
+            print("All ok")
             self.wiFiName   = wiFiName
             ssid.text       = wiFiName
             isWiFiAvailable = true
+            bluetoothActions!.bluetoothPolingDelegate = self
+            bluetoothActions!.setCirWirelessNotifyCharacteristic(enable: true, notifyCharacteristic: cwProtocolNotificationCharac!)
         }
         
 
         passcodeField.delegate = self
-        bluetoothActions?.bluetoothConnectionDelegate = self
     }
     
     
@@ -141,6 +145,46 @@ class AccessPointViewController: UIViewController {
     // -----------------------------------------------------------------------------
     
     
+    private func validateMachineState (protocolResponse: CirProtocolResponse) {
+        
+        switch machineState {
+            
+        case ._GETTING_AP:
+            print("_GETTING_AP")
+            if protocolResponse.response == CirProtocolResponses._SEEN_ACCESS_POINTS.rawValue {
+                
+                if let macs = protocolResponse.getPayload() {
+                    
+                    var macsData = Data()
+                    macsData.append(contentsOf: macs)
+                    print("macs: \(macsData.hexDescription)")
+                    machineState = ._POLING
+                    isFirstTimeHere = false
+                } else {
+                    popUpCirNotSeeingAP()
+                }
+            }
+            
+        case ._SET_SSID:
+            print("_SET_SSID")
+            
+        case ._SET_PASSCODE:
+            print("_SET_PASSCODE")
+            
+        case ._POLING:
+            print("_POLING")
+            
+            if isFirstTimeHere {
+                let command = CirWirelessCommands.getSeenAccessPointsCommand()
+                print("command access points: \(command.description)")
+                bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                machineState = ._GETTING_AP
+            }
+        }
+        
+    }
+    
+    
     // Pop up Area :D --------------------------------------------------------------
     private func popUpBadPassword () {
         var badPasscodeAlert        : UIAlertController!
@@ -202,6 +246,23 @@ class AccessPointViewController: UIViewController {
         
         self.present(wiFiAlert, animated: true, completion: nil)
     }
+    
+    
+    private func popUpCirNotSeeingAP () {
+        var wiFiAlert               : UIAlertController!
+        
+        let wiFiNotSeenTitle        = NSLocalizedString("CIR Not Seen AP", comment: "CIR Wireless cannot see WiFi Networks")
+        let wiFiNotSeenMessage      = NSLocalizedString("CIR Not Seen AP Message", comment: "")
+        
+        let wiFiUnavailableComponents   = AlertComponents(alertTitle: wiFiNotSeenTitle, alertMessage: wiFiNotSeenMessage)
+        let wiFiUnavailableActions      = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
+            wiFiAlert.dismiss(animated: true, completion: nil)
+        })
+        
+        wiFiAlert                       = PopUpAlert.popUpOneButton(alertCharacteristic: wiFiUnavailableComponents, buttonCharacteristic: wiFiUnavailableActions)
+        
+        self.present(wiFiAlert, animated: true, completion: nil)
+    }
     // -----------------------------------------------------------------------------
     
 }
@@ -215,39 +276,41 @@ extension AccessPointViewController: UITextFieldDelegate {
 }
 
 
-extension AccessPointViewController: BluetoothConnectionProtocol {
-    
-    func updateBluetoothConnectProcess(status: BluetoothConnectionProcess) {
-        print("status: \(status)")
-    }
-    
-    
-    func servicesAvailable(services: [CBService]?) {
-        print("")
-    }
-    
-    
-    func characteristicsAvailable(service: CBService, availableCharacteristics characteristics: [CBCharacteristic]) {
-        print("")
-    }
-    
+extension AccessPointViewController: BluetoothPolingProtocol {
     
     func successfullyReadCharacteristic(characteristic: CBCharacteristic, readValue: Data?) {
-        print("successfullyReadCharacteristic:wiFi: ")
+        let characteristicUuidString = characteristic.uuid.uuidString
+        
+        if characteristicUuidString == cwProtocolNotificationCharac?.uuid.uuidString, let response = readValue {
+            print("response: \(response.hexDescription)")
+            let protocolResponse = CirProtocolResponse(protocolResponse: response.hexDescription.hexaToBytes)
+            validateMachineState(protocolResponse: protocolResponse)
+        }
+        
     }
-    
     
     func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
-        print("successfullyWrittenInCharacteristic:wiFi: ")
+        print("successfullyWrittenInCharacteristic: \(writtenValue.hexDescription) \(writtenValue)")
     }
-    
     
     func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
-        print("successfullyWrittenInDescriptor: ")
+        print("Written in descriptor")
     }
     
-    
-    func errorConnectionOcurred(error: ErrorConnection) {
-        print("errorConnectionOcurred")
-    }
 }
+
+
+enum MachineState: Int {
+
+    case _GETTING_AP        = 1
+    
+    case _SET_SSID          = 2
+    
+    case _SET_PASSCODE      = 3
+    
+    case _POLING            = 4
+    
+}
+
+
+

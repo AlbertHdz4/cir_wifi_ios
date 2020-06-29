@@ -324,7 +324,7 @@ extension ScanBleController: UITableViewDelegate {
 
 
 // Extensiones de los protocolos --------------------------------------------
-extension ScanBleController: BluetoothActionsProtocol {
+extension ScanBleController: BluetoothBaseProtocol {
     
     func updateBluetoothActionProcess(status: BluetoothActionsProcess) {
         print(status)

@@ -36,11 +36,11 @@ struct CirProtocolPackage {
     private func formPackage () -> [UInt8] {
         var package = [UInt8] ()
         
-        package[0] = preambulo.rawValue
-        package[1] = destino.rawValue
-        package[2] = origen.rawValue
-        package[3] = packageLength
-        package[4] = command.rawValue
+        package.append(preambulo.rawValue)
+        package.append(origen.rawValue)
+        package.append(destino.rawValue)
+        package.append(packageLength)
+        package.append(command.rawValue)
         
         if let _ = payload {
             for value in payload! {
@@ -133,8 +133,8 @@ struct CirProtocolResponse {
     init (protocolResponse: [UInt8]) {
         self.entirePackage  = protocolResponse
         self.preambulo      = protocolResponse[0]
-        self.destino        = protocolResponse[1]
-        self.origen         = protocolResponse[2]
+        self.origen        = protocolResponse[1]
+        self.destino         = protocolResponse[2]
         self.packageLength  = protocolResponse[3]
         self.response       = protocolResponse[4]
         self.crcMSB         = protocolResponse[Int(packageLength) - 2]
@@ -153,7 +153,7 @@ struct CirProtocolResponse {
         var payloadPackage = [UInt8] ()
         
         if packageLength > 7 {
-            for i in 4..<(packageLength - 2) {
+            for i in 5..<(packageLength - 2) {
                 payloadPackage.append(entirePackage[Int(i)])
             }
         }

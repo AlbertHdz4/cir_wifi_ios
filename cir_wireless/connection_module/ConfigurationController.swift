@@ -20,9 +20,6 @@ class ConfigurationController: UIViewController {
     var isBluetoothOn               = false
     
     
-    var machineState                            : MachineState = ._POLING
-    
-    
     var cirWireless                             : CirWirelessModel?
     var bluetoothActions                        : CoreBluetoothActions?
     var quickCommandResponseState               : QuickCommandResponseState = ._WAITING
@@ -67,6 +64,7 @@ class ConfigurationController: UIViewController {
             
             popUpConnectingCir()
             bluetoothActions?.bluetoothConnectionDelegate = self
+            bluetoothActions?.bluetoothQuickCommandsDelegate = self
             bluetoothActions?.connectCirWireless(peripheralToConnect: cirWireless!.peripheral!)
             
         } else {
@@ -175,12 +173,12 @@ class ConfigurationController: UIViewController {
                 }
             } else if // quickCommandResponseState == ._READ_DATE ||
                         quickCommandResponseState == ._SET_DATE {
+                
                 print("Implements for ._READ_DATE if neccessary ...")
                 
                 // Esto solo es para el caso de ._SET_DATE
                 responseTitle = NSLocalizedString("Set Date Title", comment: "Date updated")
                 responseMessage = NSLocalizedString("Set Date Message", comment: "Date updated")
-                bluetoothActions?.setCirWirelessNotifyCharacteristic(enable: true, notifyCharacteristic: cwProtocolNotificationCharac!)
             }
             
         } else {
@@ -191,27 +189,6 @@ class ConfigurationController: UIViewController {
         responseAlert = popUpCommandResponse(title: responseTitle, message: responseMessage, buttonHandler: { _ in
             self.responseAlert.dismiss(animated: true, completion: nil)
         })
-    }
-    
-    
-    private func validateMachineState (protocolResponse: [UInt8]) {
-        
-        switch machineState {
-            
-        case ._GETTING_AP:
-            <#code#>
-            
-        case ._SET_SSID:
-            <#code#>
-            
-        case ._SET_PASSCODE:
-            <#code#>
-            
-        case ._POLING:
-            <#code#>
-            
-        }
-        
     }
     
     
@@ -229,6 +206,7 @@ class ConfigurationController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? AccessPointViewController {
             destination.cirWireless                     = self.cirWireless
+            destination.bluetoothActions                = self.bluetoothActions
             destination.cwProtocolService               = self.cwProtocolService
             destination.cwProtocolNotificationCharac    = self.cwProtocolNotificationCharac
             destination.cwProtocolWriteCharacteristic   = self.cwProtocolWriteCharacteristic
@@ -528,49 +506,45 @@ extension ConfigurationController: BluetoothConnectionProtocol {
     }
     
     
-    func successfullyReadCharacteristic(characteristic: CBCharacteristic, readValue: Data?) {
-        // print("successfullyReadCharacteristic:value: \(readValue!.hexDescription)")
-        let characteristicUuidString = characteristic.uuid.uuidString
-        
-        if characteristicUuidString == cwInfoCharacteristic?.uuid.uuidString, let firmwareValue = readValue {
-            
-            validateFirmwareVersion(firmwareValue: firmwareValue)
-   
-        } else if characteristicUuidString == cwQuickCommandsCharacteristic?.uuid.uuidString, let response = readValue {
-
-            let qCResponse = QuickCommandResponse(responsePackage: response.hexDescription.hexaToBytes)
-            
-            sendingCommandAlert?.dismiss(animated: false, completion: {
-                self.validateQuickCommandResponse(quickCommandResponse: qCResponse)
-                self.presentPopUp()
-            })
-            
-        } else if characteristicUuidString == cwProtocolNotificationCharac?.uuid.uuidString, let response = readValue {
-            let protocolResponse = CirProtocolResponse(protocolResponse: response.hexDescription.hexaToBytes)
-            validateMachineState(protocolResponse: protocolResponse)
-        }
-    }
-    
-    
-    func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
-        print("successfullyWrittenInCharacteristic: \(writtenValue)")
-        bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwQuickCommandsCharacteristic!)
-    }
-    
-    
-    func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
-        print("successfullyWrittenInDescriptor: ")
-    }
-    
-    
-    func updateCentralState(newState: CBManagerState) {
-        print("")
-    }
-    
-    
     func errorConnectionOcurred(error: ErrorConnection) {
         print("")
     }
+}
+
+
+extension ConfigurationController: BluetoothQuickCommandsProtocol {
+    
+     func successfullyReadCharacteristic(characteristic: CBCharacteristic, readValue: Data?) {
+         // print("successfullyReadCharacteristic:value: \(readValue!.hexDescription)")
+         let characteristicUuidString = characteristic.uuid.uuidString
+         
+         if characteristicUuidString == cwInfoCharacteristic?.uuid.uuidString, let firmwareValue = readValue {
+             
+             validateFirmwareVersion(firmwareValue: firmwareValue)
+    
+         } else if characteristicUuidString == cwQuickCommandsCharacteristic?.uuid.uuidString, let response = readValue {
+
+             let qCResponse = QuickCommandResponse(responsePackage: response.hexDescription.hexaToBytes)
+             
+             sendingCommandAlert?.dismiss(animated: false, completion: {
+                 self.validateQuickCommandResponse(quickCommandResponse: qCResponse)
+                 self.presentPopUp()
+             })
+             
+         }
+     }
+     
+     
+     func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
+         print("successfullyWrittenInCharacteristic: \(writtenValue)")
+         bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwQuickCommandsCharacteristic!)
+     }
+     
+     
+     func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
+         print("successfullyWrittenInDescriptor: ")
+     }
+     
 }
 // ---------------------------------------------------------------------------------------------------------
 
@@ -592,26 +566,3 @@ enum QuickCommandResponseState: String {
     
 }
 // ---------------------------------------------------------------------------------------------------------
-
-
-enum MachineState: Int {
-
-    case _GETTING_AP        = 1
-    
-    case _SET_SSID          = 2
-    
-    case _SET_PASSCODE      = 3
-    
-    case _POLING            = 4
-    
-}
-
-
-protocol AccessPointsBridge {
-    
-    func listAccessPoints (accessPoints: [UInt8])
-    
-    func wiFiConfigurationSent (status: Int)
-    
-    func errorWiFiConfiguration (error: String)
-}

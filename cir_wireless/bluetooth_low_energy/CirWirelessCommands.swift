@@ -120,8 +120,11 @@ class CirWirelessCommands {
         let package = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
                                          packageLength: CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue,
                                          command: ._GET_AP_LIST, payload: nil)
+        
+        print("Access Points: \(package.fullPackage)")
         var data = Data()
         data.append(contentsOf: package.fullPackage)
+        print(data.hexDescription)
         return data
     }
     

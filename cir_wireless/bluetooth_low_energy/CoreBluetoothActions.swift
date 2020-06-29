@@ -19,20 +19,22 @@ class CoreBluetoothActions: NSObject {
     var scanningTime: Double?
     
     // Delegates
-    var bluetoothActionsDelegate    : BluetoothActionsProtocol?
-    var bluetoothScanDelegate       : BluetoothScanProtocol?
-    var bluetoothConnectionDelegate : BluetoothConnectionProtocol?
+    var bluetoothActionsDelegate                : BluetoothBaseProtocol?
+    var bluetoothScanDelegate                   : BluetoothScanProtocol?
+    var bluetoothConnectionDelegate             : BluetoothConnectionProtocol?
+    var bluetoothQuickCommandsDelegate          : BluetoothQuickCommandsProtocol?
+    var bluetoothPolingDelegate                 : BluetoothPolingProtocol?
     
     
     // Bluetooth objects
-    var uuidSerices                 : [CBUUID]?
-    var bleCentralState             : CBManagerState?
-    var bleCentralManager           : CBCentralManager!
-    var cirWireless                 : CBPeripheral?
+    var uuidSerices                             : [CBUUID]?
+    var bleCentralState                         : CBManagerState?
+    var bleCentralManager                       : CBCentralManager!
+    var cirWireless                             : CBPeripheral?
     
     
-    var cirsFoundWithIBeacon        = [UUID : CirWirelessModel] ()
-    var cirsFoundWithPayloadBeacon  = [UUID : CirWirelessModel] ()
+    var cirsFoundWithIBeacon                    = [UUID : CirWirelessModel] ()
+    var cirsFoundWithPayloadBeacon              = [UUID : CirWirelessModel] ()
     
     
     init (filterBy uuidServices: Array<CBUUID>, scanningTime: Double = 5) {
@@ -236,15 +238,34 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         print("Successfully written in char: ")
+        let characteristicUuid = characteristic.uuid.uuidString
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .successfullyWrittenInCharacteristic)
-        bluetoothConnectionDelegate?.successfullyWrittenInCharacteristic(characteristic: characteristic, writtenValue: (characteristic.value) ?? Data())
+        
+        if characteristicUuid == BluetoothGattConstants.CBUUID_QUICK_COMMANDS_CHARACTERISTIC {
+            
+            bluetoothQuickCommandsDelegate?.successfullyWrittenInCharacteristic(characteristic: characteristic, writtenValue: (characteristic.value) ?? Data())
+            
+        } else if characteristicUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_NOTIFY_CHARACTERISTIC {
+            
+            bluetoothPolingDelegate?.successfullyWrittenInCharacteristic(characteristic: characteristic, writtenValue: (characteristic.value) ?? Data())
+            
+        }
     }
     
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
         print("Successfully written in descriptor: ")
+        let characteristicUuid = descriptor.characteristic.uuid.uuidString
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .successfullyWrittenInDescriptor)
-        bluetoothConnectionDelegate?.successfullyWrittenInDescriptor(descriptor: descriptor, writtenValue: (descriptor.value as! Data))
+        
+        if characteristicUuid == BluetoothGattConstants.CBUUID_QUICK_COMMANDS_CHARACTERISTIC {
+            
+            bluetoothQuickCommandsDelegate?.successfullyWrittenInDescriptor(descriptor: descriptor, writtenValue: (descriptor.value as! Data))
+            
+        } else if characteristicUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_NOTIFY_CHARACTERISTIC {
+            
+            bluetoothPolingDelegate?.successfullyWrittenInDescriptor(descriptor: descriptor, writtenValue: (descriptor.value as! Data))
+        }
     }
     
     
@@ -255,14 +276,29 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         print("didUpdateValueFor: \(characteristic.value?.hexDescription)")
-        bluetoothConnectionDelegate?.successfullyReadCharacteristic(characteristic: characteristic, readValue: characteristic.value)
+        let characteristicUuid = characteristic.uuid.uuidString
+        
+        if characteristicUuid == BluetoothGattConstants.CBUUID_DEVICE_INFO_CHARACTERISTIC {
+
+            bluetoothQuickCommandsDelegate?.successfullyReadCharacteristic(characteristic: characteristic, readValue: characteristic.value)
+            
+        } else if characteristicUuid == BluetoothGattConstants.CBUUID_QUICK_COMMANDS_CHARACTERISTIC {
+
+            bluetoothQuickCommandsDelegate?.successfullyReadCharacteristic(characteristic: characteristic, readValue: characteristic.value)
+            
+        } else if characteristicUuid == BluetoothGattConstants.CBUUID_CIR_NAMA_NOTIFY_CHARACTERISTIC {
+            
+            bluetoothPolingDelegate?.successfullyReadCharacteristic(characteristic: characteristic, readValue: characteristic.value)
+            
+        }
+
     }
 }
 // -------------------------------------------------------------------------------------------------
 
 
 // Protocolo para la comunicacion entre nuestra clase Bluetooth y la clase que la llama ---------------
-protocol BluetoothActionsProtocol {
+protocol BluetoothBaseProtocol {
     
     func updateCentralState (newState: CBManagerState)
 
@@ -295,6 +331,13 @@ protocol BluetoothConnectionProtocol {
     func characteristicsAvailable (service: CBService, availableCharacteristics characteristics: [CBCharacteristic])
     
     
+    func errorConnectionOcurred (error: ErrorConnection)
+    
+}
+
+
+protocol BluetoothQuickCommandsProtocol {
+    
     func successfullyReadCharacteristic (characteristic: CBCharacteristic, readValue: Data?)
     
     
@@ -302,9 +345,18 @@ protocol BluetoothConnectionProtocol {
     
     
     func successfullyWrittenInDescriptor (descriptor: CBDescriptor, writtenValue: Data)
+}
+
+
+protocol BluetoothPolingProtocol {
+    
+    func successfullyReadCharacteristic (characteristic: CBCharacteristic, readValue: Data?)
     
     
-    func errorConnectionOcurred (error: ErrorConnection)
+    func successfullyWrittenInCharacteristic (characteristic: CBCharacteristic, writtenValue: Data)
+    
+    
+    func successfullyWrittenInDescriptor (descriptor: CBDescriptor, writtenValue: Data)
     
 }
 // -------------------------------------------------------------------------------------------------
