@@ -37,6 +37,10 @@
 "Location Services Disabled"        = "Tus servicios de localización están deshabilitados, habilitalos para continuar";
 "WiFi Unavailable"                  = "Conexión WiFi";
 "WiFi Unavailable Message"          = "Necesitas estár conectado a una red WiFi para configurar a la CIR Wireless";
+"Set Date Title"                    = "Fecha Actualizada";
+"Set Date Message"                  = "La fecha de la CIR ha sido actualizada";
+"Characters Exceeded Title"         = "Characteres excedidos";
+"Characters Exceeded Message"       = "Los caracteres del SSID o la contraseña son muy extensos, el SSID debe ser de máximo 40 caracteres y la contraseña máximo de 20 caracteres";
 
 
 // Button's Texts - Alerts

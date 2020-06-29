@@ -37,6 +37,10 @@
 "Location Services Disabled"        = "Your location services are disabled, please update them to continue";
 "WiFi Unavailable"                  = "WiFi Connection";
 "WiFi Unavailable Message"          = "You must be connected to a WiFi network and be able to configure CIR Wireless";
+"Set Date Title"                    = "Date Updated";
+"Set Date Message"                  = "CIR date is updated";
+"Characters Exceeded Title"         = "Characters Exceeded";
+"Characters Exceeded Message"       = "SSID or passcode characeters exceeded max length, SSID must be max 40 characters and passcode must be max 20 characters";
 
 
 // Textos de Botones de Alerts

@@ -133,6 +133,11 @@ class CoreBluetoothActions: NSObject {
     func readCirWirelessCharacteristic (characteristic: CBCharacteristic) {
         cirWireless?.readValue(for: characteristic)
     }
+    
+    
+    func setCirWirelessNotifyCharacteristic (enable: Bool, notifyCharacteristic: CBCharacteristic) {
+        cirWireless?.setNotifyValue(enable, for: notifyCharacteristic)
+    }
     // -------------------------------------------------------------------------------------------------
 }
 

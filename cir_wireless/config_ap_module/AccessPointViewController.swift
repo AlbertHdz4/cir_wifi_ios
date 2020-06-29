@@ -11,9 +11,14 @@ import CoreBluetooth
 import SystemConfiguration.CaptiveNetwork
 
 class AccessPointViewController: UIViewController {
-
-    var isWiFiAvailable                       : Bool = false
+    
+    let MAX_LENGTH_SSID_CHARACTERS              = 40
+    let MAX_LENGTH_PASSCODE_CHARACTERS          = 20
+    
+    
+    var isWiFiAvailable                         : Bool = false
     var wiFiName                                : String?
+    
     
     var cirWireless                             : CirWirelessModel?
     var bluetoothActions                        : CoreBluetoothActions?
@@ -56,12 +61,14 @@ class AccessPointViewController: UIViewController {
         
 
         passcodeField.delegate = self
+        bluetoothActions?.bluetoothConnectionDelegate = self
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         if wiFiName == nil {
             popUpWiFiUnavailable()
+            
         }
     }
     
@@ -95,10 +102,18 @@ class AccessPointViewController: UIViewController {
     @IBAction func acceptPasscode(_ sender: Any) {
         
         if isWiFiAvailable {
-            
-            if !(passcodeField.text?.isEmpty ?? true) {
-                
-                self.present(configuringWiFiAlert, animated: true, completion: nil)
+            let passcodeFieldText = passcodeField.text ?? ""
+            if !(passcodeFieldText.isEmpty) {
+                print(passcodeFieldText.count)
+                print(wiFiName!.count)
+                if (passcodeFieldText.count <= MAX_LENGTH_PASSCODE_CHARACTERS && wiFiName!.count <= MAX_LENGTH_SSID_CHARACTERS) {
+                    
+                    self.present(configuringWiFiAlert, animated: true, completion: nil)
+                    
+                } else {
+                    
+                    popUpLargePasscodeOrSsid()
+                }
                 
             } else {
                 
@@ -144,6 +159,23 @@ class AccessPointViewController: UIViewController {
     }
     
     
+    private func popUpLargePasscodeOrSsid () {
+        var largeFieldPopUp         : UIAlertController!
+        
+        let title                   = NSLocalizedString("Characters Exceeded Title", comment: "Characters exceeded")
+        let message                 = NSLocalizedString("Characters Exceeded Message", comment: "")
+        
+        let largeAlertComponents    = AlertComponents(alertTitle: title, alertMessage: message)
+        let largeAlertActions       = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
+            largeFieldPopUp.dismiss(animated: true, completion: nil)
+        })
+        
+        largeFieldPopUp             = PopUpAlert.popUpOneButton(alertCharacteristic: largeAlertComponents, buttonCharacteristic: largeAlertActions)
+        
+        self.present(largeFieldPopUp, animated: true, completion: nil)
+    }
+    
+    
     private func popUpConfiguring () {
         
         let configTitle             = NSLocalizedString("Sending Passcode Title", comment: "Sending configuration to CIR")
@@ -170,7 +202,6 @@ class AccessPointViewController: UIViewController {
         
         self.present(wiFiAlert, animated: true, completion: nil)
     }
-    
     // -----------------------------------------------------------------------------
     
 }
@@ -179,7 +210,44 @@ class AccessPointViewController: UIViewController {
 extension AccessPointViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         textField.resignFirstResponder()
+    }
+}
+
+
+extension AccessPointViewController: BluetoothConnectionProtocol {
+    
+    func updateBluetoothConnectProcess(status: BluetoothConnectionProcess) {
+        print("status: \(status)")
+    }
+    
+    
+    func servicesAvailable(services: [CBService]?) {
+        print("")
+    }
+    
+    
+    func characteristicsAvailable(service: CBService, availableCharacteristics characteristics: [CBCharacteristic]) {
+        print("")
+    }
+    
+    
+    func successfullyReadCharacteristic(characteristic: CBCharacteristic, readValue: Data?) {
+        print("successfullyReadCharacteristic:wiFi: ")
+    }
+    
+    
+    func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
+        print("successfullyWrittenInCharacteristic:wiFi: ")
+    }
+    
+    
+    func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
+        print("successfullyWrittenInDescriptor: ")
+    }
+    
+    
+    func errorConnectionOcurred(error: ErrorConnection) {
+        print("errorConnectionOcurred")
     }
 }

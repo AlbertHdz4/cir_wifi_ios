@@ -48,6 +48,7 @@ struct QuickCommandPackage {
         var modifiedArray = toModify
         
         for element in toInsert {
+            
             modifiedArray.append(element)
         }
         
@@ -64,6 +65,7 @@ enum QuickCommandsLenghts: UInt8 {
     case _COMMAND_WITH_DATE = 0x19
 }
 // ------------------------------------------------------------------
+
 
 // Estos comandos y su uso detallado estan en el documento:
 // 'Servicio QUICK CMDS BLE CIR Wireless v3.4.7' ---------------------------

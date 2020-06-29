@@ -20,6 +20,9 @@ class ConfigurationController: UIViewController {
     var isBluetoothOn               = false
     
     
+    var machineState                            : MachineState = ._POLING
+    
+    
     var cirWireless                             : CirWirelessModel?
     var bluetoothActions                        : CoreBluetoothActions?
     var quickCommandResponseState               : QuickCommandResponseState = ._WAITING
@@ -87,13 +90,15 @@ class ConfigurationController: UIViewController {
     
     private func validateFirmwareVersion (firmwareValue: Data) {
         let firmwareInt: Int = Int(String(firmwareValue[1]) + String(firmwareValue[2]) + String(firmwareValue[3])) ?? 0
-           connectingAlert?.dismiss(animated: true, completion: nil)
+        connectingAlert?.dismiss(animated: true, completion: nil)
         
         if firmwareInt == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue {
-            let commandDate = CirWirelessCommands.setDateCommand(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, dateBytes: DatePackage.getDatePackage().fullPackage)
+            
+            // Habilitamos la caracteristica de notificacion
+            updateCirDate()
             connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
             cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
-               
+            
         } else {
                
             popUpNotValidFirmware()
@@ -101,50 +106,81 @@ class ConfigurationController: UIViewController {
         }
     }
     
+    // Actualizacion y lectura de fecha la CIR Wireless -----------------------------------
+    private func updateCirDate () {
+        
+        quickCommandResponseState = ._SET_DATE
+        let currentDate = DatePackage.getDatePackage().fullPackage
+        let commandDate = CirWirelessCommands.setDateCommand(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, dateBytes: currentDate!)
+        bluetoothActions?.writeCirWirelessCharacteristic(command: commandDate, characteristic: cwQuickCommandsCharacteristic!, type: .withoutResponse)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.readChar), userInfo: nil, repeats: false) // La CIR necesita tiempo para escribir
+        
+    }
+    
+    
+    private func readCirDate () {
+        
+        quickCommandResponseState = ._READ_DATE
+        let commandReadDate = CirWirelessCommands.readDateCommand(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+        bluetoothActions?.writeCirWirelessCharacteristic(command: commandReadDate, characteristic: cwQuickCommandsCharacteristic!, type: .withoutResponse)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.readChar), userInfo: nil, repeats: false) // La CIR necesita tiempo para escribir
+    }
+    // ------------------------------------------------------------------------------------
+    
     
     private func validateQuickCommandResponse (quickCommandResponse: QuickCommandResponse) {
         
         if quickCommandResponse.isValid() {
-            print("It is a valid respose")
+            print("It is a valid respose \(quickCommandResponse.fullPackage)")
             
-            if quickCommandResponse.response != QuickCommandReponses._LOCK_DISABLED.rawValue {
-                responseTitle = NSLocalizedString("Option Success", comment: "Command successfully sent")
+            if quickCommandResponseState == ._LOCKING ||
+                quickCommandResponseState == ._UNLOCKING ||
+                quickCommandResponseState == ._RELOADING {
                 
-                switch quickCommandResponseState {
-                case ._LOCKING:
-                    responseMessage = NSLocalizedString("Locked", comment: "Lock is closed")
+                if quickCommandResponse.response != QuickCommandReponses._LOCK_DISABLED.rawValue {
+                    responseTitle = NSLocalizedString("Option Success", comment: "Command successfully sent")
                     
-                case ._UNLOCKING:
-                    responseMessage = NSLocalizedString("Unlocked", comment: "Lock is opened")
+                    switch quickCommandResponseState {
+                    case ._LOCKING:
+                        responseMessage = NSLocalizedString("Locked", comment: "Lock is closed")
+                        
+                    case ._UNLOCKING:
+                        responseMessage = NSLocalizedString("Unlocked", comment: "Lock is opened")
+                        
+                    case ._RELOADING:
+                        responseMessage = NSLocalizedString("Reload Enabled", comment: "Reload enabled")
+                        
+                    default:
+                        break
+                    }
                     
-                case ._RELOADING:
-                    responseMessage = NSLocalizedString("Reload Enabled", comment: "Reload enabled")
+                } else {
                     
-                case ._WAITING:
-                    print("Waiting for command")
+                    switch quickCommandResponseState {
+                    case ._LOCKING, ._UNLOCKING:
+                        responseTitle = NSLocalizedString("Option Disabled", comment: "Lock is disabled or unavailble by hardware or firmware")
+                        responseMessage = NSLocalizedString("Lock Disabled", comment: "Lock is disabled or unavailble by hardware or firmware")
+                                     
+                    case ._RELOADING:
+                        responseTitle = NSLocalizedString("Option Disabled", comment: "Reload is disabled or unavailble by hardware or firmware")
+                        responseMessage = NSLocalizedString("Reload Disabled", comment: "Reload is disabled or unavailble by hardware or firmware")
+                                  
+                    case ._WAITING:
+                        print("Waiting for command")
+                        
+                    default :
+                        break
+                    }
                     
-                case ._SET_DATE:
-                    print("Successfully set")
-                    
-                case ._READ_DATE:
-                    print("Reading date")
                 }
+            } else if // quickCommandResponseState == ._READ_DATE ||
+                        quickCommandResponseState == ._SET_DATE {
+                print("Implements for ._READ_DATE if neccessary ...")
                 
-            } else {
-                
-                switch quickCommandResponseState {
-                case ._LOCKING, ._UNLOCKING:
-                    responseTitle = NSLocalizedString("Option Disabled", comment: "Lock is disabled or unavailble by hardware or firmware")
-                    responseMessage = NSLocalizedString("Lock Disabled", comment: "Lock is disabled or unavailble by hardware or firmware")
-                                 
-                case ._RELOADING:
-                    responseTitle = NSLocalizedString("Option Disabled", comment: "Reload is disabled or unavailble by hardware or firmware")
-                    responseMessage = NSLocalizedString("Reload Disabled", comment: "Reload is disabled or unavailble by hardware or firmware")
-                              
-                case ._WAITING:
-                    print("Waiting for command")
-                }
-                
+                // Esto solo es para el caso de ._SET_DATE
+                responseTitle = NSLocalizedString("Set Date Title", comment: "Date updated")
+                responseMessage = NSLocalizedString("Set Date Message", comment: "Date updated")
+                bluetoothActions?.setCirWirelessNotifyCharacteristic(enable: true, notifyCharacteristic: cwProtocolNotificationCharac!)
             }
             
         } else {
@@ -155,6 +191,27 @@ class ConfigurationController: UIViewController {
         responseAlert = popUpCommandResponse(title: responseTitle, message: responseMessage, buttonHandler: { _ in
             self.responseAlert.dismiss(animated: true, completion: nil)
         })
+    }
+    
+    
+    private func validateMachineState (protocolResponse: [UInt8]) {
+        
+        switch machineState {
+            
+        case ._GETTING_AP:
+            <#code#>
+            
+        case ._SET_SSID:
+            <#code#>
+            
+        case ._SET_PASSCODE:
+            <#code#>
+            
+        case ._POLING:
+            <#code#>
+            
+        }
+        
     }
     
     
@@ -209,31 +266,34 @@ class ConfigurationController: UIViewController {
     
     
     @IBAction func lockFridge (_ sender: Any) {
-        
         self.present(sendingCommandAlert!, animated: true, completion: nil)
-        
         let command = CirWirelessCommands.closeLockCommand(cirWirelessMac: cirWireless!.getCirWirelessMacBytes()) // Comando ya encriptado
-        print(command.hexDescription)
         quickCommandResponseState = ._LOCKING
-        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
+        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withoutResponse)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.readChar), userInfo: nil, repeats: false) // La CIR necesita tiempo para escribir
     }
     
     
     @IBAction func unlockFridge (_ sender: Any) {
         self.present(sendingCommandAlert!, animated: true, completion: nil)
         let command = CirWirelessCommands.openLockCommand(cirWirelessMac: cirWireless!.getCirWirelessMacBytes()) // Comando ya encriptado
-        print(command.hexDescription)
         quickCommandResponseState = ._UNLOCKING
-        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
+        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withoutResponse)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.readChar), userInfo: nil, repeats: false) // La CIR necesita tiempo para escribir
     }
     
     
     @IBAction func realodFridge (_ sender: Any) {
         self.present(sendingCommandAlert!, animated: true, completion: nil)
         let command = CirWirelessCommands.reloadFridgeCommand(cirWirelessMac: cirWireless!.getCirWirelessMacBytes()) // Comando ya encriptado
-        print(command.hexDescription)
         quickCommandResponseState = ._RELOADING
-        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withResponse)
+        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwQuickCommandsCharacteristic!, type: .withoutResponse)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.readChar), userInfo: nil, repeats: false) // La CIR necesita tiempo para escribir
+    }
+    
+    
+    @objc private func readChar () {
+        bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwQuickCommandsCharacteristic!)
     }
     
     
@@ -462,32 +522,38 @@ extension ConfigurationController: BluetoothConnectionProtocol {
         case .successfullyWrittenInCharacteristic,
              .successfullyWrittenInDescriptor:
             
-            print("successfullyWritten")
-            sendingCommandAlert?.dismiss(animated: true, completion: {
-                self.presentPopUp()
-            })
+            print("")
             
         }
     }
     
     
     func successfullyReadCharacteristic(characteristic: CBCharacteristic, readValue: Data?) {
-        print("successfullyReadCharacteristic:value: \(readValue!.hexDescription)")
+        // print("successfullyReadCharacteristic:value: \(readValue!.hexDescription)")
+        let characteristicUuidString = characteristic.uuid.uuidString
         
-        if characteristic.uuid.uuidString == cwInfoCharacteristic?.uuid.uuidString, let firmwareValue = readValue {
+        if characteristicUuidString == cwInfoCharacteristic?.uuid.uuidString, let firmwareValue = readValue {
             
             validateFirmwareVersion(firmwareValue: firmwareValue)
    
-        } else if characteristic.uuid.uuidString == cwQuickCommandsCharacteristic?.uuid.uuidString, let response = readValue {
+        } else if characteristicUuidString == cwQuickCommandsCharacteristic?.uuid.uuidString, let response = readValue {
+
             let qCResponse = QuickCommandResponse(responsePackage: response.hexDescription.hexaToBytes)
-            validateQuickCommandResponse(quickCommandResponse: qCResponse)
+            
+            sendingCommandAlert?.dismiss(animated: false, completion: {
+                self.validateQuickCommandResponse(quickCommandResponse: qCResponse)
+                self.presentPopUp()
+            })
+            
+        } else if characteristicUuidString == cwProtocolNotificationCharac?.uuid.uuidString, let response = readValue {
+            let protocolResponse = CirProtocolResponse(protocolResponse: response.hexDescription.hexaToBytes)
+            validateMachineState(protocolResponse: protocolResponse)
         }
-        
     }
     
     
     func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
-        print("successfullyWrittenInCharacteristic: ")
+        print("successfullyWrittenInCharacteristic: \(writtenValue)")
         bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwQuickCommandsCharacteristic!)
     }
     
@@ -526,3 +592,26 @@ enum QuickCommandResponseState: String {
     
 }
 // ---------------------------------------------------------------------------------------------------------
+
+
+enum MachineState: Int {
+
+    case _GETTING_AP        = 1
+    
+    case _SET_SSID          = 2
+    
+    case _SET_PASSCODE      = 3
+    
+    case _POLING            = 4
+    
+}
+
+
+protocol AccessPointsBridge {
+    
+    func listAccessPoints (accessPoints: [UInt8])
+    
+    func wiFiConfigurationSent (status: Int)
+    
+    func errorWiFiConfiguration (error: String)
+}
