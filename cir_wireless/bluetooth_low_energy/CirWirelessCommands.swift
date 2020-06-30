@@ -93,10 +93,10 @@ class CirWirelessCommands {
         let package = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
                                          packageLength: packageLengthBytes[0], command: ._SET_SSID, payload: ssidBytes)
         
-        let encryptedPackage = CryptoData.encryptData(reverseMac: cirWirelessMac, data: package.fullPackage)
+        // let encryptedPackage = CryptoData.encryptData(reverseMac: cirWirelessMac, data: package.fullPackage)
         
         var data = Data()
-        data.append(contentsOf: encryptedPackage)
+        data.append(contentsOf: package.fullPackage)
         return data
     }
     
@@ -108,10 +108,10 @@ class CirWirelessCommands {
         let package = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
                                          packageLength: packageLengthBytes[0], command: ._SET_SSID_PASSCODE, payload: ssidPasscodeBytes)
         
-        let encryptedPackage = CryptoData.encryptData(reverseMac: cirWirelessMac, data: package.fullPackage)
+        // let encryptedPackage = CryptoData.encryptData(reverseMac: cirWirelessMac, data: package.fullPackage)
         
         var data = Data()
-        data.append(contentsOf: encryptedPackage)
+        data.append(contentsOf: package.fullPackage)
         return data
     }
     
@@ -121,7 +121,6 @@ class CirWirelessCommands {
                                          packageLength: CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue,
                                          command: ._GET_AP_LIST, payload: nil)
         
-        print("Access Points: \(package.fullPackage)")
         var data = Data()
         data.append(contentsOf: package.fullPackage)
         print(data.hexDescription)

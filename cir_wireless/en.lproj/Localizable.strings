@@ -43,6 +43,11 @@
 "Characters Exceeded Message"       = "SSID or passcode characeters exceeded max length, SSID must be max 40 characters and passcode must be max 20 characters";
 "CIR Not Seen AP"                   = "WiFi not Found";
 "CIR Not Seen AP Message"           = "CIR Wireless cannot see nearby WiFi networks, get closer to a WiFi Network and retry";
+"Error While Configuring"           = "Configuration Error";
+"Error While Configuring Message"   = "An error ocurred, please try again";
+"Configuration Completed"           = "Configuration Done";
+"Configuration Completed Message"   = "Configuration successfully finished";
+
 
 // Textos de Botones de Alerts
 "Ok"                = "Ok";

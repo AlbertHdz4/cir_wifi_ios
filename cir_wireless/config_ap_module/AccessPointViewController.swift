@@ -11,15 +11,20 @@ import CoreBluetooth
 import SystemConfiguration.CaptiveNetwork
 
 class AccessPointViewController: UIViewController {
+    let _ACCEPT                                 = NSLocalizedString("Accept", comment: "")
     
     let MAX_LENGTH_SSID_CHARACTERS              = 40
     let MAX_LENGTH_PASSCODE_CHARACTERS          = 20
 
-    var isFirstTimeHere                         : Bool = true
-    var isWiFiAvailable                         : Bool = false
-    var wiFiName                                : String?
-
     
+    var isWiFiAvailable                         : Bool = false
+    
+    
+    var wiFiName                                : String?
+    var wiFiPasscode                            : String?
+    
+    
+    // Variable para controlar el flujo de la configuracion de WiFi
     var machineState                            : MachineState = ._POLING
     
     
@@ -37,6 +42,7 @@ class AccessPointViewController: UIViewController {
     
     
     var configuringWiFiAlert                    : UIAlertController!
+    var validateWiFiConnection                  : UIAlertController!
     
     
     // Outlets
@@ -62,6 +68,7 @@ class AccessPointViewController: UIViewController {
             isWiFiAvailable = true
             bluetoothActions!.bluetoothPolingDelegate = self
             bluetoothActions!.setCirWirelessNotifyCharacteristic(enable: true, notifyCharacteristic: cwProtocolNotificationCharac!)
+            machineState    = ._GETTING_AP
         }
         
 
@@ -108,10 +115,12 @@ class AccessPointViewController: UIViewController {
         if isWiFiAvailable {
             let passcodeFieldText = passcodeField.text ?? ""
             if !(passcodeFieldText.isEmpty) {
+                
                 print(passcodeFieldText.count)
                 print(wiFiName!.count)
                 if (passcodeFieldText.count <= MAX_LENGTH_PASSCODE_CHARACTERS && wiFiName!.count <= MAX_LENGTH_SSID_CHARACTERS) {
-                    
+                    wiFiPasscode = passcodeFieldText
+                    machineState = ._SET_SSID
                     self.present(configuringWiFiAlert, animated: true, completion: nil)
                     
                 } else {
@@ -149,37 +158,81 @@ class AccessPointViewController: UIViewController {
         
         switch machineState {
             
-        case ._GETTING_AP:
+        case ._GETTING_AP :
             print("_GETTING_AP")
-            if protocolResponse.response == CirProtocolResponses._SEEN_ACCESS_POINTS.rawValue {
+            print("isAPoleo: \(protocolResponse.isAPoleoPackage())")
+            if protocolResponse.isAPoleoPackage() {
                 
-                if let macs = protocolResponse.getPayload() {
-                    
-                    var macsData = Data()
-                    macsData.append(contentsOf: macs)
-                    print("macs: \(macsData.hexDescription)")
-                    machineState = ._POLING
-                    isFirstTimeHere = false
-                } else {
-                    popUpCirNotSeeingAP()
-                }
-            }
-            
-        case ._SET_SSID:
-            print("_SET_SSID")
-            
-        case ._SET_PASSCODE:
-            print("_SET_PASSCODE")
-            
-        case ._POLING:
-            print("_POLING")
-            
-            if isFirstTimeHere {
                 let command = CirWirelessCommands.getSeenAccessPointsCommand()
                 print("command access points: \(command.description)")
                 bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-                machineState = ._GETTING_AP
+                
+            } else if protocolResponse.response == CirProtocolResponses._SEEN_ACCESS_POINTS.rawValue {
+                print("macs found")
+                
+                if let _ = protocolResponse.getPayload() {
+                    
+                    machineState = ._POLING
+
+                } else {
+                    
+                    isWiFiAvailable = false
+                    popUpCirNotSeeingAP()
+                    
+                }
             }
+            
+        case ._SET_SSID :
+            print("._SET_SSID")
+            if protocolResponse.isAPoleoPackage() {
+                
+                let wiFiNameBytes = wiFiName!.toBytes
+                print("wifi name bytes: \(wiFiNameBytes)")
+                let command = CirWirelessCommands.setSSID(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, ssidBytes: wiFiName!.toBytes)
+                bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                
+            } else if protocolResponse.response == CirProtocolResponses._SSID_SUCCESSFULLY_RECEIVED.rawValue {
+                
+                print("SSID successfully received")
+                machineState = ._SET_PASSCODE
+                
+            } else {
+                
+                print("Something wrong with SSID")
+                configuringWiFiAlert.dismiss(animated: true, completion: {
+                    self.popUpErrorWhileConfigWiFi()
+                })
+                
+            }
+            
+        case ._SET_PASSCODE :
+            print("._SET_PASSCODE")
+            if protocolResponse.isAPoleoPackage() {
+                
+                let command = CirWirelessCommands.setSSIDPasscode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, ssidPasscodeBytes: wiFiPasscode!.toBytes)
+                bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                
+            } else if protocolResponse.response == CirProtocolResponses._PASSCODE_SUCCESSFULLY_RECEIVED.rawValue {
+                
+                print("Passcode successfully received")
+                configuringWiFiAlert.dismiss(animated: true, completion: {
+                    self.popUpConfigurationSuccessfullyDone()
+                    self.passcodeField.text = ""
+                })
+                machineState = ._POLING
+                
+            } else {
+                
+                configuringWiFiAlert.dismiss(animated: true, completion: {
+                    self.popUpErrorWhileConfigWiFi()
+                })
+                print("Something wrong with password")
+                
+            }
+            
+        case ._POLING :
+            print("._POLING")
+
         }
         
     }
@@ -193,7 +246,7 @@ class AccessPointViewController: UIViewController {
         let badPasscodeMessage      = NSLocalizedString("Bad Passcode Message", comment: "Message")
         
         let badPasscodeComponents   = AlertComponents(alertTitle: badPasscodeTitle, alertMessage: badPasscodeMessage)
-        let badPasscodeActions      = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
+        let badPasscodeActions      = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
             badPasscodeAlert.dismiss(animated: true, completion: nil)
         })
         
@@ -210,7 +263,7 @@ class AccessPointViewController: UIViewController {
         let message                 = NSLocalizedString("Characters Exceeded Message", comment: "")
         
         let largeAlertComponents    = AlertComponents(alertTitle: title, alertMessage: message)
-        let largeAlertActions       = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
+        let largeAlertActions       = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
             largeFieldPopUp.dismiss(animated: true, completion: nil)
         })
         
@@ -238,7 +291,7 @@ class AccessPointViewController: UIViewController {
         let wiFiUnavailableMessage      = NSLocalizedString("WiFi Unavailable Message", comment: "Message")
         
         let wiFiUnavailableComponents   = AlertComponents(alertTitle: wiFiUnavailableTitle, alertMessage: wiFiUnavailableMessage)
-        let wiFiUnavailableActions      = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
+        let wiFiUnavailableActions      = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
             wiFiAlert.dismiss(animated: true, completion: nil)
         })
         
@@ -255,13 +308,49 @@ class AccessPointViewController: UIViewController {
         let wiFiNotSeenMessage      = NSLocalizedString("CIR Not Seen AP Message", comment: "")
         
         let wiFiUnavailableComponents   = AlertComponents(alertTitle: wiFiNotSeenTitle, alertMessage: wiFiNotSeenMessage)
-        let wiFiUnavailableActions      = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: ""), buttonHandler: {_ in
+        let wiFiUnavailableActions      = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
             wiFiAlert.dismiss(animated: true, completion: nil)
         })
         
         wiFiAlert                       = PopUpAlert.popUpOneButton(alertCharacteristic: wiFiUnavailableComponents, buttonCharacteristic: wiFiUnavailableActions)
         
         self.present(wiFiAlert, animated: true, completion: nil)
+    }
+    
+    
+    private func popUpErrorWhileConfigWiFi () {
+        var wiFiAlert               : UIAlertController!
+        
+        let errorOcurredTitle       = NSLocalizedString("Error While Configuring", comment: "SSID or Passcode is not correct")
+        let errorOcurredMessage     = NSLocalizedString("Error While Configuring Message", comment: "")
+        
+        let errorComponents         = AlertComponents(alertTitle: errorOcurredTitle, alertMessage: errorOcurredMessage)
+        let errorActions            = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
+            wiFiAlert.dismiss(animated: true, completion: nil)
+        })
+        
+        wiFiAlert                   = PopUpAlert.popUpOneButton(alertCharacteristic: errorComponents, buttonCharacteristic: errorActions)
+        
+        self.present(wiFiAlert, animated: true, completion: nil)
+        
+    }
+    
+    
+    private func popUpConfigurationSuccessfullyDone () {
+        var successAlert        : UIAlertController!
+        
+        let successTitle        = NSLocalizedString("Configuration Completed", comment: "")
+        let successMessage      = NSLocalizedString("Configuration Completed Message", comment: "")
+        
+        let successComponents    = AlertComponents(alertTitle: successTitle, alertMessage: successMessage)
+        let successActions       = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: { _ in
+            successAlert.dismiss(animated: true, completion: nil)
+        })
+        
+        successAlert            = PopUpAlert.popUpOneButton(alertCharacteristic: successComponents, buttonCharacteristic: successActions)
+        
+        self.present(successAlert, animated: true, completion: nil)
+        
     }
     // -----------------------------------------------------------------------------
     

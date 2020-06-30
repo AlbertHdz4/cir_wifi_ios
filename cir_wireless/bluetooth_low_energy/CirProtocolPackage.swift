@@ -133,8 +133,8 @@ struct CirProtocolResponse {
     init (protocolResponse: [UInt8]) {
         self.entirePackage  = protocolResponse
         self.preambulo      = protocolResponse[0]
-        self.origen        = protocolResponse[1]
-        self.destino         = protocolResponse[2]
+        self.origen         = protocolResponse[1]
+        self.destino        = protocolResponse[2]
         self.packageLength  = protocolResponse[3]
         self.response       = protocolResponse[4]
         self.crcMSB         = protocolResponse[Int(packageLength) - 2]
@@ -145,6 +145,11 @@ struct CirProtocolResponse {
     
     func isAPoleoPackage () -> Bool {
         return entirePackage[4] == CirProtocolResponses._POLEO_PACKAGE.rawValue
+    }
+    
+    
+    func isAStatusPackage () -> Bool {
+        return entirePackage[4] == CirProtocolResponses._STATUS_PACKAGE.rawValue
     }
     
     
@@ -164,7 +169,9 @@ struct CirProtocolResponse {
 
 
 enum CirProtocolResponses   : UInt8 {
-    case _POLEO_PACKAGE                     = 0x0a
+    case _POLEO_PACKAGE                     = 0xC5
+    
+    case _STATUS_PACKAGE                    = 0xC1
     
     case _TASK_SUCCESSFULLY_RESET           = 0x48
     

@@ -41,6 +41,12 @@
 "Set Date Message"                  = "La fecha de la CIR ha sido actualizada";
 "Characters Exceeded Title"         = "Characteres excedidos";
 "Characters Exceeded Message"       = "Los caracteres del SSID o la contraseña son muy extensos, el SSID debe ser de máximo 40 caracteres y la contraseña máximo de 20 caracteres";
+"CIR Not Seen AP"                   = "Redes WiFi";
+"CIR Not Seen AP Message"           = "CIR Wireless no puede encontrar redes WiFi cercanas, asegurate de estar cerca y vuelve a intentarlo";
+"Error While Configuring"           = "Error Configurando";
+"Error While Configuring Message"   = "Ha ocurrido un error, mientras se configuraba el equipo, intenta de nuevo";
+"Configuration Completed"           = "Configuración Completada";
+"Configuration Completed Message"   = "La configuración ha sido completada con éxito";
 
 
 // Button's Texts - Alerts

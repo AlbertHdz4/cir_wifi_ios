@@ -147,3 +147,10 @@ extension Int {
     }
 }
 // ----------------------------------------------------------------------------------------
+
+
+
+extension StringProtocol {
+    var toData  : Data      { .init(utf8) }
+    var toBytes : [UInt8]   { .init(utf8) }
+}
