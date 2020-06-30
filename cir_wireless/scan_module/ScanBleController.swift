@@ -48,7 +48,7 @@ class ScanBleController: UIViewController {
         // MARK: Comenzamos a escanear
         bluetoothActions = CoreBluetoothActions(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS],
                                 scanningTime: self.DEFAULT_SCANNING_TIME)
-        bluetoothActions?.bluetoothActionsDelegate = self
+        bluetoothActions?.bluetoothBaseDelegate = self
         bluetoothActions?.bluetoothScanDelegate = self
 
         

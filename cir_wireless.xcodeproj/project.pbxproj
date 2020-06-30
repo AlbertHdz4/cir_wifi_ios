@@ -16,6 +16,7 @@
 		182797D42481AAC5001DB18D /* Courtain.xib in Resources */ = {isa = PBXBuildFile; fileRef = 182797D32481AAC5001DB18D /* Courtain.xib */; };
 		182797D62481AB2C001DB18D /* CourtainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182797D52481AB2C001DB18D /* CourtainView.swift */; };
 		182C625E2497D06400201DF4 /* ConfigurationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182C625D2497D06400201DF4 /* ConfigurationController.swift */; };
+		184B66F324ABB3C500F84E72 /* TestWiFiConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184B66F224ABB3C500F84E72 /* TestWiFiConnectionViewController.swift */; };
 		184B879F2492466500FF9C84 /* CirWirelessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184B879D2492466500FF9C84 /* CirWirelessCell.swift */; };
 		184B87A02492466500FF9C84 /* CirWirelessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 184B879E2492466500FF9C84 /* CirWirelessCell.xib */; };
 		1855017E24A509A30027F514 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1855017D24A509A30027F514 /* ExternalAccessory.framework */; };
@@ -56,6 +57,7 @@
 		182797D32481AAC5001DB18D /* Courtain.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Courtain.xib; sourceTree = "<group>"; };
 		182797D52481AB2C001DB18D /* CourtainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtainView.swift; sourceTree = "<group>"; };
 		182C625D2497D06400201DF4 /* ConfigurationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationController.swift; sourceTree = "<group>"; };
+		184B66F224ABB3C500F84E72 /* TestWiFiConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestWiFiConnectionViewController.swift; sourceTree = "<group>"; };
 		184B879D2492466500FF9C84 /* CirWirelessCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirWirelessCell.swift; sourceTree = "<group>"; };
 		184B879E2492466500FF9C84 /* CirWirelessCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CirWirelessCell.xib; sourceTree = "<group>"; };
 		1855017A24A5091E0027F514 /* Cir Wireless.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Cir Wireless.entitlements"; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		1871968D24805E0E002EB4F2 /* test_ap_module */ = {
 			isa = PBXGroup;
 			children = (
+				184B66F224ABB3C500F84E72 /* TestWiFiConnectionViewController.swift */,
 			);
 			path = test_ap_module;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				18E6F446249D30C900401A56 /* CirWirelessCommands.swift in Sources */,
 				182797D62481AB2C001DB18D /* CourtainView.swift in Sources */,
 				1807940624A1172000A19221 /* CurrentDate.swift in Sources */,
+				184B66F324ABB3C500F84E72 /* TestWiFiConnectionViewController.swift in Sources */,
 				180793FA24A0FBE600A19221 /* CryptoData.swift in Sources */,
 				182C625E2497D06400201DF4 /* ConfigurationController.swift in Sources */,
 				1864427024881A6000145AA7 /* RoundButton.swift in Sources */,

@@ -27,7 +27,7 @@
 "KC5-OB-QKv.text" = "DATOS";
 
 /* Class = "UILabel"; text = "00:C5:1B:XX:XX:XX"; ObjectID = "KE5-hV-mA0"; */
-"KE5-hV-mA0.text" = "00:C5:1B:XX:XX:XX";
+"KE5-hV-mA0.text" = "--------";
 
 /* Class = "UILabel"; text = "-"; ObjectID = "L7k-5k-D9J"; */
 "L7k-5k-D9J.text" = "-";
@@ -72,7 +72,7 @@
 "uMT-DA-i7J.text" = "SSID";
 
 /* Class = "UILabel"; text = "00:C5:1B:XX:XX:XX"; ObjectID = "uwY-OA-pQH"; */
-"uwY-OA-pQH.text" = "00:C5:1B:XX:XX:XX";
+"uwY-OA-pQH.text" = "--------";
 
 /* Class = "UINavigationItem"; title = "Configuration"; ObjectID = "vem-rx-g1t"; */
 "vem-rx-g1t.title" = "Configuración";
@@ -87,7 +87,7 @@
 "xC7-rd-SOy.text" = "Dispositivo";
 
 /* Class = "UILabel"; text = "00:1B:C5:XX:XX:XX"; ObjectID = "xm4-v1-oZB"; */
-"xm4-v1-oZB.text" = "00:1B:C5:XX:XX:XX";
+"xm4-v1-oZB.text" = "--------";
 
 /* Class = "UINavigationItem"; title = "Scanning"; ObjectID = "y6z-lQ-XVt"; */
 "y6z-lQ-XVt.title" = "Escaneando";

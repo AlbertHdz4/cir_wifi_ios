@@ -54,9 +54,11 @@ class ConfigurationController: UIViewController {
     @IBOutlet weak var containerConfigBtns      : UIStackView!
     
     
+    // Ciclo de vida de la vista --------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("viewDidLoad:configurationController")
+        
         // MARK: Algunos cambios necesarios antes de iniciar
         loadViews()
         
@@ -72,6 +74,13 @@ class ConfigurationController: UIViewController {
         }
     }
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear:configurationController")
+        bluetoothActions?.disconnectCirWireless()
+    }
+    
+    // ----------------------------------------------------------------------
     
     private func loadViews () {
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[0], forSegmentAt: 0)
@@ -204,12 +213,23 @@ class ConfigurationController: UIViewController {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if let destination = segue.destination as? AccessPointViewController {
+            
             destination.cirWireless                     = self.cirWireless
             destination.bluetoothActions                = self.bluetoothActions
             destination.cwProtocolService               = self.cwProtocolService
             destination.cwProtocolNotificationCharac    = self.cwProtocolNotificationCharac
             destination.cwProtocolWriteCharacteristic   = self.cwProtocolWriteCharacteristic
+            
+        } else if let destination = segue.destination as? TestWiFiConnectionViewController {
+            
+            destination.cirWireless                     = self.cirWireless
+            destination.bluetoothActions                = self.bluetoothActions
+            destination.cwProtocolService               = self.cwProtocolService
+            destination.cwProtocolNotificationCharac    = self.cwProtocolNotificationCharac
+            destination.cwProtocolWriteCharacteristic   = self.cwProtocolWriteCharacteristic
+            
         }
     }
     

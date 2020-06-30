@@ -25,7 +25,7 @@ class AccessPointViewController: UIViewController {
     
     
     // Variable para controlar el flujo de la configuracion de WiFi
-    var machineState                            : MachineState = ._POLING
+    var machineState                            : AccessPointsMachineState = ._POLING
     
     
     var cirWireless                             : CirWirelessModel?
@@ -50,7 +50,7 @@ class AccessPointViewController: UIViewController {
     @IBOutlet weak var cirWirelessMac: UILabel!
     @IBOutlet weak var ssid: UILabel!
     
-    
+    // Ciclo de vida de la vista --------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,6 +83,18 @@ class AccessPointViewController: UIViewController {
         }
     }
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear:")
+        // Se desactiva la notificacion
+        bluetoothActions?.setCirWirelessNotifyCharacteristic(enable: false, notifyCharacteristic: cwProtocolNotificationCharac!)
+    }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        print("Implements did dissapear if needed")
+    }
+    // ---------------------------------------------------------------------
     
     private func loadViews () {
         popUpConfiguring()
@@ -389,7 +401,7 @@ extension AccessPointViewController: BluetoothPolingProtocol {
 }
 
 
-enum MachineState: Int {
+enum AccessPointsMachineState: Int {
 
     case _GETTING_AP        = 1
     

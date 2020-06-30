@@ -564,7 +564,7 @@
         <!--Device-->
         <scene sceneID="SnP-2Q-xmI">
             <objects>
-                <viewController title="Device" id="HKQ-F9-awK" sceneMemberID="viewController">
+                <viewController title="Device" id="HKQ-F9-awK" customClass="TestWiFiConnectionViewController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ihZ-3g-Eh2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -594,7 +594,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:C5:1B:XX:XX:XX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwY-OA-pQH">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--------" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uwY-OA-pQH">
                                         <rect key="frame" x="0.0" y="200" width="394" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="iOg-gW-Zh4"/>
@@ -754,80 +754,20 @@
                     <navigationItem key="navigationItem" title="Test Device" id="Rkd-62-cFd">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="info.circle" catalog="system" id="JKE-mf-hO4"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="aPLabel" destination="bIc-wr-scd" id="qyl-a1-fWp"/>
+                        <outlet property="cwMacLabel" destination="uwY-OA-pQH" id="LsZ-1p-WOo"/>
+                        <outlet property="dataLabel" destination="L7k-5k-D9J" id="FiR-IR-tju"/>
+                        <outlet property="iPLabel" destination="g17-PN-Lpj" id="rQ1-LH-Q2N"/>
+                        <outlet property="internetLabel" destination="q32-eo-Gqz" id="yuz-2S-tS6"/>
+                        <outlet property="rssiLabel" destination="gv7-0U-rWO" id="wef-3O-kle"/>
+                        <outlet property="ssidLabel" destination="psE-K1-TLa" id="PwL-EB-RWm"/>
+                        <outlet property="statusLabel" destination="QSc-IN-9yE" id="aMh-4i-ghi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tqk-t7-IMP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="874" y="865"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="akI-eh-IYs">
-            <objects>
-                <viewController id="yYC-mG-yvw" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleAspectFit" id="Ghr-fv-AJg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EuA-mf-BEe">
-                                <rect key="frame" x="82" y="50" width="250" height="300"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_password" translatesAutoresizingMaskIntoConstraints="NO" id="hsh-z5-Sdx">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="145"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="3RL-c1-UMZ"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxc-Tz-uYx">
-                                        <rect key="frame" x="0.0" y="155" width="250" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="W1e-aW-EDy"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AWm-IP-vgO">
-                                        <rect key="frame" x="0.0" y="215" width="250" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="w4i-Mv-arV"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="eQ9-j4-OlP">
-                                        <rect key="frame" x="0.0" y="265" width="250" height="35"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7eH-5O-sfY">
-                                                <rect key="frame" x="0.0" y="0.0" width="123.66666666666667" height="35"/>
-                                                <state key="normal" title="Cancel"/>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8P-ah-jXN">
-                                                <rect key="frame" x="123.66666666666666" y="0.0" width="126.33333333333334" height="35"/>
-                                                <state key="normal" title="Accept"/>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="XAh-P7-BXf"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="Rr5-Uu-hlb"/>
-                                    <constraint firstAttribute="width" constant="250" id="Ymf-7s-xv0"/>
-                                </constraints>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="EuA-mf-BEe" firstAttribute="centerX" secondItem="Ghr-fv-AJg" secondAttribute="centerX" id="0Qm-qB-QVI"/>
-                            <constraint firstItem="EuA-mf-BEe" firstAttribute="top" secondItem="7b4-kX-1FL" secondAttribute="top" constant="50" id="H9K-Mj-lLN"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="7b4-kX-1FL"/>
-                    </view>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3cE-JP-cbK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1713" y="138"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="xhy-ev-p86">
@@ -903,7 +843,6 @@
         <image name="img_access_points" width="900" height="900"/>
         <image name="img_branding" width="900" height="227"/>
         <image name="img_dispositivo" width="900" height="900"/>
-        <image name="img_password" width="900" height="900"/>
         <image name="img_scanning" width="900" height="900"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
         <image name="logo_splash" width="1053" height="1622"/>

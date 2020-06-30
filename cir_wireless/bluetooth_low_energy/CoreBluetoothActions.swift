@@ -19,7 +19,7 @@ class CoreBluetoothActions: NSObject {
     var scanningTime: Double?
     
     // Delegates
-    var bluetoothActionsDelegate                : BluetoothBaseProtocol?
+    var bluetoothBaseDelegate                : BluetoothBaseProtocol?
     var bluetoothScanDelegate                   : BluetoothScanProtocol?
     var bluetoothConnectionDelegate             : BluetoothConnectionProtocol?
     var bluetoothQuickCommandsDelegate          : BluetoothQuickCommandsProtocol?
@@ -44,16 +44,16 @@ class CoreBluetoothActions: NSObject {
     
     
     func initScan () {
-        bluetoothActionsDelegate?.updateBluetoothActionProcess(status: .initializing)
+        bluetoothBaseDelegate?.updateBluetoothActionProcess(status: .initializing)
         bleCentralManager = CBCentralManager(delegate: self, queue: nil)
         
         if bleCentralManager != nil {
             
-            bluetoothActionsDelegate?.updateBluetoothActionProcess(status: .successfullyInitiated)
+            bluetoothBaseDelegate?.updateBluetoothActionProcess(status: .successfullyInitiated)
             
         } else {
             
-            bluetoothActionsDelegate?.updateBluetoothActionProcess(status: .unsuccessfullyInitiated)
+            bluetoothBaseDelegate?.updateBluetoothActionProcess(status: .unsuccessfullyInitiated)
             bluetoothScanDelegate?.errorScanOcurred(error: .bleManagerNil)
             
         }
@@ -151,8 +151,8 @@ extension CoreBluetoothActions: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         bleCentralState = central.state
         
-        if let _ = bluetoothActionsDelegate {
-            bluetoothActionsDelegate!.updateCentralState(newState: central.state)
+        if let _ = bluetoothBaseDelegate {
+            bluetoothBaseDelegate!.updateCentralState(newState: central.state)
         }
     }
     
@@ -201,7 +201,7 @@ extension CoreBluetoothActions: CBCentralManagerDelegate {
      
      
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        print("Error disconnecting: ")
+        print("disconnected: error:?\(error)")
     }
     // ----------------------------------------------------------------------------------
 }
