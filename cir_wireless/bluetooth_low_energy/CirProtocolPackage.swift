@@ -49,9 +49,10 @@ struct CirProtocolPackage {
         }
         
         let crc = CryptoData.crc16(buffer: package).byteArray
-        
+         
         package.append(crc[0])
         package.append(crc[1])
+         
         return package
     }
 }
@@ -114,6 +115,32 @@ enum CirProtocolCommands    : UInt8 {
     case _SET_SSID_PASSCODE     = 0x24
     
     case _TEST_WIFI_CONNECTION  = 0x27
+    
+    case _GENERIC_AT            = 0x4b
+
+    case _READ_AT_RESULT        = 0x34
+}
+
+
+enum ATPrefixes: String {
+    
+    case _AT_CW_MODE        = "AT+CWMODE="
+    
+    case _AT_CIP_START      = "AT+CIPSTART=\"TCP\","
+    
+    case _AT_CW_SAP         = "AT+CWSAP="
+    
+}
+
+
+enum ATModes: Int {
+    case _MASTER_SLAVE      = 3
+    
+    case _SLAVE             = 2
+    
+    case _NOT_SEND_SSID     = 1
+    
+    case _SEND_SSID         = 0
 }
 
 
@@ -127,11 +154,11 @@ struct CirProtocolResponse {
     var payload             : [UInt8]?
     var crcMSB              : UInt8!
     var crcLSB              : UInt8!
-    var entirePackage       : [UInt8]!
+    var fullPackage         : [UInt8]!
     
     
     init (protocolResponse: [UInt8]) {
-        self.entirePackage  = protocolResponse
+        self.fullPackage  = protocolResponse
         self.preambulo      = protocolResponse[0]
         self.origen         = protocolResponse[1]
         self.destino        = protocolResponse[2]
@@ -144,12 +171,12 @@ struct CirProtocolResponse {
     
     
     func isAPoleoPackage () -> Bool {
-        return entirePackage[4] == CirProtocolResponses._POLEO_PACKAGE.rawValue
+        return fullPackage[4] == CirProtocolResponses._POLEO_PACKAGE.rawValue
     }
     
     
     func isAStatusPackage () -> Bool {
-        return entirePackage[4] == CirProtocolResponses._STATUS_PACKAGE.rawValue
+        return fullPackage[4] == CirProtocolResponses._STATUS_PACKAGE.rawValue
     }
     
     
@@ -159,11 +186,20 @@ struct CirProtocolResponse {
         
         if packageLength > 7 {
             for i in 5..<(packageLength - 2) {
-                payloadPackage.append(entirePackage[Int(i)])
+                payloadPackage.append(fullPackage[Int(i)])
             }
         }
         
         return payloadPackage
+    }
+    
+    func decryptPayload (cirWirelessMac: [UInt8]) -> [UInt8] {
+        if let _ = payload {
+            return CryptoData.decryptData(reverseMac: cirWirelessMac, data: payload!)
+        }
+        
+        print("Payload nil")
+        return []
     }
 }
 
@@ -184,4 +220,15 @@ enum CirProtocolResponses   : UInt8 {
     case _PASSCODE_SUCCESSFULLY_RECEIVED    = 0x25
     
     case _PASSCODE_BAD_RECEIVED             = 0x26
+}
+
+
+enum ATResponses            : UInt8 {
+    case _AT_OK_COMMAND                     = 0x4c
+    
+    case _AT_ERROR_COMMAND                  = 0x4d
+    
+    case _AT_COMMAND_READY                  = 0x35
+    
+    case _AT_COMMAND_NOT_AVAILABLE          = 0x36
 }

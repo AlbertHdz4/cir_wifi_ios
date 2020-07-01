@@ -63,8 +63,17 @@ class CryptoData {
     /**
      * Desencriptación de datos para DataLogger
      */
-    static func decryptData(encSecDataStruct: Enc_Sec_Data_t = ENC_SEC_DATA_T, data: [UInt8]) -> [UInt8] {
-        var myStruct = encSecDataStruct
+    static func decryptData(/*encSecDataStruct: Enc_Sec_Data_t = ENC_SEC_DATA_T*/reverseMac: [UInt8], data: [UInt8]) -> [UInt8] {
+        let macStruct = (UInt8(reverseMac[5]), UInt8(reverseMac[4]), UInt8(reverseMac[3]),
+                         UInt8(reverseMac[2]), UInt8(reverseMac[1]), UInt8(reverseMac[0]))
+        
+        // var myStruct = encSecDataStruct
+        var myStruct = Enc_Sec_Data_t(inKey: KEY,
+                                      inDiv: macStruct,
+                                      inDivSz: 6,
+                                      kDivRounds: (6 * 16),
+                                      kDataRounds: 12)
+        
         var ioData   = data
         var vDivKey  = [UInt8](repeating: 0, count: 32)
         let size     = UInt8 (ioData.count)
