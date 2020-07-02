@@ -275,7 +275,7 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
     
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        print("didUpdateValueFor: \(characteristic.value?.hexDescription)")
+        // print("didUpdateValueFor: \(characteristic.value?.hexDescription)")
         let characteristicUuid = characteristic.uuid.uuidString
         
         if characteristicUuid == BluetoothGattConstants.CBUUID_DEVICE_INFO_CHARACTERISTIC {

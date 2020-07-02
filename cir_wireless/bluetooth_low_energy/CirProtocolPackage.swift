@@ -130,6 +130,11 @@ enum ATPrefixes: String {
     
     case _AT_CW_SAP         = "AT+CWSAP="
     
+    case _RESET_WIFI        = "AT+RST"
+    
+    case _AT_AUTOCONNECT    = "AT+CWAUTOCONN="
+    
+    case _AT_SEND_CONFIG    = "AT+CWJAP="
 }
 
 
@@ -231,4 +236,9 @@ enum ATResponses            : UInt8 {
     case _AT_COMMAND_READY                  = 0x35
     
     case _AT_COMMAND_NOT_AVAILABLE          = 0x36
+}
+
+
+enum ATResponsesString      : String {
+    case _AT_OK         = "OK"
 }

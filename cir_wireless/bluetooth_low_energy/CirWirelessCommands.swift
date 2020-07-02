@@ -11,6 +11,8 @@ import Foundation
 
 class CirWirelessCommands {
     
+    private static let _NULL: UInt8 = 0x00
+    
     public static func openLockCommand (cirWirelessMac: [UInt8]) -> Data {
         let package             = QuickCommandPackage(commandLenght: QuickCommandsLenghts._COMMAND_WITHOUT_PAYLOAD.rawValue,
                                           quickCommand: ._OPEN_LOCK)
@@ -75,18 +77,6 @@ class CirWirelessCommands {
     }
     
     
-    public static func resetWiFiTask () -> Data {
-        
-        let package = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
-                                         packageLength: CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue,
-                                         command: ._RESET_WIFI_TASK, payload: nil)
-        
-        var data = Data()
-        data.append(contentsOf: package.fullPackage)
-        return data
-    }
-    
-    
     public static func setSSID (ssidBytes: [UInt8]!) -> Data {
         
         let packageLength           = Int(CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue) + ssidBytes.count
@@ -138,16 +128,89 @@ class CirWirelessCommands {
     // AT Commands ----------------------------------------------------------------------------------------------------
     public static func setCirInSlaveMode (cirWirelessMac: [UInt8], mode: ATModes) -> Data {
     
-        var atCommand               = (ATPrefixes._AT_CW_MODE.rawValue + "\(mode.rawValue)").toBytes
-        atCommand.append(0x00) // NULL Value requerido por el protocolo de comandos AT
+        var aTCommand               = (ATPrefixes._AT_CW_MODE.rawValue + "\(mode.rawValue)").toBytes
+        aTCommand.append(_NULL) // NULL Value requerido por el protocolo de comandos AT
         
-        let packageLength           = Int(CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue) + atCommand.count
-        let packageLengthBytes      = packageLength.toByteArray(size: 1)
+        let packageLength           = Int(CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue) + aTCommand.count
+        let packageLengthBytes      = packageLength.toByteArray(size: 1)[0]
 
         // Solo se encripta el campo de datos para el caso de los AT Commands
-        let encryptedData           = CryptoData.encryptData(reverseMac: cirWirelessMac, data: atCommand)
+        let encryptedData           = CryptoData.encryptData(reverseMac: cirWirelessMac, data: aTCommand)
         let package                 = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
-                                         packageLength: packageLengthBytes[0], command: ._GENERIC_AT, payload: encryptedData)
+                                         packageLength: packageLengthBytes, command: ._GENERIC_AT, payload: encryptedData)
+        
+        var data = Data()
+        data.append(contentsOf: package.fullPackage)
+        return data
+    }
+    
+    
+    public static func resetWiFiTask (cirWirelessMac: [UInt8]) -> Data {
+        var aTCommand           = (ATPrefixes._RESET_WIFI.rawValue).toBytes
+        aTCommand.append(_NULL)
+        
+        let packageLength       = Int(CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue) + aTCommand.count
+        let packageLengthBytes   = packageLength.toByteArray(size: 1)[0]
+        
+        let encryptedData       = CryptoData.encryptData(reverseMac: cirWirelessMac, data: aTCommand)
+        
+        let package             = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
+                                         packageLength: packageLengthBytes, command: ._GENERIC_AT, payload: encryptedData)
+        
+        var data = Data()
+        data.append(contentsOf: package.fullPackage)
+        return data
+    }
+    
+    
+    public static func setAPName (cirWirelessMac: [UInt8], ssid: String, passcode: String, flag: Int) -> Data {
+        var aTCommand           = (ATPrefixes._AT_CW_SAP.rawValue + "\"ID_\(ssid)\",\"\(passcode)\",6,0,4,\(flag)").toBytes
+        aTCommand.append(_NULL)
+        
+        let packageLength       = Int(CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue) + aTCommand.count
+        let packageLengthBytes  = packageLength.toByteArray(size: 1)[0]
+        
+        let encryptedData       = CryptoData.encryptData(reverseMac: cirWirelessMac, data: aTCommand)
+        
+        let package             = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
+                                         packageLength: packageLengthBytes, command: ._GENERIC_AT, payload: encryptedData)
+        
+        var data = Data()
+        data.append(contentsOf: package.fullPackage)
+        
+        return data
+    }
+    
+    
+    public static func setAutoConnect (cirWirelessMac: [UInt8], enable: Int) -> Data {
+        var aTCommand           = (ATPrefixes._AT_AUTOCONNECT.rawValue + "\(enable)").toBytes
+        aTCommand.append(_NULL)
+        
+        let packageLength       = Int(CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue) + aTCommand.count
+        let packageLengthBytes  = packageLength.toByteArray(size: 1)[0]
+        
+        let encryptedData       = CryptoData.encryptData(reverseMac: cirWirelessMac, data: aTCommand)
+        
+        let package             = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
+                                         packageLength: packageLengthBytes, command: ._GENERIC_AT, payload: encryptedData)
+        
+        var data = Data()
+        data.append(contentsOf: package.fullPackage)
+        return data
+    }
+    
+    
+    public static func setWiFiConfiguration (cirWirelessMac: [UInt8], ssid: String, passcode: String) -> Data {
+        var aTCommand           = (ATPrefixes._AT_SEND_CONFIG.rawValue + "\"\(ssid)\",\"\(passcode)\"").toBytes
+        aTCommand.append(_NULL)
+        
+        let packageLength       = Int(CirProtocolCommmonLengths._BASE_PACKAGE_LENGTH.rawValue) + aTCommand.count
+        let packageLengthBytes  = packageLength.toByteArray(size: 1)[0]
+        
+        let encryptedData       = CryptoData.encryptData(reverseMac: cirWirelessMac, data: aTCommand)
+        
+        let package             = CirProtocolPackage(preambulo: ._PREAMBULO, destino: ._DESTINO, origen: ._ORIGEN,
+                                                     packageLength: packageLengthBytes, command: ._GENERIC_AT, payload: encryptedData)
         
         var data = Data()
         data.append(contentsOf: package.fullPackage)

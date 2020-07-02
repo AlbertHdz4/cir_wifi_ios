@@ -154,3 +154,10 @@ extension StringProtocol {
     var toData  : Data      { .init(utf8) }
     var toBytes : [UInt8]   { .init(utf8) }
 }
+
+
+func uInt8ToData (uintArray: [UInt8]) -> Data {
+    var data = Data()
+    data.append(contentsOf: uintArray)
+    return data
+}

@@ -11,7 +11,11 @@ import CoreBluetooth
 import SystemConfiguration.CaptiveNetwork
 
 class AccessPointViewController: UIViewController {
+    
+    let REPEAT_CYCLE_TIME                       = 15
+    let TIMEOUT                                 = 30
     let _ACCEPT                                 = NSLocalizedString("Accept", comment: "")
+    
     
     let MAX_LENGTH_SSID_CHARACTERS              = 40
     let MAX_LENGTH_PASSCODE_CHARACTERS          = 20
@@ -44,6 +48,11 @@ class AccessPointViewController: UIViewController {
     
     var configuringWiFiAlert                    : UIAlertController!
     var validateWiFiConnection                  : UIAlertController!
+    
+    
+    var timer                                   : Timer?
+    var initialTime                             : Double?
+    var currentTime                             : Double?
     
     
     // Outlets
@@ -81,7 +90,6 @@ class AccessPointViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         if wiFiName == nil {
             popUpWiFiUnavailable()
-            
         }
     }
     
@@ -135,8 +143,10 @@ class AccessPointViewController: UIViewController {
                 print(wiFiName!.count)
                 if (passcodeFieldText.count <= MAX_LENGTH_PASSCODE_CHARACTERS && wiFiName!.count <= MAX_LENGTH_SSID_CHARACTERS) {
                     
-                    wiFiPasscode = passcodeFieldText
-                    machineState = ._INIT_CONFIG_PROCESS
+                    initialTime     = NSDate().timeIntervalSince1970
+                    wiFiPasscode    = passcodeFieldText
+                    machineState    = ._INIT_CONFIG_PROCESS
+                                        
                     self.present(configuringWiFiAlert, animated: true, completion: nil)
                     
                 } else {
@@ -154,6 +164,44 @@ class AccessPointViewController: UIViewController {
             popUpWiFiUnavailable()
             
         }
+    }
+    // ----------------------------------------------------------------------------
+    
+    
+    // Timer para revisar el proceso de configuration -----------------------------
+    func startTimer () {
+      guard timer == nil else { return }
+
+      timer =  Timer.scheduledTimer(
+          timeInterval: TimeInterval(0.3),
+          target      : self,
+          selector    : #selector(checkTimeout),
+          userInfo    : nil,
+          repeats     : true)
+    }
+    
+    
+    func stopTimerTest() {
+      timer?.invalidate()
+      timer = nil
+    }
+    
+    
+    @objc func checkTimeout () {
+        currentTime = NSDate().timeIntervalSince1970
+        let difference = Int(abs(currentTime! - initialTime!))
+        
+        if difference > TIMEOUT {
+            stopTimerTest()
+            
+            configuringWiFiAlert.dismiss(animated: true, completion: {
+                self.popUpErrorWhileConfigWiFi()
+            })
+            
+            return
+        }
+        
+        print("**********************OK TIMEOUT**********************")
     }
     // ----------------------------------------------------------------------------
     
@@ -192,7 +240,7 @@ class AccessPointViewController: UIViewController {
                     
                 if let _ = protocolResponse.getPayload() {
                         
-                    machineState        = ._INIT_CONFIG_PROCESS
+                    machineState = ._POLING
 
                 } else {
                         
@@ -237,17 +285,67 @@ class AccessPointViewController: UIViewController {
     
     
     private func validateConfigurationState (response: CirProtocolResponse) {
-        switch configurationState {
-            
-        case ._SLAVE_MASTER_DONE:
-            let responsedecrypted = response.decryptPayload(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-            var data = Data()
-            data.append(contentsOf: responsedecrypted)
-            
-            print("Desencrypt data: \(data.hexDescription)")
-            
-        default:
-            break
+        
+        if let str = NSString(data: uInt8ToData(uintArray: response.decryptPayload(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)),
+                              encoding: String.Encoding.utf8.rawValue) as String? {
+            if str.contains(ATResponsesString._AT_OK.rawValue) {
+                
+                initialTime = NSDate().timeIntervalSince1970 // Actualizamos el tiempo para ver el timeout
+                
+                switch configurationState {
+                    
+                case ._SLAVE_MASTER_DONE:
+                    print("***************************SLAVE_MASTER_DONE***************************")
+                    let command = CirWirelessCommands.resetWiFiTask(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                    configurationState = ._RESET_WIFI
+                    
+                case ._RESET_WIFI :
+                    print("***************************_RESET_WIFI***************************")
+                    let command = CirWirelessCommands.setAPName(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, ssid: wiFiName!,
+                                                                passcode: wiFiPasscode!, flag: ATModes._NOT_SEND_SSID.rawValue)
+                    
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                    configurationState = ._SET_INTERNAL_WIFI
+                    
+                case ._SET_INTERNAL_WIFI:
+                    print("***************************_SET_INTERNAL_WIFI***************************")
+                    let command = CirWirelessCommands.setAutoConnect(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, enable: 1)
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                    configurationState = ._SET_AUTOCONNECTION
+                    
+                case ._SET_AUTOCONNECTION:
+                    print("***************************_SET_AUTOCONNECTION***************************")
+                    let command = CirWirelessCommands.setWiFiConfiguration(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!,
+                                                                           ssid: wiFiName!, passcode: wiFiPasscode!)
+                    
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                    
+                    configurationState = ._SEND_CONFIGURATION
+                    
+                case ._SEND_CONFIGURATION:
+                    print("***************************_SEND_CONFIGURATION***************************")
+                    
+                    machineState = ._POLING
+                    configurationState = ._DEFAULT
+
+                    configuringWiFiAlert.dismiss(animated: true, completion: {
+                        self.popUpConfigurationSuccessfullyDone()
+                        self.passcodeField.text = ""
+                    })
+
+                default:
+                    break
+                }
+                
+            } else {
+                
+                machineState = ._POLING
+                configuringWiFiAlert.dismiss(animated: true, completion: {
+                    self.popUpErrorWhileConfigWiFi()
+                })
+                
+            }
         }
     }
     
@@ -424,6 +522,15 @@ enum ConfigurationState {
     
     case _SLAVE_MASTER_DONE
     
+    case _RESET_WIFI
+    
+    case _SET_INTERNAL_WIFI
+    
+    case _SET_AUTOCONNECTION
+    
+    case _SEND_CONFIGURATION
+    
+    case _DEFAULT
     
 }
 
