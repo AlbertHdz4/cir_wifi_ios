@@ -11,15 +11,18 @@ import CoreBluetooth
 
 class TestWiFiConnectionViewController: UIViewController {
     
-
+    let _CHECK                          = "ic_palomita.pdf"
     let _ACCEPT                         = NSLocalizedString("Accept", comment: "")
     let _NOT_CONNECTED                  = NSLocalizedString("Not Connected", comment: "")
     
-    let REPEAT_CYCLE_TIME               = 15
+    let REPEAT_CYCLE_TIME               = 5
     let TIMEOUT                         = 30
+    let TIMEOUT_RETRY_COMMAND           = 5
+    
     
     var cipStatus                       = -1
     var serviceStatus                   = 0
+    
     
     var bluetoothActions                : CoreBluetoothActions?
     var cirWireless                     : CirWirelessModel?
@@ -36,6 +39,9 @@ class TestWiFiConnectionViewController: UIViewController {
     // MARK: Caracteristicas bluetooth de la cir wireless
     var cwProtocolNotificationCharac    : CBCharacteristic?
     var cwProtocolWriteCharacteristic   : CBCharacteristic?
+    
+    
+    var currentCommand                  : Data?
     
     
     var diagnosingAlert                 : UIAlertController!
@@ -118,12 +124,20 @@ class TestWiFiConnectionViewController: UIViewController {
             stopTimerTest()
             
             diagnosingAlert.dismiss(animated: true, completion: {
+                print("DIAGNOSIS_STATE:TIMEOUT: \(self.diagnosisState)")
                 self.machineState    = ._POLING
                 self.diagnosisState  = ._DEFAULT
                 self.popUpTimeout()
             })
             
             return
+            
+        }
+        
+        
+        if difference > TIMEOUT_RETRY_COMMAND {
+            print("**********************REWRITING**********************")
+            retryCurrentCommand()
         }
         
         print("**********************OK TIMEOUT**********************")
@@ -168,7 +182,17 @@ class TestWiFiConnectionViewController: UIViewController {
                 
             }
         
+         case ._FINISH_DIAGNOSIS:
+            
+            machineState = ._POLING
+            stopTimerTest()
+            diagnosingAlert.dismiss(animated: true, completion: {
+                self.stopTimerTest()
+                self.popUpAllOk()
+            })
+        
         case ._IS_NOT_CONFIGURING_CORRECTLY:
+            machineState = ._POLING
             diagnosingAlert.dismiss(animated: true, completion: {
                 self.popUpErrorWhileTesting()
             })
@@ -183,6 +207,9 @@ class TestWiFiConnectionViewController: UIViewController {
    
         if let str = NSString(data: uInt8ToData(uintArray: response.decryptPayload(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)),
                               encoding: String.Encoding.utf8.rawValue) as String? {
+            
+            print("************************* DIAGNOSIS STATE \(diagnosisState!) *************************")
+            print("************************* DATA CONNECTION STEP \(serviceStatus) *************************")
             print("************************* STRING RESPONSE: \(str) *************************")
             initialTime = NSDate().timeIntervalSince1970 // Actualizamos el tiempo para ver el timeout
             
@@ -195,20 +222,21 @@ class TestWiFiConnectionViewController: UIViewController {
                     
                     if str.contains(ATResponsesString._TCP.rawValue) {
                         
-                        let command = CirWirelessCommands.closeSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                        currentCommand = CirWirelessCommands.closeSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+                        
+                        bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                         return
                         
                     }
                     
                     if str.contains(ATResponsesString._AT_STATUS.rawValue + ":") && str.contains(ATResponsesString._AT_OK.rawValue) {
                         
-                        cipStatus = parseCipStatus(from: str)
-                        print("CIP STATUS \(cipStatus)")
                         diagnosisState = ._MASTER_SLAVE_MODE
+                        cipStatus = parseCipStatus(from: str)
+                        
                         print("*****************LETS SLAVE*********************")
-                        let command = CirWirelessCommands.setCirInSlaveMode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, mode: ._MASTER_SLAVE)
-                        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                        currentCommand = CirWirelessCommands.setCirInSlaveMode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, mode: ._MASTER_SLAVE)
+                        bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                         
                     }
                     
@@ -218,8 +246,8 @@ class TestWiFiConnectionViewController: UIViewController {
                     
                     diagnosisState = ._MASTER_SLAVE_MODE
                     print("*****************LETS SLAVE 2*********************")
-                    let command = CirWirelessCommands.setCirInSlaveMode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, mode: ._MASTER_SLAVE)
-                    bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                    currentCommand = CirWirelessCommands.setCirInSlaveMode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, mode: ._MASTER_SLAVE)
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     
                 }
             
@@ -230,25 +258,20 @@ class TestWiFiConnectionViewController: UIViewController {
                     
                     diagnosisState = ._GET_CONFIG_AP
                     print("*****************LETS _GET_CONFIG_AP*********************")
-                    let command = CirWirelessCommands.getWiFiConfiguration(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                    bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                    
+                    currentCommand = CirWirelessCommands.getWiFiConfiguration(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     
                 }
                 
             case ._GET_CONFIG_AP :
                 
-                print("*****************_GET_CONFIG_AP*********************")
                 if str.contains(ATResponsesString._AT_OK.rawValue) {
                     
                     ssidLabel.text = parseSsid(from: str)
                     diagnosisState = ._GET_STATUS_AP
-                    print("*****************LETS _GET_STATUS_AP*********************")
-                    let command = CirWirelessCommands.checkConnection(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                    bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-                    
-                } else if str.contains(ATResponsesString._AT_ERROR.rawValue) {
-                    
-                    isNotCorrectlyConfigured()
+                    currentCommand = CirWirelessCommands.checkConnection(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     
                 }
                 
@@ -256,34 +279,31 @@ class TestWiFiConnectionViewController: UIViewController {
                 
                 print("*****************_GET_STATUS_AP*********************")
                 if str.contains(ATResponsesString._AT_OK.rawValue) {
+                    
                     if str.contains(ATResponsesString._AT_CW_JAP_DOTS.rawValue) {
                         
                         rssiLabel.text  = parseRssi(from: str)
                         diagnosisState  = ._GET_IP
-                        let command     = CirWirelessCommands.getIP(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-                        
-                    } else {
-                        
-                        isNotCorrectlyConfigured()
+                        currentCommand  = CirWirelessCommands.getIP(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+                        bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                         
                     }
                 }
                 
             case ._GET_IP :
+                
                 print("*****************_GET_STATUS_AP*********************")
                 if str.contains(ATResponsesString._AT_OK.rawValue) {
-                    if str.contains(ATResponsesString._AT_IP_NOT_CONFIG.rawValue) {
-                        
-                        isNotCorrectlyConfigured()
-                        
-                    } else {
+                    
+                    if !str.contains(ATResponsesString._AT_IP_NOT_CONFIG.rawValue) {
                         
                         iPLabel.text    = parseIP(from: str)
-                        diagnosisState  = ._PING
-                        let command     = CirWirelessCommands.pinging(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, domain: _DOMAIN)
-                        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                        apIcon.image    = UIImage(named: _CHECK)
                         
+                        diagnosisState  = ._PING
+                        currentCommand  = CirWirelessCommands.pinging(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, domain: _DOMAIN)
+                        bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                    
                     }
                 }
                 
@@ -294,14 +314,11 @@ class TestWiFiConnectionViewController: UIViewController {
                     if (str.contains(ATResponsesString._AT_PING_INFO.rawValue) &&
                         !str.contains(ATResponsesString._AT_ERROR.rawValue)) {
                         
-                        diagnosisState = ._DATA_CONNECTION
-                        serviceStatus = 0
-                        let command = CirWirelessCommands.closeSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-                        
-                    } else {
-                        
-                        isNotCorrectlyConfigured()
+                        serviceStatus           = 0
+                        diagnosisState          = ._DATA_CONNECTION
+                        internetIcon.image      = UIImage(named: _CHECK)
+                        currentCommand          = CirWirelessCommands.closeSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+                        bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                         
                     }
                 }
@@ -312,65 +329,52 @@ class TestWiFiConnectionViewController: UIViewController {
                 switch serviceStatus {
                     
                 case 0:
+                
+                    serviceStatus   = 1
+                    currentCommand  = CirWirelessCommands.openSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, server: _FOOD_SERVICE_DOMAIN, port: _PORT)
+                    bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+                
+                case 1:
                     
-                    if str.contains(ATResponsesString._AT_OK.rawValue) {
-                    
-                        serviceStatus = 1
-                        let command = CirWirelessCommands.openSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, server: _FOOD_SERVICE_DOMAIN, port: _PORT)
-                        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-                    
+                    if str.contains(ATResponsesString._AT_OK.rawValue) && str.contains(ATResponsesString._AT_CONNECT.rawValue) {
+                        
+                        serviceStatus = 2
+                        currentCommand = CirWirelessCommands.closeSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
+                        bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
+
                     }
                     
-                case  1:
-                    if str.contains(ATResponsesString._AT_OK.rawValue) {
-                        if str.contains(ATResponsesString._AT_CONNECT.rawValue) {
-                            
-                            let command = CirWirelessCommands.closeSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                            bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-                            
-                        } else if (str.contains(ATResponsesString._AT_CLOSED.rawValue) || str.contains(ATResponsesString._AT_ERROR.rawValue)) {
-                            
-                            isNotCorrectlyConfigured()
-                            
-                        }
-                    }
                     
-                    serviceStatus = 2
                 
                 case 2:
                     
-                    if str.contains(ATResponsesString._AT_CLOSED.rawValue) || str.contains(ATResponsesString._AT_ERROR.rawValue) {
+                    if str.contains(ATResponsesString._AT_CLOSED.rawValue) && str.contains(ATResponsesString._AT_OK.rawValue) {
                         
-                        isNotCorrectlyConfigured()
+                        dataIcon.image = UIImage(named: _CHECK)
                         
-                    } else {
+                        serviceStatus   = 0
+                        diagnosisState  = ._DEFAULT
+                        machineState    = ._FINISH_DIAGNOSIS
                         
-                        let command = CirWirelessCommands.closeSocket(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                        bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-                        diagnosisState = ._FINISH_DIAGNOSIS
                     }
                     
                 default:
                     break
                 }
-
-            case ._FINISH_DIAGNOSIS:
-                if str.contains(ATResponsesString._AT_OK.rawValue) {
-                    stopTimerTest()
-                    diagnosisState  = ._DEFAULT
-                    machineState    = ._POLING
-                    
-                    diagnosingAlert.dismiss(animated: true, completion: {
-                        self.popUpAllOk()
-                    })
-                }
+                
             default:
                 break
+                
             }
-        } else {
-            print("*******************CANNOT PARSE TO STRING*******************")
-            isNotCorrectlyConfigured()
-        
+            
+        }
+    }
+
+    
+    // Reenviamos el comando actual a la CIR Wireless
+    private func retryCurrentCommand () {
+        if let _ = currentCommand {
+            bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
         }
     }
     
@@ -399,12 +403,6 @@ class TestWiFiConnectionViewController: UIViewController {
     private func parseRssi (from: String) -> String {
         let array = from.components(separatedBy: ",")
         return String(array[3])
-    }
-
-    
-    private func isNotCorrectlyConfigured () {
-        machineState    = ._IS_NOT_CONFIGURING_CORRECTLY
-        diagnosisState  = ._DEFAULT
     }
     // ----------------------------------------------------------------------------------------------------
     
@@ -509,11 +507,11 @@ extension TestWiFiConnectionViewController: BluetoothBaseProtocol {
 extension TestWiFiConnectionViewController: BluetoothPolingProtocol {
     
     func successfullyReadCharacteristic(characteristic: CBCharacteristic, readValue: Data?) {
-        print("TestWiFi:successfullyReadCharacteristic: ")
+        // print("TestWiFi:successfullyReadCharacteristic: ")
         let characteristicUuidString = characteristic.uuid.uuidString
         
         if characteristicUuidString == cwProtocolNotificationCharac?.uuid.uuidString, let response = readValue {
-            print("response: \(response.hexDescription)")
+            // print("response: \(response.hexDescription)")
             let protocolResponse = CirProtocolResponse(protocolResponse: response.hexDescription.hexaToBytes)
             checkWiFiConnection(protocolResponse: protocolResponse)
         }
@@ -559,6 +557,8 @@ enum TestConnectionMachineState: Int {
     case _CHECKING_WIFI_CONNECTION
     
     case _IS_NOT_CONFIGURING_CORRECTLY
+    
+    case _FINISH_DIAGNOSIS
 }
 
 
@@ -583,8 +583,6 @@ enum TestConnectionStatus {
     case _DATA_CONNECTION
     
     case _CIP_STATUS
-    
-    case _FINISH_DIAGNOSIS
     
     case _DEFAULT
 }

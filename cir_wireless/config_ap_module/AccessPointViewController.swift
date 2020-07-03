@@ -73,7 +73,6 @@ class AccessPointViewController: UIViewController {
         
         
         if let wiFiName = getWiFiSsid(), let _ = cwProtocolNotificationCharac, let _ = cwProtocolWriteCharacteristic {
-            print("All ok")
             self.wiFiName   = wiFiName
             ssid.text       = wiFiName
             startTimer()
@@ -99,6 +98,7 @@ class AccessPointViewController: UIViewController {
         print("viewWillDisappear:")
         // Se desactiva la notificacion
         bluetoothActions?.setCirWirelessNotifyCharacteristic(enable: false, notifyCharacteristic: cwProtocolNotificationCharac!)
+        stopTimerTest()
     }
     
     

@@ -173,7 +173,6 @@ class CirWirelessCommands {
                                          command: ._READ_AT_RESULT, payload: nil)
         var data = Data()
         data.append(contentsOf: package.fullPackage)
-        print("readATStatus \(data.hexDescription)")
         return data
     }
     // ----------------------------------------------------------------------------------------------------
@@ -204,7 +203,7 @@ class CirWirelessCommands {
     
     
     public static func getWiFiConfiguration (cirWirelessMac: [UInt8]) -> Data {
-        var aTCommand = (ATPrefixes._AT_CW_SAP.rawValue).toBytes
+        var aTCommand = (ATPrefixes._AT_GET_AP_CONFIG.rawValue).toBytes
         aTCommand.append(_NULL)
         
         return formAtPackage(cirWirelessMac: cirWirelessMac, aTCommand: aTCommand)
@@ -212,7 +211,7 @@ class CirWirelessCommands {
     
     
     public static func checkConnection (cirWirelessMac: [UInt8]) -> Data {
-        var aTCommand = (ATPrefixes._AT_CW_JAP.rawValue).toBytes
+        var aTCommand = (ATPrefixes._AT_CONNECT_STATUS.rawValue).toBytes
         aTCommand.append(_NULL)
         
         return formAtPackage(cirWirelessMac: cirWirelessMac, aTCommand: aTCommand)

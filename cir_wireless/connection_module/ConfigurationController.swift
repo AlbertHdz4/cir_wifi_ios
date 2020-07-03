@@ -41,9 +41,11 @@ class ConfigurationController: UIViewController {
     var connectingAlert                         : UIAlertController?
     var sendingCommandAlert                     : UIAlertController?
     
+    
     var responseAlert                           : UIAlertController!
     var responseTitle                           : String!
     var responseMessage                         : String!
+    
     
     // Outlets
     @IBOutlet weak var connectionStatus         : UILabel!
@@ -52,6 +54,11 @@ class ConfigurationController: UIViewController {
     @IBOutlet weak var containerLockBtns        : UIStackView!
     @IBOutlet weak var containerReloadBtn       : UIStackView!
     @IBOutlet weak var containerConfigBtns      : UIStackView!
+    @IBOutlet weak var lockBtn                  : RoundButton!
+    @IBOutlet weak var unlockBtn                : RoundButton!
+    @IBOutlet weak var reloadBtn                : RoundButton!
+    @IBOutlet weak var configureBtn             : RoundButton!
+    @IBOutlet weak var testBtn                  : RoundButton!
     
     
     // Ciclo de vida de la vista --------------------------------
@@ -83,6 +90,29 @@ class ConfigurationController: UIViewController {
     // ----------------------------------------------------------------------
     
     private func loadViews () {
+        
+        let preferredLanguage = NSLocale.preferredLanguages[0]
+        
+        if preferredLanguage.starts(with: "en") {
+            
+            print("English")
+            lockBtn.setImage(UIImage(named: "btn_lock.pdf"), for: .normal)
+            unlockBtn.setImage(UIImage(named: "btn_unlock.pdf"), for: .normal)
+            reloadBtn.setImage(UIImage(named: "btn_reload.pdf"), for: .normal)
+            configureBtn.setImage(UIImage(named: "btn_setup.pdf"), for: .normal)
+            testBtn.setImage(UIImage(named: "btn_test.pdf"), for: .normal)
+
+        } else {
+            
+            print("Spanish")
+            lockBtn.setImage(UIImage(named: "btn_bloquear.pdf"), for: .normal)
+            unlockBtn.setImage(UIImage(named: "btn_desbloquear.pdf"), for: .normal)
+            reloadBtn.setImage(UIImage(named: "btn_recargar.pdf"), for: .normal)
+            configureBtn.setImage(UIImage(named: "btn_configuracion.pdf"), for: .normal)
+            testBtn.setImage(UIImage(named: "btn_probar.pdf"), for: .normal)
+
+        }
+        
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[0], forSegmentAt: 0)
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[1], forSegmentAt: 1)
         popUpSendingCommand()
