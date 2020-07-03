@@ -47,6 +47,15 @@
 "Error While Configuring Message"   = "Ha ocurrido un error, mientras se configuraba el equipo, intenta de nuevo";
 "Configuration Completed"           = "Configuración Completada";
 "Configuration Completed Message"   = "La configuración ha sido completada con éxito";
+"Diagnosing Connection"             = "Realizando test";
+"Wait Minutes"                      = "Esto puede tomar algunos segundos";
+"Not Connected"                     = "No conectado";
+"Missed Configuration"              = "Falta de Configuracón";
+"Error While Configuring Message"   = "CIR Wireless no está correctamente configurada, revisa tu conexión a internet, configura de nuevo y vuelve a intentarlo";
+"Timeout Exceeded"                  = "Tiempo Excedido";
+"Timeout Exceeded Message"          = "No se ha obtenido una respuesta por parte de la CIR, vuelve a intentarlo";
+"Diagnosis Result"                  = "Resultado de la Prueba";
+"Diagnosis Result Message"          = "CIR Wireless está correctamente configurada";
 
 
 // Button's Texts - Alerts

@@ -132,9 +132,21 @@ enum ATPrefixes: String {
     
     case _RESET_WIFI        = "AT+RST"
     
-    case _AT_AUTOCONNECT    = "AT+CWAUTOCONN="
+    case _AT_CW_AUTOCONN    = "AT+CWAUTOCONN="
     
-    case _AT_SEND_CONFIG    = "AT+CWJAP="
+    case _AT_CW_JAP         = "AT+CWJAP="
+    
+    case _AT_CIP_STATUS     = "AT+CIPSTATUS"
+    
+    case _AT_CIP_CLOSE      = "AT+CIPCLOSE"
+    
+    case _AT_GET_AP_CONFIG  = "AT+CWSAP?"
+    
+    case _AT_CONNECT_STATUS = "AT+CWJAP?"
+    
+    case _AT_CIF_SR         = "AT+CIFSR"
+    
+    case _AT_PING           = "AT+PING="
 }
 
 
@@ -240,5 +252,46 @@ enum ATResponses            : UInt8 {
 
 
 enum ATResponsesString      : String {
-    case _AT_OK         = "OK"
+    
+    case _AT_OK             = "OK"
+    
+    case _AT_STATUS         = "STATUS"
+    
+    case _TCP               = "TCP"
+    
+    case _AT_CLOSED         = "CLOSED"
+    
+    case _AT_ERROR          = "ERROR"
+    
+    case _AT_CONNECT        = "CONNECT"
+    
+    case _AT_CW_JAP_DOTS    = "+CWJAP:"
+    
+    case _AT_IP_NOT_CONFIG  = "+CIFSR:STAIP,\"0.0.0.0\""
+    
+    case _AT_PING_INFO      = "+PING:"
+    
 }
+
+/*
+ // Validaciones de WIFI
+ const val WIFI_VALIDATION_IP_NOT_ASSIGNED   = "0.0.0.0"
+ const val WIFI_NOT_IP_STRING                = "+CIFSR:STAIP,\"0.0.0.0\""
+ const val WIFI_SUBSTRING_IP_AFTER           = "+CIFSR:STAIP,"
+ const val WIFI_SUBSTRING_IP_BEFORE          = "+CIFSR:STAMAC"
+ const val WIFI_SUBSTRING_AP_AFTER           = "+CWJAP:"
+ const val SSID_SUBSTRING_AFTER              = "+CWSAP:\"ID_"
+
+ const val PING_OK                           = "+PING:"
+
+ const val AT_CMD_OK                         = "OK"
+ const val AT_CMD_CLOSED                     = "CLOSED"
+ const val AT_CMD_ERROR                      = "ERROR"
+ const val AT_CMD_CONNECT                    = "CONNECT"
+ const val AT_CMD_STATUS                     = "STATUS"
+
+ const val AT_MODE_MASTER_SLAVE              = 3
+ const val AT_MODE_SLAVE                     = 1
+ const val AT_NO_SEND_SSID                   = 1
+ const val AT_SEND_SSID                      = 0
+ */

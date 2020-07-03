@@ -47,6 +47,15 @@
 "Error While Configuring Message"   = "An error ocurred, please try again";
 "Configuration Completed"           = "Configuration Done";
 "Configuration Completed Message"   = "Configuration successfully finished";
+"Diagnosing Connection"             = "Checking configuration";
+"Wait Minutes"                      = "This may take some seconds";
+"Not Connected"                     = "Not connected";
+"Missed Configuration"              = "Missed Configuration";
+"Error While Configuring Message"   = "CIR Wireless is not correctly configured, check your internet connection, configure it and try again";
+"Timeout Exceeded"                  = "Timeout Exceeded";
+"Timeout Exceeded Message"          = "CIR Wireless is not responding, please quit and try again";
+"Diagnosis Result"                  = "Test Result";
+"Diagnosis Result Message"          = "CIR Wireless is correctly configured";
 
 
 // Textos de Botones de Alerts

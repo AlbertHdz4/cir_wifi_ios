@@ -118,6 +118,9 @@ extension UIView {
 
 // Convierte una cadena en un arreglo de bytes --------------------------------------------
 extension StringProtocol {
+    var toData  : Data      { .init(utf8) }
+    var toBytes : [UInt8]   { .init(utf8) }
+    
     var hexaToBytes: [UInt8] {
         let hexa = Array(self)
         return stride(from: 0, to: count, by: 2).compactMap { UInt8(String(hexa[$0...$0.advanced(by: 1)]), radix: 16) }
@@ -149,10 +152,31 @@ extension Int {
 // ----------------------------------------------------------------------------------------
 
 
+extension String {
 
-extension StringProtocol {
-    var toData  : Data      { .init(utf8) }
-    var toBytes : [UInt8]   { .init(utf8) }
+    var length: Int {
+        return count
+    }
+
+    subscript (i: Int) -> String {
+        return self[i ..< i + 1]
+    }
+
+    func substring(fromIndex: Int) -> String {
+        return self[min(fromIndex, length) ..< length]
+    }
+
+    func substring(toIndex: Int) -> String {
+        return self[0 ..< max(0, toIndex)]
+    }
+
+    subscript (r: Range<Int>) -> String {
+        let range = Range(uncheckedBounds: (lower: max(0, min(length, r.lowerBound)),
+                                            upper: min(length, max(0, r.upperBound))))
+        let start = index(startIndex, offsetBy: range.lowerBound)
+        let end = index(start, offsetBy: range.upperBound - range.lowerBound)
+        return String(self[start ..< end])
+    }
 }
 
 

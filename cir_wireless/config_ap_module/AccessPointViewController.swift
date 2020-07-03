@@ -76,6 +76,7 @@ class AccessPointViewController: UIViewController {
             print("All ok")
             self.wiFiName   = wiFiName
             ssid.text       = wiFiName
+            startTimer()
             isWiFiAvailable = true
             bluetoothActions!.bluetoothPolingDelegate = self
             bluetoothActions!.setCirWirelessNotifyCharacteristic(enable: true, notifyCharacteristic: cwProtocolNotificationCharac!)
@@ -173,7 +174,7 @@ class AccessPointViewController: UIViewController {
       guard timer == nil else { return }
 
       timer =  Timer.scheduledTimer(
-          timeInterval: TimeInterval(0.3),
+          timeInterval: TimeInterval(REPEAT_CYCLE_TIME),
           target      : self,
           selector    : #selector(checkTimeout),
           userInfo    : nil,
@@ -195,7 +196,9 @@ class AccessPointViewController: UIViewController {
             stopTimerTest()
             
             configuringWiFiAlert.dismiss(animated: true, completion: {
-                self.popUpErrorWhileConfigWiFi()
+                self.popUpTimeout()
+                self.machineState        = ._POLING
+                self.configurationState  = ._DEFAULT
             })
             
             return
@@ -268,7 +271,7 @@ class AccessPointViewController: UIViewController {
             
         case ._CONFIGURING :
             
-            print("protocolResponse: \(String(format: "%02x", protocolResponse.response))")
+             // print("protocolResponse: \(String(format: "%02x", protocolResponse.response))")
             
             if protocolResponse.response == ATResponses._AT_COMMAND_READY.rawValue {
                 print("AT COMMAND IS READY")
@@ -325,7 +328,8 @@ class AccessPointViewController: UIViewController {
                     
                 case ._SEND_CONFIGURATION:
                     print("***************************_SEND_CONFIGURATION***************************")
-                    
+
+                    stopTimerTest()
                     machineState = ._POLING
                     configurationState = ._DEFAULT
 
@@ -462,7 +466,22 @@ class AccessPointViewController: UIViewController {
         successAlert            = PopUpAlert.popUpOneButton(alertCharacteristic: successComponents, buttonCharacteristic: successActions)
         
         self.present(successAlert, animated: true, completion: nil)
-        
+    }
+    
+    private func popUpTimeout () {
+        var timeoutAlert          : UIAlertController!
+           
+        let timeoutTitle          = NSLocalizedString("Timeout Exceeded", comment: "Timeout exceeded")
+        let timeoutMessage        = NSLocalizedString("Timeout Exceeded Message", comment: "")
+           
+        let timeoutComponents     = AlertComponents(alertTitle: timeoutTitle, alertMessage: timeoutMessage)
+        let timeoutActions        = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
+            timeoutAlert.dismiss(animated: true, completion: nil)
+        })
+           
+        timeoutAlert           = PopUpAlert.popUpOneButton(alertCharacteristic: timeoutComponents, buttonCharacteristic: timeoutActions)
+           
+        self.present(timeoutAlert, animated: true, completion: nil)
     }
     // -----------------------------------------------------------------------------
     

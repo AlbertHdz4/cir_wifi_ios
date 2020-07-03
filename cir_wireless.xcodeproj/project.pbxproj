@@ -21,6 +21,7 @@
 		184B87A02492466500FF9C84 /* CirWirelessCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 184B879E2492466500FF9C84 /* CirWirelessCell.xib */; };
 		1855017E24A509A30027F514 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1855017D24A509A30027F514 /* ExternalAccessory.framework */; };
 		185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */; };
+		185FD2A424AE9CB100A3D0ED /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185FD2A324AE9CB100A3D0ED /* Constants.swift */; };
 		1864427024881A6000145AA7 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1864426F24881A6000145AA7 /* RoundButton.swift */; };
 		1869BCBE2486E415007095B4 /* QuickCommandPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1869BCBD2486E415007095B4 /* QuickCommandPackage.swift */; };
 		1871967624802831002EB4F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871967524802831002EB4F2 /* AppDelegate.swift */; };
@@ -62,6 +63,7 @@
 		1855017A24A5091E0027F514 /* Cir Wireless.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Cir Wireless.entitlements"; sourceTree = "<group>"; };
 		1855017D24A509A30027F514 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		185EBF36248ACFAB009B8389 /* BluetoothGattConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothGattConstants.swift; sourceTree = "<group>"; };
+		185FD2A324AE9CB100A3D0ED /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1864426F24881A6000145AA7 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		1869BCBD2486E415007095B4 /* QuickCommandPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickCommandPackage.swift; sourceTree = "<group>"; };
 		1871967224802831002EB4F2 /* Cir Wireless.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cir Wireless.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,6 +251,7 @@
 				18FB92F52492A7E500758541 /* ProgramExtensions.swift */,
 				188C9FE224993628005478E7 /* ControllerIdentifiers.swift */,
 				1807940524A1172000A19221 /* CurrentDate.swift */,
+				185FD2A324AE9CB100A3D0ED /* Constants.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				185FD2A424AE9CB100A3D0ED /* Constants.swift in Sources */,
 				18FB92F62492A7E500758541 /* ProgramExtensions.swift in Sources */,
 				18F5BBB424A3A91A00DF0C40 /* CirProtocolPackage.swift in Sources */,
 				18E299DA2489901300DAA22C /* BeaconModel.swift in Sources */,
