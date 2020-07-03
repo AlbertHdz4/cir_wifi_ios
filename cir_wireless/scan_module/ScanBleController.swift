@@ -13,9 +13,9 @@ import CoreLocation
 class ScanBleController: UIViewController {
     
     // MARK: Constants
-    let DEFAULT_SCANNING_TIME   : Double = 8
-    let REUSABLE_CELL_ID        = "cir_wireless"
-    let REUSABLE_CELL_NAME      = "CirWirelessCell"
+    let DEFAULT_SCANNING_TIME           : Double = 8
+    let REUSABLE_CELL_ID                = "cir_wireless"
+    let REUSABLE_CELL_NAME              = "CirWirelessCell"
     
     
     // MARK: Outlets
@@ -24,11 +24,11 @@ class ScanBleController: UIViewController {
     
     
     // MARK: Variables para el escaneo de dispositivos
-    var isBluetoothOn           = false
-    var bluetoothActions        : CoreBluetoothActions?
-    var cirsFound               = [CirWirelessModel] ()
-    var selectedCirWireless     : CirWirelessModel?
-    var locationManager         : CLLocationManager?
+    var isBluetoothOn                   = false
+    var bluetoothActions                : CoreBluetoothActions?
+    var cirsFound                       = [CirWirelessModel] ()
+    var selectedCirWireless             : CirWirelessModel?
+    var locationManager                 : CLLocationManager?
     
     
     lazy var refreshControl: UIRefreshControl = {
@@ -41,9 +41,10 @@ class ScanBleController: UIViewController {
            return refreshControl
     }()
     
-    
+    // Ciclo de vida de la vista --------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // MARK: Comenzamos a escanear
         bluetoothActions = CoreBluetoothActions(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS],
@@ -65,6 +66,7 @@ class ScanBleController: UIViewController {
         // Revisamos permisos de ubicacion
         arePermissionsGranted()
     }
+    // -----------------------------------------------------------
     
     
     // Funciones utiles del propio controler ---------------------
@@ -92,12 +94,10 @@ class ScanBleController: UIViewController {
                      .restricted,
                      .denied:
                     locationManager?.requestAlwaysAuthorization()
-                    print("No access")
     
                 case .authorizedAlways,
                      .authorizedWhenInUse:
                     bluetoothActions?.initScan()
-                    print("Access")
                 
                 @unknown default:
                 break
@@ -130,7 +130,6 @@ class ScanBleController: UIViewController {
     
     
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        print("Refreshing ... ")
         scanAgain()
     }
     
@@ -408,18 +407,17 @@ extension ScanBleController:  CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
         switch status {
-            
-        case .notDetermined,
-             .restricted,
+        case .restricted,
              .denied:
             popUpLocationServicesDisabled()
-            
+
+        
         case .authorizedAlways,
              .authorizedWhenInUse:
             bluetoothActions?.initScan()
             
-        @unknown default:
-            print("")
+        default:
+            break
         }
         
     }

@@ -124,7 +124,6 @@ class TestWiFiConnectionViewController: UIViewController {
             stopTimerTest()
             
             diagnosingAlert.dismiss(animated: true, completion: {
-                print("DIAGNOSIS_STATE:TIMEOUT: \(self.diagnosisState)")
                 self.machineState    = ._POLING
                 self.diagnosisState  = ._DEFAULT
                 self.popUpTimeout()
@@ -136,11 +135,8 @@ class TestWiFiConnectionViewController: UIViewController {
         
         
         if difference > TIMEOUT_RETRY_COMMAND {
-            print("**********************REWRITING**********************")
             retryCurrentCommand()
         }
-        
-        print("**********************OK TIMEOUT**********************")
     }
     // ----------------------------------------------------------------------------
     // -----
@@ -150,16 +146,13 @@ class TestWiFiConnectionViewController: UIViewController {
         switch machineState {
             
         case ._POLING:
-            print("POLING")
+            break
             
         case ._INIT_DIAGNOSIS:
             
-            print("************************_CHECK_WIFI_STATUS************************")
             if protocolResponse.isAPoleoPackage() && cipStatus == -1 {
                 
                 let command = CirWirelessCommands.checkCipStatus(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
-                
-                print("CIP Status: \(command.hexDescription)")
                 bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                 cipStatus = -2
                 
@@ -208,16 +201,15 @@ class TestWiFiConnectionViewController: UIViewController {
         if let str = NSString(data: uInt8ToData(uintArray: response.decryptPayload(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)),
                               encoding: String.Encoding.utf8.rawValue) as String? {
             
-            print("************************* DIAGNOSIS STATE \(diagnosisState!) *************************")
-            print("************************* DATA CONNECTION STEP \(serviceStatus) *************************")
-            print("************************* STRING RESPONSE: \(str) *************************")
+            // print("************************* DIAGNOSIS STATE \(diagnosisState!) *************************")
+            // print("************************* DATA CONNECTION STEP \(serviceStatus) *************************")
+            // print("************************* STRING RESPONSE: \(str) *************************")
             initialTime = NSDate().timeIntervalSince1970 // Actualizamos el tiempo para ver el timeout
             
             switch diagnosisState {
                 
             case ._CIP_STATUS:
                 
-                print("*****************CIP_STATUS*********************")
                 if str.contains(ATResponsesString._AT_STATUS.rawValue) {
                     
                     if str.contains(ATResponsesString._TCP.rawValue) {
@@ -234,7 +226,6 @@ class TestWiFiConnectionViewController: UIViewController {
                         diagnosisState = ._MASTER_SLAVE_MODE
                         cipStatus = parseCipStatus(from: str)
                         
-                        print("*****************LETS SLAVE*********************")
                         currentCommand = CirWirelessCommands.setCirInSlaveMode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, mode: ._MASTER_SLAVE)
                         bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                         
@@ -245,7 +236,6 @@ class TestWiFiConnectionViewController: UIViewController {
                 if str.contains(ATResponsesString._AT_CLOSED.rawValue) {
                     
                     diagnosisState = ._MASTER_SLAVE_MODE
-                    print("*****************LETS SLAVE 2*********************")
                     currentCommand = CirWirelessCommands.setCirInSlaveMode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, mode: ._MASTER_SLAVE)
                     bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     
@@ -253,12 +243,9 @@ class TestWiFiConnectionViewController: UIViewController {
             
             case ._MASTER_SLAVE_MODE :
                 
-                print("*****************_MASTER_SLAVE_MODE*********************")
                 if str.contains(ATResponsesString._AT_OK.rawValue) {
                     
                     diagnosisState = ._GET_CONFIG_AP
-                    print("*****************LETS _GET_CONFIG_AP*********************")
-                    
                     currentCommand = CirWirelessCommands.getWiFiConfiguration(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
                     bluetoothActions?.writeCirWirelessCharacteristic(command: currentCommand!, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     
@@ -277,7 +264,6 @@ class TestWiFiConnectionViewController: UIViewController {
                 
             case ._GET_STATUS_AP :
                 
-                print("*****************_GET_STATUS_AP*********************")
                 if str.contains(ATResponsesString._AT_OK.rawValue) {
                     
                     if str.contains(ATResponsesString._AT_CW_JAP_DOTS.rawValue) {
@@ -292,7 +278,6 @@ class TestWiFiConnectionViewController: UIViewController {
                 
             case ._GET_IP :
                 
-                print("*****************_GET_STATUS_AP*********************")
                 if str.contains(ATResponsesString._AT_OK.rawValue) {
                     
                     if !str.contains(ATResponsesString._AT_IP_NOT_CONFIG.rawValue) {
@@ -308,7 +293,6 @@ class TestWiFiConnectionViewController: UIViewController {
                 }
                 
             case ._PING :
-                print("*****************_PING*********************")
                 
                 if str.contains(ATResponsesString._AT_OK.rawValue) {
                     if (str.contains(ATResponsesString._AT_PING_INFO.rawValue) &&
@@ -324,7 +308,6 @@ class TestWiFiConnectionViewController: UIViewController {
                 }
                 
             case ._DATA_CONNECTION:
-                print("*****************_DATA_CONNECTION*********************")
 
                 switch serviceStatus {
                     
@@ -519,12 +502,12 @@ extension TestWiFiConnectionViewController: BluetoothPolingProtocol {
     
     
     func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
-        print("TestWiFi:successfullyWrittenInCharacteristic: ")
+
     }
     
     
     func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
-        print("TestWiFi:successfullyWrittenInDescriptor: ")
+
     }
     
 }
@@ -586,29 +569,3 @@ enum TestConnectionStatus {
     
     case _DEFAULT
 }
-
-/*
- case ._SET_MODE:
-     print("************************_SET_MODE************************")
-     
- case ._GET_CONFIG_AP:
-     print("************************_GET_CONFIG_AP************************")
-     
- case ._GET_STATUS_AP:
-     print("************************_GET_STATUS_AP************************")
-     
- case ._GET_IP:
-     print("************************_GET_IP************************")
-     
- case ._GET_PING:
-     print("************************_GET_PING************************")
-     
- case ._PING:
-     print("************************_PING************************")
-     
- case ._DATA_CONNECTION:
-     print("************************_DATA_CONNECTION************************")
-
- case ._MASTER_SLAVE_MODE:
-     print("************************_MASTER_SLAVE_MODE************************")
- */

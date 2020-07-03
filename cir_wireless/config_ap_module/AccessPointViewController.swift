@@ -95,7 +95,6 @@ class AccessPointViewController: UIViewController {
     
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("viewWillDisappear:")
         // Se desactiva la notificacion
         bluetoothActions?.setCirWirelessNotifyCharacteristic(enable: false, notifyCharacteristic: cwProtocolNotificationCharac!)
         stopTimerTest()
@@ -139,9 +138,7 @@ class AccessPointViewController: UIViewController {
         if isWiFiAvailable {
             let passcodeFieldText = passcodeField.text ?? ""
             if !(passcodeFieldText.isEmpty) {
-                
-                print(passcodeFieldText.count)
-                print(wiFiName!.count)
+    
                 if (passcodeFieldText.count <= MAX_LENGTH_PASSCODE_CHARACTERS && wiFiName!.count <= MAX_LENGTH_SSID_CHARACTERS) {
                     
                     initialTime     = NSDate().timeIntervalSince1970
@@ -203,8 +200,6 @@ class AccessPointViewController: UIViewController {
             
             return
         }
-        
-        print("**********************OK TIMEOUT**********************")
     }
     // ----------------------------------------------------------------------------
     
@@ -226,39 +221,32 @@ class AccessPointViewController: UIViewController {
         switch machineState {
             
         case ._POLING :
-            print("Poling")
+            break
                          
             
         case ._GETTING_AP :
-            print("_GETTING_AP")
             
             if protocolResponse.isAPoleoPackage() {
                 
                 let command = CirWirelessCommands.getSeenAccessPointsCommand()
-                print("command access points: \(command.description)")
                 bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     
             } else if protocolResponse.response == CirProtocolResponses._SEEN_ACCESS_POINTS.rawValue {
-                print("macs found")
-                    
+                
                 if let _ = protocolResponse.getPayload() {
                         
                     machineState = ._POLING
-
                 } else {
                         
                     isWiFiAvailable = false
                     popUpCirNotSeeingAP()
-                        
                 }
         }
     
         case ._INIT_CONFIG_PROCESS:
-            print("Initializing")
             
             if protocolResponse.isAPoleoPackage() {
                 
-                print("Writing")
                 let command = CirWirelessCommands.setCirInSlaveMode(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, mode: ._MASTER_SLAVE)
                 bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                 
@@ -274,8 +262,9 @@ class AccessPointViewController: UIViewController {
              // print("protocolResponse: \(String(format: "%02x", protocolResponse.response))")
             
             if protocolResponse.response == ATResponses._AT_COMMAND_READY.rawValue {
-                print("AT COMMAND IS READY")
+
                 validateConfigurationState(response: protocolResponse)
+                
             } else {
                 let command = CirWirelessCommands.readATStatus()
                 bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
@@ -298,13 +287,13 @@ class AccessPointViewController: UIViewController {
                 switch configurationState {
                     
                 case ._SLAVE_MASTER_DONE:
-                    print("***************************SLAVE_MASTER_DONE***************************")
+                    
                     let command = CirWirelessCommands.resetWiFiTask(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!)
                     bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     configurationState = ._RESET_WIFI
                     
                 case ._RESET_WIFI :
-                    print("***************************_RESET_WIFI***************************")
+                    
                     let command = CirWirelessCommands.setAPName(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, ssid: wiFiName!,
                                                                 passcode: wiFiPasscode!, flag: ATModes._NOT_SEND_SSID.rawValue)
                     
@@ -312,13 +301,13 @@ class AccessPointViewController: UIViewController {
                     configurationState = ._SET_INTERNAL_WIFI
                     
                 case ._SET_INTERNAL_WIFI:
-                    print("***************************_SET_INTERNAL_WIFI***************************")
+                    
                     let command = CirWirelessCommands.setAutoConnect(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!, enable: 1)
                     bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
                     configurationState = ._SET_AUTOCONNECTION
                     
                 case ._SET_AUTOCONNECTION:
-                    print("***************************_SET_AUTOCONNECTION***************************")
+                    
                     let command = CirWirelessCommands.setWiFiConfiguration(cirWirelessMac: (cirWireless?.getCirWirelessMacBytes())!,
                                                                            ssid: wiFiName!, passcode: wiFiPasscode!)
                     
@@ -327,8 +316,7 @@ class AccessPointViewController: UIViewController {
                     configurationState = ._SEND_CONFIGURATION
                     
                 case ._SEND_CONFIGURATION:
-                    print("***************************_SEND_CONFIGURATION***************************")
-
+                    
                     stopTimerTest()
                     machineState = ._POLING
                     configurationState = ._DEFAULT
@@ -502,19 +490,20 @@ extension AccessPointViewController: BluetoothPolingProtocol {
         let characteristicUuidString = characteristic.uuid.uuidString
         
         if characteristicUuidString == cwProtocolNotificationCharac?.uuid.uuidString, let response = readValue {
-            print("response: \(response.hexDescription)")
             let protocolResponse = CirProtocolResponse(protocolResponse: response.hexDescription.hexaToBytes)
             wiFiConfigurationProcess(protocolResponse: protocolResponse)
         }
         
     }
     
+    
     func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
-        print("successfullyWrittenInCharacteristic: \(writtenValue.hexDescription) \(writtenValue)")
+        
     }
+
     
     func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
-        print("Written in descriptor")
+
     }
     
 }
@@ -552,56 +541,3 @@ enum ConfigurationState {
     case _DEFAULT
     
 }
-
-
-
-/*
- case ._SET_SSID :
-     print("._SET_SSID")
-     if protocolResponse.isAPoleoPackage() {
-         
-         let wiFiNameBytes = wiFiName!.toBytes
-         print("wifi name bytes: \(wiFiNameBytes)")
-         let command = CirWirelessCommands.setSSID(ssidBytes: wiFiName!.toBytes)
-         bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-         
-     } else if protocolResponse.response == CirProtocolResponses._SSID_SUCCESSFULLY_RECEIVED.rawValue {
-         
-         print("SSID successfully received")
-         machineState = ._SET_PASSCODE
-         
-     } else {
-         
-         print("Something wrong with SSID")
-         configuringWiFiAlert.dismiss(animated: true, completion: {
-             self.popUpErrorWhileConfigWiFi()
-         })
-         
-     }
-     
- case ._SET_PASSCODE :
-     print("._SET_PASSCODE")
-     if protocolResponse.isAPoleoPackage() {
-         
-         let command = CirWirelessCommands.setSSIDPasscode(ssidPasscodeBytes: wiFiPasscode!.toBytes)
-         bluetoothActions?.writeCirWirelessCharacteristic(command: command, characteristic: cwProtocolWriteCharacteristic!, type: .withoutResponse)
-         
-     } else if protocolResponse.response == CirProtocolResponses._PASSCODE_SUCCESSFULLY_RECEIVED.rawValue {
-         
-         print("Passcode successfully received")
-         configuringWiFiAlert.dismiss(animated: true, completion: {
-             self.popUpConfigurationSuccessfullyDone()
-             self.passcodeField.text = ""
-         })
-         machineState = ._POLING
-         
-     } else {
-         
-         configuringWiFiAlert.dismiss(animated: true, completion: {
-             self.popUpErrorWhileConfigWiFi()
-         })
-         print("Something wrong with password")
-         
-     }
- }
- */

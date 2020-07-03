@@ -74,7 +74,6 @@ class CoreBluetoothActions: NSObject {
     
     
     @objc func stopScan () {
-        print("SCAN FINISHED")
         bluetoothScanDelegate?.updateBluetoothScanProcess(status: .finished)
         bleCentralManager?.stopScan()
         
@@ -196,12 +195,12 @@ extension CoreBluetoothActions: CBCentralManagerDelegate {
      
      
     func centralManager(_ central: CBCentralManager, connectionEventDidOccur event: CBConnectionEvent, for peripheral: CBPeripheral) {
-        print("connectionEventDidOccur: ")
+        print("connection event occur")
     }
      
      
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        print("disconnected: error:?\(error)")
+        print("disconnected")
     }
     // ----------------------------------------------------------------------------------
 }
@@ -218,7 +217,6 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
                 return
         }
         
-        print("servicesDiscovered: ")
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .servicesDiscovered)
         bluetoothConnectionDelegate?.servicesAvailable(services: services)
     }
@@ -237,7 +235,7 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
     
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        print("Successfully written in char: ")
+
         let characteristicUuid = characteristic.uuid.uuidString
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .successfullyWrittenInCharacteristic)
         
@@ -254,7 +252,7 @@ extension CoreBluetoothActions: CBPeripheralDelegate {
     
     
     func peripheral(_ peripheral: CBPeripheral, didWriteValueFor descriptor: CBDescriptor, error: Error?) {
-        print("Successfully written in descriptor: ")
+
         let characteristicUuid = descriptor.characteristic.uuid.uuidString
         bluetoothConnectionDelegate?.updateBluetoothConnectProcess(status: .successfullyWrittenInDescriptor)
         

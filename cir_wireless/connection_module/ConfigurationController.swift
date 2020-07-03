@@ -64,7 +64,6 @@ class ConfigurationController: UIViewController {
     // Ciclo de vida de la vista --------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad:configurationController")
         
         // MARK: Algunos cambios necesarios antes de iniciar
         loadViews()
@@ -83,7 +82,6 @@ class ConfigurationController: UIViewController {
     
     
     override func viewWillDisappear(_ animated: Bool) {
-        print("viewWillDisappear:configurationController")
         bluetoothActions?.disconnectCirWireless()
     }
     
@@ -95,7 +93,6 @@ class ConfigurationController: UIViewController {
         
         if preferredLanguage.starts(with: "en") {
             
-            print("English")
             lockBtn.setImage(UIImage(named: "btn_lock.pdf"), for: .normal)
             unlockBtn.setImage(UIImage(named: "btn_unlock.pdf"), for: .normal)
             reloadBtn.setImage(UIImage(named: "btn_reload.pdf"), for: .normal)
@@ -104,7 +101,6 @@ class ConfigurationController: UIViewController {
 
         } else {
             
-            print("Spanish")
             lockBtn.setImage(UIImage(named: "btn_bloquear.pdf"), for: .normal)
             unlockBtn.setImage(UIImage(named: "btn_desbloquear.pdf"), for: .normal)
             reloadBtn.setImage(UIImage(named: "btn_recargar.pdf"), for: .normal)
@@ -168,7 +164,6 @@ class ConfigurationController: UIViewController {
     private func validateQuickCommandResponse (quickCommandResponse: QuickCommandResponse) {
         
         if quickCommandResponse.isValid() {
-            print("It is a valid respose \(quickCommandResponse.fullPackage)")
             
             if quickCommandResponseState == ._LOCKING ||
                 quickCommandResponseState == ._UNLOCKING ||
@@ -268,7 +263,6 @@ class ConfigurationController: UIViewController {
     @IBAction func selectedSegment(_ sender: Any) {
         if configurationSelector.selectedSegmentIndex == 0 {
             
-            print("Lock is selected")
             containerConfigBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
                 self.containerConfigBtns.isHidden   = true
                 self.containerLockBtns.isHidden     = false
@@ -280,7 +274,6 @@ class ConfigurationController: UIViewController {
             
         } else {
         
-            print("Configuration is selected")
             containerLockBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
             containerReloadBtn.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
                 self.containerLockBtns.isHidden     = true
@@ -502,62 +495,53 @@ extension ConfigurationController: BluetoothConnectionProtocol {
         switch status {
             
         case .connecting :
-            
             print("connecting")
             
             
         case .connected :
-            
             bluetoothActions?.discoverCirWirelessServices(specificServices: nil)
             
             
         case .disconnecting :
-            
             print("disconnecting")
             
             
         case .disconnected :
-            
             print("disconnected")
             
             
         case .discoveringServicesAndCharacteristics :
-            
             print("discoveringServices")
             
             
         case .connectionFailed :
-            
             print("connectionFailed")
             
             
         case .servicesDiscovered :
-            
-            print("servicesDiscovered")
+            print("servicesDiscovered:")
         
             
         case .characteristicsDiscovered :
-            
-            print("characteristicsDiscovered")
+            print("characteristicsDiscovered:")
             
         
         case .noneServicesAvailable,
              .noneCharacteristicsAvailable :
-            
             print("noneServicesOrCharacteristics")
             popUpErrorCirConnection()
         
+            
         case .successfullyWrittenInCharacteristic,
              .successfullyWrittenInDescriptor:
-            
-            print("")
+            break
             
         }
     }
     
     
     func errorConnectionOcurred(error: ErrorConnection) {
-        print("")
+        print("error ocurred: \(error)")
     }
 }
 
@@ -586,13 +570,12 @@ extension ConfigurationController: BluetoothQuickCommandsProtocol {
      
      
      func successfullyWrittenInCharacteristic(characteristic: CBCharacteristic, writtenValue: Data) {
-         print("successfullyWrittenInCharacteristic: \(writtenValue)")
          bluetoothActions?.readCirWirelessCharacteristic(characteristic: cwQuickCommandsCharacteristic!)
      }
      
      
      func successfullyWrittenInDescriptor(descriptor: CBDescriptor, writtenValue: Data) {
-         print("successfullyWrittenInDescriptor: ")
+        
      }
      
 }
