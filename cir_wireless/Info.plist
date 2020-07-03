@@ -17,17 +17,19 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>NSBluetoothPeripheralUsageDescription</string>
+	<string>Bluetooth is needed for scanning and connecting to smart refrigerators and configure them</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluetooth is needed for scanning and connecting to smart refrigerators and configure them</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Application requires user’s location for better user experience.</string>
+	<string>Location is needed to get SSID - WiFi information</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Application requires user’s location for better user experience.</string>
+	<string>Location is needed to get SSID - WiFi information</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Application requires user’s location for better user experience.</string>
+	<string>Location is needed to get SSID - WiFi information</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

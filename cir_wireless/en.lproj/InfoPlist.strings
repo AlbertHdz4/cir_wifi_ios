@@ -6,8 +6,8 @@
   Copyright © 2020 SOFTEL. All rights reserved.
 */
 
-NSBluetoothAlwaysUsageDescription = "Bluetooth is needed for scanning and connecting CIL devices";
-NSBluetoothPeripheralUsageDescription = "Bluetooth is needed for scanning and connecting CIL devices";
+NSBluetoothAlwaysUsageDescription = "Bluetooth is needed for scanning and connecting to BLE devices";
+NSBluetoothPeripheralUsageDescription = "Bluetooth is needed for scanning and connecting to BLE devices";
 NSLocationAlwaysAndWhenInUseUsageDescription = "According to Apple, this permission is needed to get your WiFi's name";
 NSLocationAlwaysUsageDescription = "According to Apple, this permission is needed to get your WiFi's name";
 NSLocationWhenInUseUsageDescription = "According to Apple, this permission is needed to get your WiFi's name";
