@@ -16,6 +16,7 @@ class ScanBleController: UIViewController {
     let DEFAULT_SCANNING_TIME           : Double = 8
     let REUSABLE_CELL_ID                = "cir_wireless"
     let REUSABLE_CELL_NAME              = "CirWirelessCell"
+    let _ACCEPT                         = NSLocalizedString("Accept", comment: "")
     
     
     // MARK: Outlets
@@ -184,13 +185,13 @@ class ScanBleController: UIViewController {
     private func popUpLocationServicesDisabled () {
         var locationPopUp: UIAlertController?
         
-        let locationTitleAlert        = NSLocalizedString("Location Services",
+        let locationTitleAlert      = NSLocalizedString("Location Services",
                                                       comment: "Location Services are disabled")
-        let locationMessageAlert     = NSLocalizedString("Location Services Disabled",
+        let locationMessageAlert    = NSLocalizedString("Location Services Disabled",
                                                         comment: "")
                    
         let locationAlertComponents = AlertComponents(alertTitle: locationTitleAlert, alertMessage: locationMessageAlert)
-        let locationActionComponents = AlertActionComponents(buttonTitle: NSLocalizedString("Settings",
+        let settingsComponent       = AlertActionComponents(buttonTitle: NSLocalizedString("Settings",
                                                                                               comment: "Leads user to setting values"),
                                                                buttonHandler: {(_) -> Void in
 
@@ -207,7 +208,7 @@ class ScanBleController: UIViewController {
         })
         
         locationPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: locationAlertComponents,
-                                                     buttonCharacteristic: locationActionComponents)
+                                                     buttonCharacteristic: settingsComponent)
                    
         self.present(locationPopUp!, animated: true, completion: nil)
     }

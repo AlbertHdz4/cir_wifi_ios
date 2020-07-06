@@ -25,11 +25,11 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Bluetooth is needed for scanning and connecting to smart refrigerators and configure them</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location is needed to get SSID - WiFi information</string>
+	<string>The location is necessary to get the name of your WiFi when connected to one</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location is needed to get SSID - WiFi information</string>
+	<string>The location is necessary to get the name of your WiFi when connected to one</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location is needed to get SSID - WiFi information</string>
+	<string>The location is necessary to get the name of your WiFi when connected to one</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

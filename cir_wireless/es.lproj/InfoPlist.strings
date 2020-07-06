@@ -8,6 +8,6 @@
 
 NSBluetoothAlwaysUsageDescription = "Bluetooth necesario para escanear y conectar dispositivos BLE";
 NSBluetoothPeripheralUsageDescription = "Bluetooth necesario para escanear y conectar dispositivos BLE";
-NSLocationAlwaysAndWhenInUseUsageDescription = "De acuerdo a Apple, se necesita este permiso para obtener el nombre de tu WiFi";
-NSLocationAlwaysUsageDescription = "De acuerdo a Apple, se necesita este permiso para obtener el nombre de tu WiFi";
-NSLocationWhenInUseUsageDescription = "De acuerdo a Apple, se necesita este permiso para obtener el nombre de tu WiFi";
+NSLocationAlwaysAndWhenInUseUsageDescription = "Es necesaria la localización para obtener el nombre de tu WiFi cuando estes conectado a uno";
+NSLocationAlwaysUsageDescription = "Es necesaria la localización para obtener el nombre de tu WiFi cuando estes conectado a uno";
+NSLocationWhenInUseUsageDescription = "Es necesaria la localización para obtener el nombre de tu WiFi cuando estes conectado a uno";

@@ -528,7 +528,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir Wireless.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -555,7 +555,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir WirelessRelease.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;

@@ -84,7 +84,7 @@
 "wbT-hp-4sa.text" = "STATUS";
 
 /* Class = "UILabel"; text = "Dispositivo"; ObjectID = "xC7-rd-SOy"; */
-"xC7-rd-SOy.text" = "Dispositivo";
+"xC7-rd-SOy.text" = "Device";
 
 /* Class = "UILabel"; text = "00:1B:C5:XX:XX:XX"; ObjectID = "xm4-v1-oZB"; */
 "xm4-v1-oZB.text" = "--------";
