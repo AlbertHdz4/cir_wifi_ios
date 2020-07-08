@@ -34,7 +34,7 @@
 "Bad Passcode Message"              = "You must enter a correct passcode";
 "Sending Passcode Title"            = "Sending Configuration";
 "Location Services"                 = "Location Services";
-"Location Services Disabled"        = "Your location services are disabled, please update them to continue";
+"Location Services Disabled"        = "Your location services are disabled or permission is not granted, please update them to continue, they can be updated in Settings -> Privacy -> Location Services -> Cir Wireless";
 "WiFi Unavailable"                  = "WiFi Connection";
 "WiFi Unavailable Message"          = "You must be connected to a WiFi network and be able to configure CIR Wireless";
 "Set Date Title"                    = "Date Updated";

@@ -34,7 +34,7 @@
 "Bad Passcode Message"              = "Debes ingresar una contraseña válida";
 "Sending Passcode Title"            = "Enviando Configuración";
 "Location Services"                 = "Servicios de Localización";
-"Location Services Disabled"        = "Tus servicios de localización están deshabilitados, habilitalos para continuar";
+"Location Services Disabled"        = "Tus servicios de localización están deshabilitados o los persmisos no han sido otorgados, habilitalos para continuar, puedes encontrarlos en Configuración -> Privacidad -> Localización -> Cir Wireless";
 "WiFi Unavailable"                  = "Conexión WiFi";
 "WiFi Unavailable Message"          = "Necesitas estár conectado a una red WiFi para configurar a la CIR Wireless";
 "Set Date Title"                    = "Fecha Actualizada";

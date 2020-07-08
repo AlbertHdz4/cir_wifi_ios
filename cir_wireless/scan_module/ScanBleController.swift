@@ -17,6 +17,7 @@ class ScanBleController: UIViewController {
     let REUSABLE_CELL_ID                = "cir_wireless"
     let REUSABLE_CELL_NAME              = "CirWirelessCell"
     let _ACCEPT                         = NSLocalizedString("Accept", comment: "")
+    let _SETTINGS                       = NSLocalizedString("System Settings", comment: "Leads user to setting values")
     
     
     // MARK: Outlets
@@ -155,29 +156,33 @@ class ScanBleController: UIViewController {
     private func popUpBluetoothPermissionDenied () {
         var permissionPopUp: UIAlertController?
         
-        let permissionTitleAlert        = NSLocalizedString("BLE Persmission Title Denied",
+        let permissionTitleAlert = NSLocalizedString("BLE Persmission Title Denied",
                                                       comment: "Permission needs to be updated")
-        let permissionMessageAlert     = NSLocalizedString("BLE Persmission Message Denied",
+        let permissionMessageAlert = NSLocalizedString("BLE Persmission Message Denied",
                                                         comment: "Permission needs to be updated")
-                   
         let permissionAlertComponents = AlertComponents(alertTitle: permissionTitleAlert, alertMessage: permissionMessageAlert)
-        let permissionActionComponents = AlertActionComponents(buttonTitle: NSLocalizedString("Settings",
-                                                                                              comment: "Leads user to setting values"),
-                                                               buttonHandler: {(_) -> Void in
-                                                                let settingsUrl = URL(string: UIApplication.openSettingsURLString)
-                                                                if UIApplication.shared.canOpenURL(settingsUrl!) {
-                                                                    UIApplication.shared.open(
-                                                                        settingsUrl!,
-                                                                        completionHandler: { (success) in
-                                                                            permissionPopUp?.dismiss(animated: true, completion: nil)
-                                                                    }
-                                                                    )
-                                                                }
+        
+
+        let settings = AlertActionComponents(
+            buttonTitle: _SETTINGS,
+            buttonHandler: {(_) -> Void in
+                let settingsUrl = URL(string: UIApplication.openSettingsURLString)
+                if UIApplication.shared.canOpenURL(settingsUrl!) {
+                    UIApplication.shared.open(
+                        settingsUrl!,
+                        completionHandler: { (success) in
+                            permissionPopUp?.dismiss(animated: true, completion: nil)
+                        })
+                }
         })
         
-        permissionPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: permissionAlertComponents,
-                                                     buttonCharacteristic: permissionActionComponents)
-                   
+        let accept = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
+            permissionPopUp?.dismiss(animated: true, completion: nil)
+        })
+        
+        permissionPopUp = try? PopUpAlert.popUpTwoButtons(alertCharacteristic: permissionAlertComponents,
+                                                             buttonCharacteristic: [accept, settings])
+        
         self.present(permissionPopUp!, animated: true, completion: nil)
     }
     
@@ -191,25 +196,28 @@ class ScanBleController: UIViewController {
                                                         comment: "")
                    
         let locationAlertComponents = AlertComponents(alertTitle: locationTitleAlert, alertMessage: locationMessageAlert)
-        let settingsComponent       = AlertActionComponents(buttonTitle: NSLocalizedString("Settings",
-                                                                                              comment: "Leads user to setting values"),
-                                                               buttonHandler: {(_) -> Void in
+        let settings       = AlertActionComponents(
+            buttonTitle: _SETTINGS,
+            buttonHandler: {(_) -> Void in
+                let locationURL = URL(string: UIApplication.openSettingsURLString)
 
-                                                                let locationURL = URL(string: UIApplication.openSettingsURLString)
-
-                                                                if UIApplication.shared.canOpenURL(locationURL!) {
-                                                                    UIApplication.shared.open(
-                                                                        locationURL!,
-                                                                        completionHandler: { (success) in
-                                                                            locationPopUp?.dismiss(animated: true, completion: nil)
-                                                                    }
-                                                                    )
-                                                                }
+                if UIApplication.shared.canOpenURL(locationURL!) {
+                    UIApplication.shared.open(locationURL!,
+                                              completionHandler: { (success) in
+                                                locationPopUp?.dismiss(animated: true, completion: nil)
+                    })
+                }
         })
         
-        locationPopUp = PopUpAlert.popUpOneButton(alertCharacteristic: locationAlertComponents,
-                                                     buttonCharacteristic: settingsComponent)
-                   
+        let accept = AlertActionComponents(buttonTitle: _ACCEPT, buttonHandler: {_ in
+            locationPopUp?.dismiss(animated: true, completion: {
+                self.bluetoothActions?.initScan()
+            })
+        })
+        
+        locationPopUp = try? PopUpAlert.popUpTwoButtons(alertCharacteristic: locationAlertComponents,
+                                                         buttonCharacteristic: [accept, settings])
+
         self.present(locationPopUp!, animated: true, completion: nil)
     }
     
@@ -237,8 +245,7 @@ class ScanBleController: UIViewController {
         })
         
         let acceptActionComponents  = AlertActionComponents(
-            buttonTitle: NSLocalizedString("Accept",
-                                          comment: "Just to dismiss dialog"),
+            buttonTitle: _ACCEPT,
             buttonHandler: {(_) -> Void in
                 scanResultPopUp?.dismiss(animated: true, completion: nil)
         })
