@@ -125,7 +125,7 @@ class ConfigurationController: UIViewController {
         let firmwareInt: Int = Int(String(firmwareValue[1]) + String(firmwareValue[2]) + String(firmwareValue[3])) ?? 0
         connectingAlert?.dismiss(animated: true, completion: nil)
         
-        if firmwareInt == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue {
+        if isAValidFirmware(firmwareVersion: firmwareInt) {
             
             // Habilitamos la caracteristica de notificacion
             updateCirDate()
@@ -138,6 +138,14 @@ class ConfigurationController: UIViewController {
                
         }
     }
+    
+    
+    private func isAValidFirmware (firmwareVersion: Int) -> Bool {
+        return (firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_351.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_352.rawValue)
+    }
+    
     
     // Actualizacion y lectura de fecha la CIR Wireless -----------------------------------
     private func updateCirDate () {

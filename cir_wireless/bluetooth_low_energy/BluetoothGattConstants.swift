@@ -35,6 +35,8 @@ class BluetoothGattConstants {
     enum AllowedFirmwares: Int {
         
         case _FIRMWARE_350 = 350
+        case _FIRMWARE_351 = 351
+        case _FIRMWARE_352 = 352
         
     }
 }
