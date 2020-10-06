@@ -143,7 +143,8 @@ class ConfigurationController: UIViewController {
     private func isAValidFirmware (firmwareVersion: Int) -> Bool {
         return (firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_351.rawValue ||
-                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_352.rawValue)
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_352.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_382.rawValue)
     }
     
     

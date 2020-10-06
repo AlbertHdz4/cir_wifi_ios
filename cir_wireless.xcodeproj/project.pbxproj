@@ -528,7 +528,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir Wireless.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -536,7 +536,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "Cir Wireless";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -555,7 +555,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir WirelessRelease.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -563,7 +563,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "Cir Wireless";
 				PROVISIONING_PROFILE_SPECIFIER = "";
