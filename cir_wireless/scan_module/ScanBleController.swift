@@ -11,6 +11,7 @@ import CoreBluetooth
 import CoreLocation
 
 class ScanBleController: UIViewController {
+    let manager = CLLocationManager()
     
     // MARK: Constants
     let DEFAULT_SCANNING_TIME           : Double = 8
@@ -90,7 +91,7 @@ class ScanBleController: UIViewController {
 
         if CLLocationManager.locationServicesEnabled() {
             
-            switch CLLocationManager.authorizationStatus() {
+            switch manager.authorizationStatus {
                 
                 case .notDetermined,
                      .restricted,
