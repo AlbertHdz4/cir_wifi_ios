@@ -39,5 +39,6 @@ class BluetoothGattConstants {
         case _FIRMWARE_352 = 352
         case _FIRMWARE_353 = 353
         case _FIRMWARE_382 = 382
+        case _FIRMWARE_387 = 387
     }
 }

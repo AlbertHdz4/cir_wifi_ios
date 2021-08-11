@@ -17,18 +17,48 @@ class BeaconModel {
     var rssi                : integer_t?
     var beaconPayload       : Data?
     var beaconString        : String?
+    var beaconVersion       : String?
+    var beaconModelName     = "NO AVAILABLE"
     var listOfUuidServices  : Array <UUID>?
     var advertisementData   : [String : Any]
 
 
     init (rssi: integer_t, beaconPayload: Data, advertisementData: [String : Any]) {
-        
         self.rssi               = rssi
         self.beaconPayload      = beaconPayload
         self.advertisementData  = advertisementData
         self.beaconString       = (advertisementData[CBAdvertisementDataManufacturerDataKey] as! Data).hexDescription
         self.listOfUuidServices = advertisementData[CBAdvertisementDataServiceUUIDsKey] as? Array<UUID> ?? []
         
+        getBeaconModelValues()
+    }
+    
+    
+    private func getBeaconModelValues () {
+        if (beaconString != nil) {
+            beaconVersion   = beaconString?[0..<4]
+            beaconModelName = getBeaconModelName(beaconVersion: beaconVersion)
+        }
+    }
+    
+    
+    private func getBeaconModelName (beaconVersion: String?) -> String {
+        switch beaconVersion {
+        case "000b":
+            return "CIR Wireless"
+        
+        case "000c":
+            return "CIR Wireless"
+            
+        case "000d":
+            return "CIR 232"
+            
+        case "000e":
+            return "CIR 232"
+            
+        default:
+            return "NO AVAILABLE"
+        }
     }
 }
 

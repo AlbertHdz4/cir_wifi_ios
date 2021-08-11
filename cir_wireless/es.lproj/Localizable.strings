@@ -56,7 +56,8 @@
 "Timeout Exceeded Message"          = "No se ha obtenido una respuesta por parte de la CIR, vuelve a intentarlo";
 "Diagnosis Result"                  = "Resultado de la Prueba";
 "Diagnosis Result Message"          = "CIR Wireless está correctamente configurada";
-
+"Unavailable Option Title"          = "Opción No Disponible";
+"Unavailable Option Message"        = "CIR 232 no soporta esta función";
 
 // Button's Texts - Alerts
 "Ok"                = "Ok";

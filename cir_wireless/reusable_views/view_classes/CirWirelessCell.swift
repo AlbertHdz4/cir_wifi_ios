@@ -12,7 +12,7 @@ class CirWirelessCell: UITableViewCell {
     
     // Outlets
     @IBOutlet weak var cirWirelessMac   : UILabel!
-    
+    @IBOutlet weak var cirWirelessModelName: UILabel!
     
     var cirModel                        : CirWirelessModel?
     

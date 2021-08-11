@@ -303,8 +303,9 @@ extension ScanBleController: UITableViewDataSource {
         let cirWirelessCell                     = cirWirelessTable.dequeueReusableCell(withIdentifier: REUSABLE_CELL_ID,
                                                                    for: indexPath) as? CirWirelessCell
         
-        cirWirelessCell?.cirWirelessMac.text    = (cirsFound[indexPath.row]).getCirWirelessMac()
-        cirWirelessCell?.cirModel               = cirsFound[indexPath.row]
+        cirWirelessCell?.cirWirelessModelName.text  = (cirsFound[indexPath.row]).beacon?.beaconModelName
+        cirWirelessCell?.cirWirelessMac.text        = (cirsFound[indexPath.row]).getCirWirelessMac()
+        cirWirelessCell?.cirModel                   = cirsFound[indexPath.row]
         
         return cirWirelessCell!
     }

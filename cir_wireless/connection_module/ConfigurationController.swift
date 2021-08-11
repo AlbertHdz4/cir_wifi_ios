@@ -18,6 +18,7 @@ class ConfigurationController: UIViewController {
     
     var isCirConnected              = false
     var isBluetoothOn               = false
+    var isCIR232                    = false
     
     
     var cirWireless                             : CirWirelessModel?
@@ -71,6 +72,7 @@ class ConfigurationController: UIViewController {
         if let _ = cirWireless, let _ = bluetoothActions {
             
             popUpConnectingCir()
+            isCIR232 = cirWireless?.beacon?.beaconModelName == "CIR 232"
             bluetoothActions?.bluetoothConnectionDelegate = self
             bluetoothActions?.bluetoothQuickCommandsDelegate = self
             bluetoothActions?.connectCirWireless(peripheralToConnect: cirWireless!.peripheral!)
@@ -141,11 +143,13 @@ class ConfigurationController: UIViewController {
     
     
     private func isAValidFirmware (firmwareVersion: Int) -> Bool {
+        // print("FIRMWARE", firmwareVersion)
         return (firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_351.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_352.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_353.rawValue ||
-                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_382.rawValue)
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_382.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_387.rawValue)
     }
     
     
@@ -283,15 +287,21 @@ class ConfigurationController: UIViewController {
             })
             
         } else {
-        
-            containerLockBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
-            containerReloadBtn.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
-                self.containerLockBtns.isHidden     = true
-                self.containerReloadBtn.isHidden    = true
-                self.containerConfigBtns.isHidden   = false
-                self.containerConfigBtns.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
-            })
             
+            if (!isCIR232) {
+                
+                containerLockBtns.hideWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
+                containerReloadBtn.hideWithOppacity(duration: 0.2, delay: 0.1, completion: {_ in
+                    self.containerLockBtns.isHidden     = true
+                    self.containerReloadBtn.isHidden    = true
+                    self.containerConfigBtns.isHidden   = false
+                    self.containerConfigBtns.showWithOppacity(duration: 0.2, delay: 0.1, completion: nil)
+                })
+                
+            } else {
+                
+                popUpUnavailableOption()
+            }
         }
     }
     
@@ -408,6 +418,22 @@ class ConfigurationController: UIViewController {
         
         self.present(connectingAlert!, animated: true, completion: nil)
     }
+    
+    
+    private func popUpUnavailableOption () {
+        var unavailableOptionAlert: UIAlertController?
+    
+        let unavailableOptionAlertTitle          = NSLocalizedString("Unavailable Option Title", comment: "")
+        let unavailableOptionAlertMessage        = NSLocalizedString("Unavailable Option Message", comment: "")
+        let unavailableOptionAlertComponents     = AlertComponents(alertTitle: unavailableOptionAlertTitle, alertMessage: unavailableOptionAlertMessage)
+        let unavailableOptionAlertAction         = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: { _ in
+            unavailableOptionAlert?.dismiss(animated: true, completion: nil)
+            self.configurationSelector.selectedSegmentIndex = 0
+        })
+        
+        unavailableOptionAlert = PopUpAlert.popUpOneButton(alertCharacteristic: unavailableOptionAlertComponents, buttonCharacteristic: unavailableOptionAlertAction)
+        
+        self.present(unavailableOptionAlert!, animated: true, completion: nil)    }
     // --------------------------------------------------------------
 }
 
