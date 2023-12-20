@@ -11,6 +11,4 @@ import Foundation
 
 let _FOOD_SERVICE_DOMAIN    = "foodservices.otus.com.mx"
 let _PORT                   = "8030"
-
-
 let _DOMAIN                 = "www.google.com"

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "img_branding.pdf",
+      "filename" : "cwifi_img_branding_x3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "img_branding_x2.pdf",
+      "filename" : "cwifi_img_branding_x3 1.pdf",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "img_branding_x3.pdf",
+      "filename" : "cwifi_img_branding_x3.pdf",
       "idiom" : "universal",
       "scale" : "3x"
     }

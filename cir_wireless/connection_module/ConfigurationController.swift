@@ -148,8 +148,23 @@ class ConfigurationController: UIViewController {
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_351.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_352.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_353.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_354.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_355.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_357.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_363.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_367.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_382.rawValue ||
-                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_387.rawValue)
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_387.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_388.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_401.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_402.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_500.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_502.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_503.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_504.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_427.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_410.rawValue
+        )
     }
     
     

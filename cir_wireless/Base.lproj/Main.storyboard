@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="raE-4T-Acj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="raE-4T-Acj">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,7 +14,7 @@
             <objects>
                 <navigationController id="raE-4T-Acj" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2z9-p2-Tc8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
@@ -35,7 +36,7 @@
         <!--Scanning-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ScanBleController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ScanBleController" customModule="CIR_WiFi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -44,24 +45,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="img_scanning" translatesAutoresizingMaskIntoConstraints="NO" id="iCh-Ln-J8H">
-                                <rect key="frame" x="0.0" y="58" width="320" height="177.5"/>
+                                <rect key="frame" x="0.0" y="78" width="320" height="177.5"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BLE Devices" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uer-8S-cB5">
-                                <rect key="frame" x="0.0" y="261.5" width="320" height="27.5"/>
+                                <rect key="frame" x="0.0" y="281.5" width="320" height="27.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="owq-FR-pTK">
-                                <rect key="frame" x="0.0" y="319" width="320" height="249"/>
+                                <rect key="frame" x="0.0" y="339" width="320" height="229"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qdb-J1-LOB">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="145"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="125"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_branding" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="luh-cN-VV6">
-                                        <rect key="frame" x="0.0" y="160" width="320" height="30"/>
+                                        <rect key="frame" x="0.0" y="140" width="320" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="rhz-1I-C6t"/>
                                         </constraints>
@@ -78,8 +79,8 @@
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="582" id="rit-Cg-fQJ"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iO3-gz-pAF" customClass="CourtainView" customModule="Cir_Wireless" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iO3-gz-pAF" customClass="CourtainView" customModule="CIR_WiFi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -130,16 +131,16 @@
         <!--Configuration-->
         <scene sceneID="2wQ-pw-uoO">
             <objects>
-                <viewController id="gKf-FD-E31" customClass="ConfigurationController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gKf-FD-E31" customClass="ConfigurationController" customModule="CIR_WiFi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2S2-aF-tle">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_grad_blue" translatesAutoresizingMaskIntoConstraints="NO" id="u4B-VN-3lk">
-                                <rect key="frame" x="0.0" y="44" width="320" height="294"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="274"/>
                             </imageView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="m8L-RU-Ecy">
-                                <rect key="frame" x="50" y="54" width="220" height="31"/>
+                                <rect key="frame" x="50" y="74" width="220" height="31"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="qg2-12-kpC"/>
@@ -153,7 +154,7 @@
                                 </connections>
                             </segmentedControl>
                             <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="lFs-h3-O3o">
-                                <rect key="frame" x="0.0" y="94" width="320" height="415"/>
+                                <rect key="frame" x="0.0" y="114" width="320" height="395"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="btn_ble" translatesAutoresizingMaskIntoConstraints="NO" id="3yh-ZI-lp7">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
@@ -182,16 +183,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ers-IK-bfU">
-                                        <rect key="frame" x="0.0" y="169" width="320" height="213"/>
+                                        <rect key="frame" x="0.0" y="169" width="320" height="193"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="otT-v7-6Ip">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="101.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="91.5"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49u-3Z-aTB">
-                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="101.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="160" height="91.5"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NGc-Ww-cS7" customClass="RoundButton" customModule="Cir_Wireless" customModuleProvider="target">
-                                                                <rect key="frame" x="15" y="5" width="130" height="91.5"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NGc-Ww-cS7" customClass="RoundButton" customModule="CIR_WiFi" customModuleProvider="target">
+                                                                <rect key="frame" x="15" y="5" width="130" height="81.5"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="0cT-qK-uIT"/>
                                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="130" id="FyU-88-wAx"/>
@@ -222,10 +223,10 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="os9-HU-I7N">
-                                                        <rect key="frame" x="160" y="0.0" width="160" height="101.5"/>
+                                                        <rect key="frame" x="160" y="0.0" width="160" height="91.5"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPO-Gk-xpu" customClass="RoundButton" customModule="Cir_Wireless" customModuleProvider="target">
-                                                                <rect key="frame" x="15" y="5" width="130" height="91.5"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPO-Gk-xpu" customClass="RoundButton" customModule="CIR_WiFi" customModuleProvider="target">
+                                                                <rect key="frame" x="15" y="5" width="130" height="81.5"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="130" id="6WT-Xt-ykz"/>
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="Fb1-s8-n8c"/>
@@ -256,13 +257,13 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="FDs-2K-UsL">
-                                                <rect key="frame" x="0.0" y="111.5" width="320" height="101.5"/>
+                                                <rect key="frame" x="0.0" y="101.5" width="320" height="91.5"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IXt-hc-XmD">
-                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="101.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="91.5"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="733-d0-uvv" customClass="RoundButton" customModule="Cir_Wireless" customModuleProvider="target">
-                                                                <rect key="frame" x="95" y="5" width="130" height="91.5"/>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="733-d0-uvv" customClass="RoundButton" customModule="CIR_WiFi" customModuleProvider="target">
+                                                                <rect key="frame" x="95" y="5" width="130" height="81.5"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="MvF-TV-04B"/>
                                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="130" id="eKa-G0-t3t"/>
@@ -296,12 +297,12 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ngv-B0-aZP">
-                                                <rect key="frame" x="0.0" y="213" width="320" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="193" width="320" height="0.0"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yEa-ti-L48">
                                                         <rect key="frame" x="0.0" y="0.0" width="160" height="0.0"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wbG-Tt-4Dp" customClass="RoundButton" customModule="Cir_Wireless" customModuleProvider="target">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wbG-Tt-4Dp" customClass="RoundButton" customModule="CIR_WiFi" customModuleProvider="target">
                                                                 <rect key="frame" x="15" y="-65" width="130" height="130"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="130" id="3U4-sx-SId"/>
@@ -334,7 +335,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x1s-PY-6TB">
                                                         <rect key="frame" x="160" y="0.0" width="160" height="0.0"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLD-gT-XSC" customClass="RoundButton" customModule="Cir_Wireless" customModuleProvider="target">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLD-gT-XSC" customClass="RoundButton" customModule="CIR_WiFi" customModuleProvider="target">
                                                                 <rect key="frame" x="15" y="-65" width="130" height="130"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="KVq-U9-How"/>
@@ -381,7 +382,7 @@
                                         </constraints>
                                     </stackView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_branding" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u5b-TE-lgt">
-                                        <rect key="frame" x="0.0" y="385" width="320" height="30"/>
+                                        <rect key="frame" x="0.0" y="365" width="320" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="otI-ol-Fuz"/>
                                         </constraints>
@@ -436,7 +437,7 @@
         <!--Access Points-->
         <scene sceneID="Pwi-CA-be3">
             <objects>
-                <viewController title="Access Points" id="6HE-TS-Thg" customClass="AccessPointViewController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Access Points" id="6HE-TS-Thg" customClass="AccessPointViewController" customModule="CIR_WiFi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Msk-Kg-bZn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -499,7 +500,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES" textContentType="password"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GkN-z8-euV" customClass="RoundButton" customModule="Cir_Wireless" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GkN-z8-euV" customClass="RoundButton" customModule="CIR_WiFi" customModuleProvider="target">
                                                 <rect key="frame" x="108" y="178" width="84" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="84" id="xAd-7S-Ca4"/>
@@ -571,7 +572,7 @@
         <!--Device-->
         <scene sceneID="SnP-2Q-xmI">
             <objects>
-                <viewController title="Device" id="HKQ-F9-awK" customClass="TestWiFiConnectionViewController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Device" id="HKQ-F9-awK" customClass="TestWiFiConnectionViewController" customModule="CIR_WiFi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ihZ-3g-Eh2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -794,19 +795,13 @@
         <!--About View Controller-->
         <scene sceneID="xhy-ev-p86">
             <objects>
-                <viewController id="f8x-k1-KSA" customClass="AboutViewController" customModule="Cir_Wireless" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="f8x-k1-KSA" customClass="AboutViewController" customModule="CIR_WiFi" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFill" id="bkD-0Y-AXI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_grad_blue" translatesAutoresizingMaskIntoConstraints="NO" id="7EY-fd-NdY">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="splash_screen" translatesAutoresizingMaskIntoConstraints="NO" id="3T8-ka-s5Y">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="logo_splash" translatesAutoresizingMaskIntoConstraints="NO" id="3T8-ka-s5Y">
-                                <rect key="frame" x="35" y="10" width="250" height="430"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="20l-g0-oDg"/>
-                                </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SOFTEL S.A. de C.V." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAl-ox-HMR">
                                 <rect key="frame" x="0.0" y="495.5" width="320" height="18"/>
@@ -824,20 +819,16 @@
                         <viewLayoutGuide key="safeArea" id="0HQ-Zi-eOT"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="uAl-ox-HMR" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" id="2b3-w9-hd4"/>
-                            <constraint firstItem="0HQ-Zi-eOT" firstAttribute="trailing" secondItem="TS6-GQ-lZI" secondAttribute="trailing" id="EQi-vn-ZRt"/>
-                            <constraint firstAttribute="bottom" secondItem="7EY-fd-NdY" secondAttribute="bottom" id="QaK-p7-nBz"/>
-                            <constraint firstItem="7EY-fd-NdY" firstAttribute="trailing" secondItem="0HQ-Zi-eOT" secondAttribute="trailing" id="TGG-sJ-xQP"/>
-                            <constraint firstItem="0HQ-Zi-eOT" firstAttribute="trailing" secondItem="3T8-ka-s5Y" secondAttribute="trailing" constant="35" id="beg-HD-Ap7"/>
-                            <constraint firstItem="uAl-ox-HMR" firstAttribute="trailing" secondItem="0HQ-Zi-eOT" secondAttribute="trailing" id="c2M-uL-fTj"/>
-                            <constraint firstItem="7EY-fd-NdY" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" id="jqQ-Pp-GRw"/>
-                            <constraint firstItem="7EY-fd-NdY" firstAttribute="top" secondItem="0HQ-Zi-eOT" secondAttribute="top" id="mWN-j2-LAq"/>
-                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" constant="35" id="nls-6H-byT"/>
-                            <constraint firstItem="TS6-GQ-lZI" firstAttribute="top" secondItem="3T8-ka-s5Y" secondAttribute="bottom" constant="15" id="rgW-LJ-Qeb"/>
-                            <constraint firstItem="0HQ-Zi-eOT" firstAttribute="bottom" secondItem="uAl-ox-HMR" secondAttribute="bottom" constant="34.666666666666629" id="roH-UC-JUX"/>
-                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="top" secondItem="0HQ-Zi-eOT" secondAttribute="top" constant="10" id="uNG-Ya-ezP"/>
-                            <constraint firstItem="uAl-ox-HMR" firstAttribute="top" secondItem="TS6-GQ-lZI" secondAttribute="bottom" constant="8" id="vGv-6s-8sb"/>
-                            <constraint firstItem="TS6-GQ-lZI" firstAttribute="leading" secondItem="bkD-0Y-AXI" secondAttribute="leading" id="x3n-Jq-LE4"/>
+                            <constraint firstItem="0HQ-Zi-eOT" firstAttribute="bottom" secondItem="uAl-ox-HMR" secondAttribute="bottom" constant="34.5" id="2lb-dA-zuM"/>
+                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="bottom" secondItem="0HQ-Zi-eOT" secondAttribute="bottom" id="W6S-yK-1mI"/>
+                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" id="XRu-pB-ivd"/>
+                            <constraint firstItem="uAl-ox-HMR" firstAttribute="trailing" secondItem="0HQ-Zi-eOT" secondAttribute="trailing" id="ZrG-ch-MQm"/>
+                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="top" secondItem="0HQ-Zi-eOT" secondAttribute="top" id="aKC-dW-QT8"/>
+                            <constraint firstItem="uAl-ox-HMR" firstAttribute="top" secondItem="TS6-GQ-lZI" secondAttribute="bottom" constant="8" id="gxe-7I-l6L"/>
+                            <constraint firstItem="uAl-ox-HMR" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" id="hLS-Rj-eMt"/>
+                            <constraint firstItem="TS6-GQ-lZI" firstAttribute="trailing" secondItem="0HQ-Zi-eOT" secondAttribute="trailing" id="oBR-E0-8XI"/>
+                            <constraint firstItem="3T8-ka-s5Y" firstAttribute="trailing" secondItem="0HQ-Zi-eOT" secondAttribute="trailing" id="qcq-i7-qUt"/>
+                            <constraint firstItem="TS6-GQ-lZI" firstAttribute="leading" secondItem="0HQ-Zi-eOT" secondAttribute="leading" id="sYa-Mi-hdR"/>
                         </constraints>
                     </view>
                     <connections>
@@ -846,7 +837,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Hx-vh6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="874" y="-532"/>
+            <point key="canvasLocation" x="873.75" y="-532.3943661971831"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -863,11 +854,11 @@
         <image name="btn_reload" width="236" height="286"/>
         <image name="btn_unlock" width="236" height="286"/>
         <image name="img_access_points" width="600" height="600"/>
-        <image name="img_branding" width="600" height="151"/>
+        <image name="img_branding" width="900" height="227"/>
         <image name="img_dispositivo" width="600" height="600"/>
         <image name="img_scanning" width="600" height="600"/>
-        <image name="info.circle" catalog="system" width="128" height="121"/>
-        <image name="logo_splash" width="527" height="802"/>
+        <image name="info.circle" catalog="system" width="128" height="123"/>
+        <image name="splash_screen" width="365" height="610.5"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

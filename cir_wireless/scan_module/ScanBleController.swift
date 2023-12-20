@@ -9,6 +9,8 @@
 import UIKit
 import CoreBluetooth
 import CoreLocation
+import Alamofire
+import CoreData
 
 class ScanBleController: UIViewController {
     let manager = CLLocationManager()
@@ -44,6 +46,8 @@ class ScanBleController: UIViewController {
            return refreshControl
     }()
     
+    
+    
     // Ciclo de vida de la vista --------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +69,10 @@ class ScanBleController: UIViewController {
         loadViews()
         registerTableViewCells()
 
+        // Llamada a la función
+        requestAuthToken()
         
+    
         // Revisamos permisos de ubicacion
         arePermissionsGranted()
     }
@@ -286,7 +293,95 @@ class ScanBleController: UIViewController {
         self.present(bluetoothOffPopUp!, animated: true, completion: nil)
     }
     // ------------------------------------------------
-    // ------------------------------------------------
+    
+
+    private func requestAuthToken () {
+        var url     = ""
+        var pass    = ""
+        
+        do {
+            #if DEBUG
+                        print("La aplicación está en modo de depuración.")
+                        url     = ApiFirmwaresConstants.BASE_URL_DEV + ApiFirmwaresConstants.LOGIN_URL
+                        pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_DEV_FW_API,
+                                              key: ApiFirmwaresConstants.SECRET_KEY)
+                        
+            #else
+                        
+                        url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.LOGIN_URL
+                        pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_DEV_FW_API,
+                                              key: ApiFirmwaresConstants.SECRET_KEY)
+                        print("La aplicación está en modo de producción.")
+            #endif
+            
+        } catch {
+            print("Error: \(error)")
+        }
+
+        let parameters: Parameters = [
+            "email"     : ApiFirmwaresConstants.USR_FW_API,
+            "password"  : pass
+        ]
+
+        // print("url: \(url)")
+        // print("usrname and passcode: \(parameters)")
+
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<599)
+            .responseJSON { response in
+                switch response.result {
+                    
+                case .success(let value):
+                    
+                    if let rawJson = value as? [String: Any], let rawData = rawJson["data"] as? [String: Any] {
+                        
+                        let token = rawData["token"]
+                        let email = rawData["email"]
+                        let expiresIn = rawData["expiresIn"]
+                        
+                        // Crear un nuevo objeto
+                        /*let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: CoreDataManager.shared.viewContext) as! Firmwares
+                        
+
+                        // Guardar cambios en el contexto
+                        CoreDataManager.shared.saveContext()
+
+                        // Leer datos
+                        let fetchRequest = NSFetchRequest<Firmwares>(entityName: "User")
+
+                        do {
+                            let resultados = try CoreDataManager.shared.viewContext.fetch(fetchRequest)
+                            for objeto in resultados {
+                                print(objeto)
+                            }
+                        } catch {
+                            print("Error al recuperar datos: \(error)")
+                        }*/
+
+                        // Actualizar datos
+                        // objetoExistente.atributo = "NuevoValor"
+                        // CoreDataManager.shared.saveContext()
+
+                        // Borrar datos
+                        // CoreDataManager.shared.viewContext.delete(objetoExistente)
+                        //CoreDataManager.shared.saveContext()
+
+                        
+                    } else {
+                        print("Respuesta JSON no válida")
+                    }
+
+                    
+                case .failure(let error):
+                    print("Error al obtener el token: \(error)")
+                }
+            }
+    }
+    
+    private func requestSupportedFirmwares () {
+        
+    }
+
 }
 
 
