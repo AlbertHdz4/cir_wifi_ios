@@ -9,7 +9,7 @@
 import Foundation
 
 struct LoginUserPostResponse: Decodable {
-    let data                : String
+    let data                : [String: Data]
     let token               : String
     let expiresIn           : String
     let error               : String

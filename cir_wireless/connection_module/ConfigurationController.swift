@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreBluetooth
+import CoreData
 
 
 class ConfigurationController: UIViewController {
@@ -100,7 +101,7 @@ class ConfigurationController: UIViewController {
             reloadBtn.setImage(UIImage(named: "btn_reload.pdf"), for: .normal)
             configureBtn.setImage(UIImage(named: "btn_setup.pdf"), for: .normal)
             testBtn.setImage(UIImage(named: "btn_test.pdf"), for: .normal)
-
+            
         } else {
             
             lockBtn.setImage(UIImage(named: "btn_bloquear.pdf"), for: .normal)
@@ -108,7 +109,7 @@ class ConfigurationController: UIViewController {
             reloadBtn.setImage(UIImage(named: "btn_recargar.pdf"), for: .normal)
             configureBtn.setImage(UIImage(named: "btn_configuracion.pdf"), for: .normal)
             testBtn.setImage(UIImage(named: "btn_probar.pdf"), for: .normal)
-
+            
         }
         
         configurationSelector.setTitle(SEGMENTED_CONTROL_VALUES[0], forSegmentAt: 0)
@@ -135,15 +136,46 @@ class ConfigurationController: UIViewController {
             cirWirelessMac.text = self.cirWireless?.getCirWirelessMac()
             
         } else {
-               
+            
             popUpNotValidFirmware()
-               
+            
         }
     }
     
     
+    private func getSupportedFirmwares () -> [Int] {
+        var supportedFirmwares = [Int] ()
+        
+        let fetchRequest = NSFetchRequest <Firmwares> (entityName: "Firmwares")
+
+        do {
+            let firmwares = try CoreDataManager.shared.viewContext.fetch(fetchRequest)
+            
+            // print("getSupportedFirmwares: \(firmwares)")
+            
+            for supportedFirmware in firmwares {
+                // print("Supported firmwares: \(supportedFirmware.firmware_version!) ")
+                supportedFirmwares.append(Int(supportedFirmware.firmware_version!)!)
+            }
+            
+        } catch {
+            print("Error al recuperar datos: \(error)")
+        }
+        
+        return supportedFirmwares
+    }
+    
+    
     private func isAValidFirmware (firmwareVersion: Int) -> Bool {
+        let supportedFirmwares = self.getSupportedFirmwares()
+        
         // print("FIRMWARE", firmwareVersion)
+        
+        if (!supportedFirmwares.isEmpty) {
+            // print("Supported firmwares: \(supportedFirmwares.contains(firmwareVersion))")
+            return supportedFirmwares.contains(firmwareVersion)
+        }
+        
         return (firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_351.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_352.rawValue ||

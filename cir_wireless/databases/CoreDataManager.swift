@@ -17,7 +17,7 @@ class CoreDataManager {
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "FirmwaresDB")
+        let container = NSPersistentContainer(name: "FirmwareDB")
         container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Error al cargar el almacén persistente: \(error)")

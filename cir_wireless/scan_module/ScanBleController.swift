@@ -52,28 +52,24 @@ class ScanBleController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         // MARK: Comenzamos a escanear
         bluetoothActions = CoreBluetoothActions(filterBy: [BluetoothGattConstants.CBUUID_SERVICE_CIR_WIRELESS],
                                 scanningTime: self.DEFAULT_SCANNING_TIME)
         bluetoothActions?.bluetoothBaseDelegate = self
         bluetoothActions?.bluetoothScanDelegate = self
 
-        
-        // Para pedir los permisos de localizacion
+        // MARK: Para pedir los permisos de localizacion
         locationManager = CLLocationManager()
         locationManager?.delegate = self
 
-        
         // MARK: Algunos cambios en las vistas al iniciar
         loadViews()
         registerTableViewCells()
-
-        // Llamada a la función
-        requestAuthToken()
         
+        // MARK: Request token auth
+        requestAuthToken()
     
-        // Revisamos permisos de ubicacion
+        // MARK: Revisamos permisos de ubicacion
         arePermissionsGranted()
     }
     // -----------------------------------------------------------
@@ -301,7 +297,7 @@ class ScanBleController: UIViewController {
         
         do {
             #if DEBUG
-                        print("La aplicación está en modo de depuración.")
+                        // print("La aplicación está en modo de depuración.")
                         url     = ApiFirmwaresConstants.BASE_URL_DEV + ApiFirmwaresConstants.LOGIN_URL
                         pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_DEV_FW_API,
                                               key: ApiFirmwaresConstants.SECRET_KEY)
@@ -311,7 +307,7 @@ class ScanBleController: UIViewController {
                         url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.LOGIN_URL
                         pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_DEV_FW_API,
                                               key: ApiFirmwaresConstants.SECRET_KEY)
-                        print("La aplicación está en modo de producción.")
+                        // print("La aplicación está en modo de producción.")
             #endif
             
         } catch {
@@ -335,37 +331,23 @@ class ScanBleController: UIViewController {
                     
                     if let rawJson = value as? [String: Any], let rawData = rawJson["data"] as? [String: Any] {
                         
-                        let token = rawData["token"]
-                        let email = rawData["email"]
-                        let expiresIn = rawData["expiresIn"]
+                        let token       = rawData["token"] as! String?
+                        let email       = rawData["email"] as! String?
+                        let expiresIn   = rawData["expiresIn"] as! String?
+                        
+                        let managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
+                        self.deleteLocalUserData(managedContext: managedContext)
                         
                         // Crear un nuevo objeto
-                        /*let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: CoreDataManager.shared.viewContext) as! Firmwares
+                        let user = NSEntityDescription.insertNewObject(forEntityName: "User", into: CoreDataManager.shared.viewContext) as! User
                         
-
+                        user.token      = token
+                        user.expires_in = expiresIn
+                        
                         // Guardar cambios en el contexto
                         CoreDataManager.shared.saveContext()
-
-                        // Leer datos
-                        let fetchRequest = NSFetchRequest<Firmwares>(entityName: "User")
-
-                        do {
-                            let resultados = try CoreDataManager.shared.viewContext.fetch(fetchRequest)
-                            for objeto in resultados {
-                                print(objeto)
-                            }
-                        } catch {
-                            print("Error al recuperar datos: \(error)")
-                        }*/
-
-                        // Actualizar datos
-                        // objetoExistente.atributo = "NuevoValor"
-                        // CoreDataManager.shared.saveContext()
-
-                        // Borrar datos
-                        // CoreDataManager.shared.viewContext.delete(objetoExistente)
-                        //CoreDataManager.shared.saveContext()
-
+                        
+                        self.requestSupportedFirmwares(user: self.getLocalUserData()!)
                         
                     } else {
                         print("Respuesta JSON no válida")
@@ -378,10 +360,153 @@ class ScanBleController: UIViewController {
             }
     }
     
-    private func requestSupportedFirmwares () {
+    
+    private func requestSupportedFirmwares (user: User) {
+        var url     = ""
+        var pass    = ""
         
+        do {
+            #if DEBUG
+                // print("La aplicación está en modo de depuración.")
+                url     = ApiFirmwaresConstants.BASE_URL_DEV + ApiFirmwaresConstants.FIRMWARE_URL
+            #else
+                url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
+                // print("La aplicación está en modo de producción.")
+            #endif
+            
+        } catch {
+            print("Error: \(error)")
+        }
+        
+        let headers     : HTTPHeaders   = ["Authorization" : "Softel " + user.token!, "Content-Type": "application/json"]
+        let parameters  : Parameters    = ["applicationId" : ApiFirmwaresConstants.APP_DOMAIN]
+        
+        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: headers)
+            .validate(statusCode: 200..<599)
+            .responseJSON { response in
+                
+                switch response.result {
+                    
+                case .success(let value):
+                    
+                    if let rawJson = value as? [String: Any], let rawData = rawJson["data"] as? [String: Any] {
+                        let supportedFirmwares = rawData["supportedFw"] as! NSArray
+                        
+                        // print("Suppoted firmwares: \(supportedFirmwares)")
+                        let managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
+                        self.deleteLocalFirmwaresData(managedContext: managedContext)
+                        
+                        for firmware in supportedFirmwares {
+                            let fwData          = firmware as! [String: String]
+                            let firmwareVersion = fwData["fw"]
+                            let firmwareUuid    = fwData["uid"]
+                            
+                            // print("Firmware: \(firmware)")
+                            // print("firmwareVersion: \(firmwareVersion!.removeCharFromString(caracterARemover: "."))")
+                            // print("firmwareUuid: \(firmwareUuid!)")
+                          
+                            let firmware = NSEntityDescription.insertNewObject(forEntityName: "Firmwares", into: CoreDataManager.shared.viewContext) as! Firmwares
+                            
+                            firmware.active             = 1
+                            firmware.firmware_version   = firmwareVersion!.removeCharFromString(caracterARemover: ".")
+                        }
+                        
+                        do {
+                            
+                            try managedContext.save()
+                            print("Firmwares saved")
+                            
+                        } catch let error as NSError {
+                            print("Error al guardar la lista de strings en Core Data: \(error.localizedDescription)")
+                        }
+                        
+                        // self.getSupportedFirmwares()
+                    }
+                    
+                case .failure(let error):
+                    print("Error al obtener el token: \(error)")
+                }
+            }
     }
+    
+    
+    private func validateExpirationUserToken (user: User?) -> Bool {
+        
+        if (user != nil) {
+          
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale.current
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // Ajusta el formato según tu string
+            dateFormatter.timeZone = TimeZone.current // Utiliza la zona horaria local
 
+            let currentDate         = Date()
+            let currentDatee        = self.convertStringToDate(dateString: dateFormatter.string(from: currentDate))
+            let tokenExpirationDate = self.convertStringToDate(dateString: user!.expires_in!.truncateString(longitudMaxima: 19))
+
+            // print("User date: \(user!.expires_in!)")
+            // print("Current date: \(currentDatee)")
+            // print("Token expiration date: \(tokenExpirationDate!)")
+            print("Comparission: \(Calendar.current.compare(currentDatee!, to: tokenExpirationDate!, toGranularity: .second) == .orderedDescending)")
+            
+            if (tokenExpirationDate != nil && currentDatee != nil) {
+                return Calendar.current.compare(currentDatee!, to: tokenExpirationDate!, toGranularity: .second) == .orderedDescending
+            }
+        }
+        
+        return true
+    }
+    
+    
+    private func convertStringToDate (dateString: String) -> Date? {
+        let dateFormatter           = DateFormatter()
+        dateFormatter.locale        = Locale.current
+        dateFormatter.dateFormat    = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone      = TimeZone.current
+        return dateFormatter.date(from: dateString)
+    }
+    
+    
+    private func getLocalUserData () -> User? {
+        var user : User?
+        
+        let fetchRequest = NSFetchRequest <User> (entityName: "User")
+
+        do {
+            let users = try CoreDataManager.shared.viewContext.fetch(fetchRequest)
+            for userr in users {
+                // print("getLocalUserData: User: \(userr)")
+                user = userr
+            }
+        } catch {
+            print("Error al recuperar datos: \(error)")
+        }
+        
+        return user
+    }
+    
+    
+    private func deleteLocalUserData (managedContext : NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "User")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try managedContext.execute(deleteRequest)
+        } catch let error as NSError {
+            print("ERROR: \(error.localizedDescription)")
+        }
+    }
+    
+
+    private func deleteLocalFirmwaresData (managedContext : NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Firmwares")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try managedContext.execute(deleteRequest)
+        } catch let error as NSError {
+            print("ERROR: \(error.localizedDescription)")
+        }
+    }
 }
 
 
@@ -525,5 +650,24 @@ extension ScanBleController:  CLLocationManagerDelegate {
             break
         }
         
+    }
+}
+
+
+extension String {
+    
+    func truncateString (longitudMaxima: Int) -> String {
+        if self.count > longitudMaxima {
+            let indiceFinal = self.index(self.startIndex, offsetBy: longitudMaxima)
+            return String(self[..<indiceFinal])
+        } else {
+            return self
+        }
+    }
+    
+    
+    func removeCharFromString(caracterARemover: Character) -> String {
+        let resultado = String(self.filter { $0 != caracterARemover })
+        return resultado
     }
 }

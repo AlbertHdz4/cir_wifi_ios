@@ -22,5 +22,6 @@ struct ApiFirmwaresConstants {
     static let ENCRYPTED_PASS_DEV_FW_API   = "bWt/WDi1D9+qNeIEBtlxBlhMTBoRa/+g3xgjfVT8jjBxPIJjo1nRz8JdGQ=="
     static let ENCRYPTED_PASS_PROD_FW_API  = "JTRTUTs3td7AkqO64LwZrgnASQrHfpZcTJKEz/CQ98u4/U/P4fanVs0aiw=="
     static let SECRET_KEY                  = "S0ft3l==12BoP/cunR1aStyz="
+    static let APP_DOMAIN                  = "mx.softel.cirwifi.ios"
     
 }
