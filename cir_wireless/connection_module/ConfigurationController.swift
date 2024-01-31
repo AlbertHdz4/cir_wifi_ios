@@ -129,7 +129,7 @@ class ConfigurationController: UIViewController {
         connectingAlert?.dismiss(animated: true, completion: nil)
         
         if isAValidFirmware(firmwareVersion: firmwareInt) {
-            
+            print("validateFirmwareVersion: \(isAValidFirmware(firmwareVersion: firmwareInt))")
             // Habilitamos la caracteristica de notificacion
             updateCirDate()
             connectionStatus.text = NSLocalizedString("Device Connected", comment: "Device is now connected")
@@ -151,10 +151,10 @@ class ConfigurationController: UIViewController {
         do {
             let firmwares = try CoreDataManager.shared.viewContext.fetch(fetchRequest)
             
-            // print("getSupportedFirmwares: \(firmwares)")
+            print("getSupportedFirmwares: \(firmwares)")
             
             for supportedFirmware in firmwares {
-                // print("Supported firmwares: \(supportedFirmware.firmware_version!) ")
+                print("Supported firmwares: \(supportedFirmware.firmware_version!) ")
                 supportedFirmwares.append(Int(supportedFirmware.firmware_version!)!)
             }
             
@@ -167,15 +167,21 @@ class ConfigurationController: UIViewController {
     
     
     private func isAValidFirmware (firmwareVersion: Int) -> Bool {
-        let supportedFirmwares = self.getSupportedFirmwares()
+        let supportedFirmwares  = self.getSupportedFirmwares()
+        let existsLocally       = self.checkLocalFirmwares(firmwareVersion: firmwareVersion)
+        let existsRemotelly     = (!supportedFirmwares.isEmpty && supportedFirmwares.contains(firmwareVersion))
+        let isSupported         = (existsLocally || existsRemotelly)
         
         // print("FIRMWARE", firmwareVersion)
-        
-        if (!supportedFirmwares.isEmpty) {
-            // print("Supported firmwares: \(supportedFirmwares.contains(firmwareVersion))")
-            return supportedFirmwares.contains(firmwareVersion)
-        }
-        
+        // print("existsLocally", existsLocally)
+        // print("existsRemotelly", existsRemotelly)
+        // print("isSupported", isSupported)
+
+        return isSupported
+    }
+    
+    
+    private func checkLocalFirmwares (firmwareVersion: Int) -> Bool {
         return (firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_350.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_351.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_352.rawValue ||
@@ -195,8 +201,8 @@ class ConfigurationController: UIViewController {
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_503.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_504.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_427.rawValue ||
-                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_410.rawValue
-        )
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_505.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_410.rawValue)
     }
     
     

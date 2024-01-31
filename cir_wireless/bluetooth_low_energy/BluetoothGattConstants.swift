@@ -55,5 +55,6 @@ class BluetoothGattConstants {
         case _FIRMWARE_502 = 502
         case _FIRMWARE_503 = 503
         case _FIRMWARE_504 = 504
+        case _FIRMWARE_505 = 505
     }
 }

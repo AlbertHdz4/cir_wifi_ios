@@ -50,11 +50,11 @@ class BeaconModel {
         case "000c":
             return "CIR Wireless"
             
-        case "000d":
+        case "000d", "0010":
             return "CIR 232"
             
-        case "000e":
-            return "CIR 232"
+        case "000e", "0011":
+            return "CIR 232 blocked"
             
         default:
             return "NO AVAILABLE"

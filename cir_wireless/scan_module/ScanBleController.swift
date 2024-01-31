@@ -68,12 +68,34 @@ class ScanBleController: UIViewController {
         
         // MARK: Request token auth
         requestAuthToken()
-    
+        
         // MARK: Revisamos permisos de ubicacion
         arePermissionsGranted()
     }
     // -----------------------------------------------------------
     
+    
+    private func getSupportedFirmwares () -> [Int] {
+        var supportedFirmwares = [Int] ()
+        
+        let fetchRequest = NSFetchRequest <Firmwares> (entityName: "Firmwares")
+
+        do {
+            let firmwares = try CoreDataManager.shared.viewContext.fetch(fetchRequest)
+            
+            print("getSupportedFirmwares: \(firmwares)")
+            
+            for supportedFirmware in firmwares {
+                print("Supported firmwares: \(supportedFirmware.firmware_version!) ")
+                supportedFirmwares.append(Int(supportedFirmware.firmware_version!)!)
+            }
+            
+        } catch {
+            print("Error al recuperar datos: \(error)")
+        }
+        
+        return supportedFirmwares
+    }
     
     // Funciones utiles del propio controler ---------------------
     private func loadViews () {
@@ -366,6 +388,9 @@ class ScanBleController: UIViewController {
         var pass    = ""
         
         do {
+            
+            url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
+            /*
             #if DEBUG
                 // print("La aplicación está en modo de depuración.")
                 url     = ApiFirmwaresConstants.BASE_URL_DEV + ApiFirmwaresConstants.FIRMWARE_URL
@@ -373,11 +398,13 @@ class ScanBleController: UIViewController {
                 url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
                 // print("La aplicación está en modo de producción.")
             #endif
+             */
             
         } catch {
             print("Error: \(error)")
         }
         
+        // print("URL POST: \(url)")
         let headers     : HTTPHeaders   = ["Authorization" : "Softel " + user.token!, "Content-Type": "application/json"]
         let parameters  : Parameters    = ["applicationId" : ApiFirmwaresConstants.APP_DOMAIN]
         
@@ -415,6 +442,15 @@ class ScanBleController: UIViewController {
                             
                             try managedContext.save()
                             print("Firmwares saved")
+                            /*
+                            let supportedFirmwares = self.getSupportedFirmwares()
+                            
+                            print("supportedFirmwares ", supportedFirmwares)
+                            
+                            if (!supportedFirmwares.isEmpty) {
+                                print("Supported firmwares: \(supportedFirmwares.contains(505))")
+                                print("IS 505 SUPPORTED? \(supportedFirmwares.contains(505))")
+                            }*/
                             
                         } catch let error as NSError {
                             print("Error al guardar la lista de strings en Core Data: \(error.localizedDescription)")
@@ -446,7 +482,7 @@ class ScanBleController: UIViewController {
             // print("User date: \(user!.expires_in!)")
             // print("Current date: \(currentDatee)")
             // print("Token expiration date: \(tokenExpirationDate!)")
-            print("Comparission: \(Calendar.current.compare(currentDatee!, to: tokenExpirationDate!, toGranularity: .second) == .orderedDescending)")
+            // print("Comparission: \(Calendar.current.compare(currentDatee!, to: tokenExpirationDate!, toGranularity: .second) == .orderedDescending)")
             
             if (tokenExpirationDate != nil && currentDatee != nil) {
                 return Calendar.current.compare(currentDatee!, to: tokenExpirationDate!, toGranularity: .second) == .orderedDescending
