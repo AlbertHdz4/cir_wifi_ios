@@ -126,6 +126,8 @@ class ConfigurationController: UIViewController {
     
     private func validateFirmwareVersion (firmwareValue: Data) {
         let firmwareInt: Int = Int(String(firmwareValue[1]) + String(firmwareValue[2]) + String(firmwareValue[3])) ?? 0
+        
+        print("firmware int: \(firmwareInt)")
         connectingAlert?.dismiss(animated: true, completion: nil)
         
         if isAValidFirmware(firmwareVersion: firmwareInt) {
@@ -189,6 +191,7 @@ class ConfigurationController: UIViewController {
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_354.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_355.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_357.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_360.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_363.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_367.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_382.rawValue ||

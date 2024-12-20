@@ -639,7 +639,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir Wireless.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "CIR WiFi";
@@ -648,7 +648,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.21;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "CIR WiFi";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -668,7 +668,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir WirelessRelease.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "CIR WiFi";
@@ -677,7 +677,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.21;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "CIR WiFi";
 				PROVISIONING_PROFILE_SPECIFIER = "";

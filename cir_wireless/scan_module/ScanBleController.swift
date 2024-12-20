@@ -419,7 +419,7 @@ class ScanBleController: UIViewController {
                     if let rawJson = value as? [String: Any], let rawData = rawJson["data"] as? [String: Any] {
                         let supportedFirmwares = rawData["supportedFw"] as! NSArray
                         
-                        // print("Suppoted firmwares: \(supportedFirmwares)")
+                        print("Suppoted firmwares: \(supportedFirmwares)")
                         let managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
                         self.deleteLocalFirmwaresData(managedContext: managedContext)
                         

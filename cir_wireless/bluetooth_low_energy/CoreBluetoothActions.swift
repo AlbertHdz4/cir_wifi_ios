@@ -66,7 +66,7 @@ class CoreBluetoothActions: NSObject {
             bluetoothScanDelegate?.updateBluetoothScanProcess(status: .scanning)
             
             bleCentralManager!.scanForPeripherals(withServices: uuidSerices,
-                                                   options:[CBCentralManagerScanOptionAllowDuplicatesKey: false])
+                                                   options:[CBCentralManagerScanOptionAllowDuplicatesKey: true])
             
             Timer.scheduledTimer(timeInterval: self.scanningTime!, target: self, selector: #selector(self.stopScan), userInfo: nil, repeats: false)
         }
