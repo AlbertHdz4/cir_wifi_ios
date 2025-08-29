@@ -33,6 +33,7 @@
 		1871967F24802842002EB4F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1871967E24802842002EB4F2 /* Assets.xcassets */; };
 		1871968224802842002EB4F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1871968024802842002EB4F2 /* LaunchScreen.storyboard */; };
 		188C9FE324993628005478E7 /* ControllerIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188C9FE224993628005478E7 /* ControllerIdentifiers.swift */; };
+		1892E7092D5476A2005012EA /* CustomDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1892E7082D5476A2005012EA /* CustomDialogViewController.swift */; };
 		18AB4E5C2B31F66E007467C6 /* LoginUserPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AB4E5B2B31F66E007467C6 /* LoginUserPost.swift */; };
 		18AB4E622B3296C3007467C6 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AB4E612B3296C3007467C6 /* CoreDataManager.swift */; };
 		18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B7A001248FF03900DB520E /* ScanBleController.swift */; };
@@ -83,6 +84,7 @@
 		1871968124802842002EB4F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1871968324802842002EB4F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		188C9FE224993628005478E7 /* ControllerIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerIdentifiers.swift; sourceTree = "<group>"; };
+		1892E7082D5476A2005012EA /* CustomDialogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialogViewController.swift; sourceTree = "<group>"; };
 		18AB4E5B2B31F66E007467C6 /* LoginUserPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserPost.swift; sourceTree = "<group>"; };
 		18AB4E612B3296C3007467C6 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		18B7A001248FF03900DB520E /* ScanBleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanBleController.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				1871967524802831002EB4F2 /* AppDelegate.swift */,
 				1871967724802831002EB4F2 /* SceneDelegate.swift */,
 				18CDB15E249AAAED0024DE00 /* AboutViewController.swift */,
+				1892E7082D5476A2005012EA /* CustomDialogViewController.swift */,
 				1871967B24802831002EB4F2 /* Main.storyboard */,
 				1871967E24802842002EB4F2 /* Assets.xcassets */,
 				1871968024802842002EB4F2 /* LaunchScreen.storyboard */,
@@ -419,9 +422,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-cir_wireless/Pods-cir_wireless-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-cir_wireless/Pods-cir_wireless-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -445,6 +452,7 @@
 				188C9FE324993628005478E7 /* ControllerIdentifiers.swift in Sources */,
 				185EBF37248ACFAB009B8389 /* BluetoothGattConstants.swift in Sources */,
 				186C14E82B33659A0035545F /* CoreDataStack.swift in Sources */,
+				1892E7092D5476A2005012EA /* CustomDialogViewController.swift in Sources */,
 				18F5BBB224A397E600DF0C40 /* AccessPointViewController.swift in Sources */,
 				18B7A002248FF03900DB520E /* ScanBleController.swift in Sources */,
 				18E299D624896D6800DAA22C /* CoreBluetoothActions.swift in Sources */,
@@ -639,7 +647,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir Wireless.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "CIR WiFi";
@@ -648,7 +656,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.21;
+				MARKETING_VERSION = 1.0.28;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "CIR WiFi";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -668,7 +676,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cir_wireless/Cir WirelessRelease.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 36;
 				DEVELOPMENT_TEAM = WD3BU8CW64;
 				INFOPLIST_FILE = cir_wireless/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "CIR WiFi";
@@ -677,7 +685,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.21;
+				MARKETING_VERSION = 1.0.28;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.softel.cir-wireless";
 				PRODUCT_NAME = "CIR WiFi";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -7,11 +7,35 @@
 //
 
 import UIKit
+import CoreData
 
 class AboutViewController: UIViewController {
 
     @IBOutlet weak var versionLabel: UILabel!
     
+    @IBAction func firmwaresBtn(_ sender: Any) {
+        var firmwaresString = """
+        Local firmwares:\n
+        """
+        
+        let firmwares  = self.getSupportedFirmwares()
+        print("Supported firmwares: \(firmwares)")
+    
+        for supportedFirmware in firmwares {
+            firmwaresString += "\(supportedFirmware)\n"
+        }
+        
+        print("Firmwares String: \(firmwaresString)")
+        // Instanciamos nuestro ViewController "personalizado"
+        let dialogVC = CustomDialogViewController()
+        dialogVC.textToShow = firmwaresString
+        
+        // Para que el fondo sea semi-transparente y no ocupe toda la pantalla
+        dialogVC.modalPresentationStyle = .overFullScreen
+        
+        // Presentamos el diálogo
+        present(dialogVC, animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,4 +45,21 @@ class AboutViewController: UIViewController {
         versionLabel.text = "\(vrs): \(version)"
     }
 
+    private func getSupportedFirmwares () -> [Int] {
+        var supportedFirmwares = [Int] ()
+        
+        let fetchRequest = NSFetchRequest <Firmwares> (entityName: "Firmwares")
+
+        do {
+            let firmwares = try CoreDataManager.shared.viewContext.fetch(fetchRequest)
+            for supportedFirmware in firmwares {
+                supportedFirmwares.append(Int(supportedFirmware.firmware_version!)!)
+            }
+            
+        } catch {
+            print("Error al recuperar datos: \(error)")
+        }
+        
+        return supportedFirmwares
+    }
 }

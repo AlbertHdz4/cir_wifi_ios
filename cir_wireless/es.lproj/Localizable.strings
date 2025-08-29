@@ -82,3 +82,5 @@
 
 // View Cotroller's Texts
 "Version" = "Versión";
+"Firmware DB updated" = "BD de Firmwares actualizada";
+"Firmware DB updated Error" = "Ocurrió un error al actualizar la BD de firmwares";

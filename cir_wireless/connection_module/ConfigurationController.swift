@@ -125,7 +125,7 @@ class ConfigurationController: UIViewController {
     
     
     private func validateFirmwareVersion (firmwareValue: Data) {
-        let firmwareInt: Int = Int(String(firmwareValue[1]) + String(firmwareValue[2]) + String(firmwareValue[3])) ?? 0
+        let firmwareInt: Int = Int(String(firmwareValue[0]) + String(firmwareValue[1]) + String(firmwareValue[2]) + String(firmwareValue[3])) ?? 0
         
         print("firmware int: \(firmwareInt)")
         connectingAlert?.dismiss(animated: true, completion: nil)
@@ -139,7 +139,7 @@ class ConfigurationController: UIViewController {
             
         } else {
             
-            popUpNotValidFirmware()
+            popUpNotValidFirmware(firmwareVersion: firmwareInt)
             
         }
     }
@@ -174,10 +174,10 @@ class ConfigurationController: UIViewController {
         let existsRemotelly     = (!supportedFirmwares.isEmpty && supportedFirmwares.contains(firmwareVersion))
         let isSupported         = (existsLocally || existsRemotelly)
         
-        // print("FIRMWARE", firmwareVersion)
-        // print("existsLocally", existsLocally)
-        // print("existsRemotelly", existsRemotelly)
-        // print("isSupported", isSupported)
+        print("FIRMWARE", firmwareVersion)
+        print("existsLocally", existsLocally)
+        print("existsRemotelly", existsRemotelly)
+        print("isSupported", isSupported)
 
         return isSupported
     }
@@ -205,6 +205,16 @@ class ConfigurationController: UIViewController {
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_504.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_427.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_505.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_515.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_952.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_1036.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_361.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_366.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_526.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_961.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_966.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_1046.rawValue ||
+                firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_499.rawValue ||
                 firmwareVersion == BluetoothGattConstants.AllowedFirmwares._FIRMWARE_410.rawValue)
     }
     
@@ -406,12 +416,12 @@ class ConfigurationController: UIViewController {
     
     
     // Pop up area :D ---------------------------------------------
-    private func popUpNotValidFirmware () {
+    private func popUpNotValidFirmware (firmwareVersion: Int) {
         var firmwareNotValid: UIAlertController?
         
         let fwNotValidTitle         = NSLocalizedString("Firmware Invalid Title", comment: "If the firmware is not valid")
         let fwNotValidMessage       = NSLocalizedString("Firmware Invalid Message", comment: "Message")
-        let fwNotValidComponents    = AlertComponents(alertTitle: fwNotValidTitle, alertMessage: fwNotValidMessage)
+        let fwNotValidComponents    = AlertComponents(alertTitle: fwNotValidTitle, alertMessage: fwNotValidMessage + ". Firmware: \(firmwareVersion).")
         let fwNotValidAction        = AlertActionComponents(buttonTitle: NSLocalizedString("Accept", comment: "Accept"), buttonHandler: {_ in
             firmwareNotValid?.dismiss(animated: true, completion: nil)
             self.goBackToRootController()

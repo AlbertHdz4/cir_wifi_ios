@@ -50,6 +50,7 @@ class BluetoothGattConstants {
         case _FIRMWARE_401 = 401
         case _FIRMWARE_402 = 402
         case _FIRMWARE_410 = 410
+        case _FIRMWARE_499 = 499
         case _FIRMWARE_427 = 427
         case _FIRMWARE_500 = 500
         case _FIRMWARE_501 = 501
@@ -57,5 +58,16 @@ class BluetoothGattConstants {
         case _FIRMWARE_503 = 503
         case _FIRMWARE_504 = 504
         case _FIRMWARE_505 = 505
+        case _FIRMWARE_515 = 515
+        case _FIRMWARE_952 = 952
+        case _FIRMWARE_1036 = 1036
+
+        case _FIRMWARE_361 = 361
+        case _FIRMWARE_366 = 366
+        case _FIRMWARE_526 = 526
+        case _FIRMWARE_961 = 961
+        case _FIRMWARE_966 = 966
+        case _FIRMWARE_1046 = 1046
+
     }
 }

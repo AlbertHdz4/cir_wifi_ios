@@ -371,6 +371,7 @@ class ScanBleController: UIViewController {
                         
                         self.requestSupportedFirmwares(user: self.getLocalUserData()!)
                         
+
                     } else {
                         print("Respuesta JSON no válida")
                     }
@@ -384,26 +385,9 @@ class ScanBleController: UIViewController {
     
     
     private func requestSupportedFirmwares (user: User) {
-        var url     = ""
+        var url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
         var pass    = ""
-        
-        do {
             
-            url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
-            /*
-            #if DEBUG
-                // print("La aplicación está en modo de depuración.")
-                url     = ApiFirmwaresConstants.BASE_URL_DEV + ApiFirmwaresConstants.FIRMWARE_URL
-            #else
-                url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
-                // print("La aplicación está en modo de producción.")
-            #endif
-             */
-            
-        } catch {
-            print("Error: \(error)")
-        }
-        
         // print("URL POST: \(url)")
         let headers     : HTTPHeaders   = ["Authorization" : "Softel " + user.token!, "Content-Type": "application/json"]
         let parameters  : Parameters    = ["applicationId" : ApiFirmwaresConstants.APP_DOMAIN]
@@ -442,6 +426,7 @@ class ScanBleController: UIViewController {
                             
                             try managedContext.save()
                             print("Firmwares saved")
+                            self.showToast(message: NSLocalizedString("Firmware DB updated", comment: ""), duration: 3.0)
                             /*
                             let supportedFirmwares = self.getSupportedFirmwares()
                             
@@ -454,6 +439,8 @@ class ScanBleController: UIViewController {
                             
                         } catch let error as NSError {
                             print("Error al guardar la lista de strings en Core Data: \(error.localizedDescription)")
+                            self.showToast(message: NSLocalizedString("Firmware DB updated Error", comment: ""), duration: 3.0)
+
                         }
                         
                         // self.getSupportedFirmwares()
@@ -705,5 +692,61 @@ extension String {
     func removeCharFromString(caracterARemover: Character) -> String {
         let resultado = String(self.filter { $0 != caracterARemover })
         return resultado
+    }
+}
+
+extension UIViewController {
+    
+    /// Muestra un mensaje tipo "Toast" en la parte inferior de la pantalla.
+    func showToast(message: String, duration: Double = 2.0) {
+        // Crea la etiqueta donde irá el texto
+        let toastLabel = UILabel()
+        toastLabel.text = message
+        toastLabel.textColor = .white
+        toastLabel.textAlignment = .center
+        toastLabel.font = UIFont.systemFont(ofSize: 14)
+        toastLabel.numberOfLines = 0
+        
+        // Ajusta el padding y el color de fondo
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.clipsToBounds = true
+        
+        // Calcula la altura y anchura en función del texto, con un máximo para que no se salga de pantalla
+        let maxWidthPercentage: CGFloat = 0.8 // 80% del ancho de la pantalla
+        let maxTitleSize = CGSize(width: self.view.bounds.width * maxWidthPercentage, height: CGFloat.greatestFiniteMagnitude)
+        let expectedSize = toastLabel.sizeThatFits(maxTitleSize)
+        
+        // Ajusta el frame de la etiqueta
+        toastLabel.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: expectedSize.width + 20,  // padding horizontal
+            height: expectedSize.height + 20 // padding vertical
+        )
+        
+        // Centra la etiqueta horizontalmente y sitúa la parte inferior con un margen
+        toastLabel.center = CGPoint(
+            x: self.view.center.x,
+            y: self.view.bounds.height - (toastLabel.frame.height + 50)
+        )
+        
+        // Agrega la etiqueta a la vista
+        self.view.addSubview(toastLabel)
+        
+        // Establece la opacidad inicial en 0 (invisible)
+        toastLabel.alpha = 0.0
+        
+        // Animamos para que aparezca
+        UIView.animate(withDuration: 0.5, animations: {
+            toastLabel.alpha = 1.0
+        }, completion: { _ in
+            // Tras la duración establecida, se oculta y se remueve
+            UIView.animate(withDuration: 0.5, delay: duration, options: .curveEaseOut, animations: {
+                toastLabel.alpha = 0.0
+            }, completion: { _ in
+                toastLabel.removeFromSuperview()
+            })
+        })
     }
 }

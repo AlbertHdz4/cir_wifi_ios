@@ -67,19 +67,17 @@
 "Retry"             = "Retry";
 "Accept"            = "Accept";
 
-
 // Courtain Texts
 "Scanning Devices" = "Scanning Devices";
 
-
 // Label's Texts
 "Device Connected" = "Connected to";
-
 
 // Page Control's Texts
 "Lock Label"            = "Lock";
 "Configuration Label"   = "Configure";
 
-
 // View Cotroller's Texts
 "Version" = "Version";
+"Firmware DB updated" = "Firmware DB updated";
+"Firmware DB updated Error" = "An error ocurred updating firmwares DB";
