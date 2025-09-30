@@ -86,7 +86,7 @@ class ScanBleController: UIViewController {
             print("getSupportedFirmwares: \(firmwares)")
             
             for supportedFirmware in firmwares {
-                print("Supported firmwares: \(supportedFirmware.firmware_version!) ")
+                // print("Supported firmwares: \(supportedFirmware.firmware_version!) ")
                 supportedFirmwares.append(Int(supportedFirmware.firmware_version!)!)
             }
             
@@ -318,20 +318,21 @@ class ScanBleController: UIViewController {
         var pass    = ""
         
         do {
-            #if DEBUG
-                        // print("La aplicación está en modo de depuración.")
-                        url     = ApiFirmwaresConstants.BASE_URL_DEV + ApiFirmwaresConstants.LOGIN_URL
-                        pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_DEV_FW_API,
-                                              key: ApiFirmwaresConstants.SECRET_KEY)
-                        
-            #else
-                        
-                        url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.LOGIN_URL
-                        pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_DEV_FW_API,
-                                              key: ApiFirmwaresConstants.SECRET_KEY)
-                        // print("La aplicación está en modo de producción.")
-            #endif
             
+           
+            // print("La aplicación está en modo de depuración.")
+            // url     = ApiFirmwaresConstants.BASE_URL_DEV + ApiFirmwaresConstants.LOGIN_URL
+            // pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_DEV_FW_API,
+            //                       key: ApiFirmwaresConstants.SECRET_KEY)
+            // print("pass dev: \(pass)")
+            
+                        
+            url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.LOGIN_URL
+            pass    = try decrypt(encryptedPassword: ApiFirmwaresConstants.ENCRYPTED_PASS_PROD_FW_API,
+                                  key: ApiFirmwaresConstants.SECRET_KEY)
+            // print("pass prod: \(pass)")
+
+            // print("La aplicación está en modo de producción.")
         } catch {
             print("Error: \(error)")
         }
@@ -384,70 +385,86 @@ class ScanBleController: UIViewController {
     }
     
     
-    private func requestSupportedFirmwares (user: User) {
-        var url     = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
-        var pass    = ""
-            
-        // print("URL POST: \(url)")
-        let headers     : HTTPHeaders   = ["Authorization" : "Softel " + user.token!, "Content-Type": "application/json"]
-        let parameters  : Parameters    = ["applicationId" : ApiFirmwaresConstants.APP_DOMAIN]
-        
-        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: headers)
-            .validate(statusCode: 200..<599)
-            .responseJSON { response in
-                
-                switch response.result {
-                    
-                case .success(let value):
-                    
-                    if let rawJson = value as? [String: Any], let rawData = rawJson["data"] as? [String: Any] {
-                        let supportedFirmwares = rawData["supportedFw"] as! NSArray
-                        
-                        print("Suppoted firmwares: \(supportedFirmwares)")
-                        let managedContext = AppDelegate.sharedAppDelegate.coreDataStack.managedContext
-                        self.deleteLocalFirmwaresData(managedContext: managedContext)
-                        
-                        for firmware in supportedFirmwares {
-                            let fwData          = firmware as! [String: String]
-                            let firmwareVersion = fwData["fw"]
-                            let firmwareUuid    = fwData["uid"]
-                            
-                            // print("Firmware: \(firmware)")
-                            // print("firmwareVersion: \(firmwareVersion!.removeCharFromString(caracterARemover: "."))")
-                            // print("firmwareUuid: \(firmwareUuid!)")
-                          
-                            let firmware = NSEntityDescription.insertNewObject(forEntityName: "Firmwares", into: CoreDataManager.shared.viewContext) as! Firmwares
-                            
-                            firmware.active             = 1
-                            firmware.firmware_version   = firmwareVersion!.removeCharFromString(caracterARemover: ".")
-                        }
-                        
-                        do {
-                            
-                            try managedContext.save()
-                            print("Firmwares saved")
-                            self.showToast(message: NSLocalizedString("Firmware DB updated", comment: ""), duration: 3.0)
-                            /*
-                            let supportedFirmwares = self.getSupportedFirmwares()
-                            
-                            print("supportedFirmwares ", supportedFirmwares)
-                            
-                            if (!supportedFirmwares.isEmpty) {
-                                print("Supported firmwares: \(supportedFirmwares.contains(505))")
-                                print("IS 505 SUPPORTED? \(supportedFirmwares.contains(505))")
-                            }*/
-                            
-                        } catch let error as NSError {
-                            print("Error al guardar la lista de strings en Core Data: \(error.localizedDescription)")
-                            self.showToast(message: NSLocalizedString("Firmware DB updated Error", comment: ""), duration: 3.0)
+    private func requestSupportedFirmwares(user: User) {
+        guard let token = user.token, !token.isEmpty else {
+            print("Token vacío/nulo")
+            return
+        }
 
+        let url = ApiFirmwaresConstants.BASE_URL_PROD + ApiFirmwaresConstants.FIRMWARE_URL
+        let headers: HTTPHeaders = [
+            "Authorization": "Softel \(token)",
+            "Content-Type": "application/json"
+        ]
+        let parameters: Parameters = [
+            "applicationId": ApiFirmwaresConstants.APP_DOMAIN
+            // TIP: considera enviar también el CFBundleIdentifier si el backend lo usa para autorizar
+            // "bundleId": Bundle.main.bundleIdentifier ?? ""
+        ]
+
+        // Usa SIEMPRE el mismo contexto
+        let context = CoreDataManager.shared.viewContext
+
+        AF.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: headers)
+            .validate(statusCode: 200..<300)               // <-- solo 2xx
+            .responseData { response in
+                let status = response.response?.statusCode ?? -1
+                // print("FW request status=\(status) URL=\(url)")
+
+                switch response.result {
+                case .failure(let error):
+                    // Loguea el cuerpo para entender errores 4xx/5xx
+                    if let data = response.data, let body = String(data: data, encoding: .utf8) {
+                        print("FW request failed. Body:\n\(body)")
+                    }
+                    print("FW request error: \(error.localizedDescription)")
+                    return
+
+                case .success(let data):
+                    // Parseo seguro
+                    do {
+                        guard
+                            let raw = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                            let rawData = raw["data"] as? [String: Any],
+                            let supported = rawData["supportedFw"] as? [[String: Any]]
+                        else {
+                            print("Estructura JSON inesperada")
+                            if let s = String(data: data, encoding: .utf8) { print("Respuesta:\n\(s)") }
+                            return
                         }
                         
-                        // self.getSupportedFirmwares()
+                        // print("Supported firmwares count: \(supported.count)")
+
+                        // Todo cambio en Core Data en el hilo del contexto
+                        context.perform {
+                            self.deleteLocalFirmwaresData(managedContext: context)
+
+                            for item in supported {
+                                guard
+                                    let fwStr = item["fw"] as? String,
+                                    let uid = item["uid"] as? String
+                                else { continue }
+
+                                let fw = NSEntityDescription.insertNewObject(forEntityName: "Firmwares", into: context) as! Firmwares
+                                fw.active = 1
+                                fw.firmware_version = fwStr.replacingOccurrences(of: ".", with: "")
+                                // Si tu modelo tiene 'uid', ¡guárdalo!
+                                // fw.uid = uid
+                            }
+
+                            do {
+                                try context.save()
+                                print("Firmwares saved ✅")
+                                self.showToast(message: NSLocalizedString("Firmware DB updated", comment: ""), duration: 3.0)
+                            } catch {
+                                print("Error guardando Core Data: \(error.localizedDescription)")
+                                self.showToast(message: NSLocalizedString("Firmware DB updated Error", comment: ""), duration: 3.0)
+                            }
+                        }
+                    } catch {
+                        print("Error parseando JSON: \(error.localizedDescription)")
+                        if let s = String(data: data, encoding: .utf8) { print("Respuesta:\n\(s)") }
                     }
-                    
-                case .failure(let error):
-                    print("Error al obtener el token: \(error)")
                 }
             }
     }
